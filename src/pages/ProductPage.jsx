@@ -148,13 +148,12 @@ const ProductPage = () => {
 
       <Reviews reviews={product.reviews} />
 
-      <div className="product-footer">
+      {/* <div className="product-footer">
         <button className="book-now-button">立即預訂</button>
         <button className="add-to-cart-button">加入購物車</button>
         <div className="share-buttons">
-          {/* 在這裡放置分享按鈕 */}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

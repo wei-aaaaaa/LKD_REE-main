@@ -3,8 +3,8 @@ import './ProductBundleBlock.css';
 
 const ProductBundleBlock = ({ productId }) => {
   const [bundles, setBundles] = useState([]);
-  const [selectedBundle, setSelectedBundle] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  const [selectedBundleId, setSelectedBundleId] = useState(null);
+  const [quantities, setQuantities] = useState({});
 
   useEffect(() => {
     const fetchBundles = async () => {
@@ -15,6 +15,11 @@ const ProductBundleBlock = ({ productId }) => {
         }
         const data = await response.json();
         setBundles(data);
+        const initialQuantities = {};
+        data.forEach(bundle => {
+          initialQuantities[bundle.modelId] = 1; // 初始化每個方案的數量為1
+        });
+        setQuantities(initialQuantities);
       } catch (error) {
         console.error('Error fetching bundles:', error);
       }
@@ -23,57 +28,63 @@ const ProductBundleBlock = ({ productId }) => {
     fetchBundles();
   }, [productId]);
 
-  const handleSelectBundle = (bundle) => {
-    setSelectedBundle(bundle);
-    setQuantity(1); // 當選擇不同方案時，數量重置為1
+  const handleSelectBundle = (modelId) => {
+    setSelectedBundleId(prevId => prevId === modelId ? null : modelId);
   };
 
-  const handleQuantityChange = (change) => {
-    setQuantity((prevQuantity) => Math.max(1, prevQuantity + change)); // 確保數量不小於1
+  const handleQuantityChange = (modelId, change) => {
+    setQuantities(prev => ({
+      ...prev,
+      [modelId]: Math.max(1, prev[modelId] + change)
+    }));
+  };
+
+  const handleClickOutside = (e) => {
+    e.stopPropagation(); // 阻止事件繼續傳播
+    setSelectedBundleId(null); // 點擊外部時收回方案敘述
   };
 
   return (
-    <div className="product-bundle-block">
-      <div className="product-bundle-container">
+    <div className="product-bundle-block" onClick={handleClickOutside}>
+      <div className="product-bundle-container" onClick={(e) => e.stopPropagation()}>
         {bundles.map((bundle) => (
           <div 
-            key={bundle.id} 
-            className={`product-bundle ${selectedBundle?.id === bundle.id ? 'selected' : ''}`}
-            onClick={() => handleSelectBundle(bundle)}
+            key={bundle.modelId} 
+            className={`product-bundle ${selectedBundleId === bundle.modelId ? 'selected' : ''}`}
+            onClick={() => handleSelectBundle(bundle.modelId)}
           >
             <div className="bundle-header">
               <div>
                 <h4 className="bundle-title">{bundle.modelName}</h4>
                 <p className="bundle-price">${bundle.modelPrice}</p>
               </div>
-              <button className="choose-button">選擇</button>
+              {/* <button className="choose-button">選擇</button> */}
             </div>
             <p className="bundle-description">{bundle.modelContent}</p>
-            {selectedBundle?.id === bundle.id && (
-              <>
-                <div className="quantity-selector">
-                  <p>選擇人數:</p>
-                  <div className="quantity-controls">
-                    <button className="quantity-button" onClick={() => handleQuantityChange(-1)}>-</button>
-                    <span className="quantity">{quantity}</span>
-                    <button className="quantity-button" onClick={() => handleQuantityChange(+1)}>+</button>
-                  </div>
-                </div>
-                <div className="bundle-actions">
-                  <button className="small-book-now-button">立即預定</button>
-                  <button className="small-add-to-cart-button">加入購物車</button>
-                </div>
-              </>
-            )}
           </div>
         ))}
       </div>
-
-      {selectedBundle && (
-        <div className="bundle-details">
-          <h4>{selectedBundle.modelName}</h4>
-          <p>{selectedBundle.modelContent}</p>
-          <p>價格: ${selectedBundle.modelPrice}</p>
+      {selectedBundleId && (
+        <div className="bundle-details" onClick={e => e.stopPropagation()}>
+          <h4>{bundles.find(b => b.modelId === selectedBundleId).modelName}</h4>
+          <p>{bundles.find(b => b.modelId === selectedBundleId).modelContent}</p>
+          <p>價格: ${bundles.find(b => b.modelId === selectedBundleId).modelPrice}</p>
+          <div className="quantity-selector">
+          <p>選擇人數:</p>
+            <button className="quantity-button" onClick={(e) => {
+              e.stopPropagation();
+              handleQuantityChange(selectedBundleId, -1);
+            }}>-</button>
+            <span className="quantity">{quantities[selectedBundleId]}</span>
+            <button className="quantity-button" onClick={(e) => {
+              e.stopPropagation();
+              handleQuantityChange(selectedBundleId, 1);
+            }}>+</button>
+          </div>
+          <div className="bundle-actions">
+            <button className="small-book-now-button">立即預訂</button>
+            <button className="small-add-to-cart-button">加入購物車</button>
+          </div>
         </div>
       )}
     </div>

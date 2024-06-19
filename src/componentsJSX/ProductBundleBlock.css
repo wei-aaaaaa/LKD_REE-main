@@ -2,84 +2,87 @@
 
 .product-bundle-block {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   margin-top: 20px;
+  background-color: #f5f5f5; /* 背景顏色設置為灰白色 */
+  padding: 20px;
+  border-radius: 5px;
 }
 
 .product-bundle-container {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  flex: 1;
+  flex-wrap: wrap; /* 使用換行佈局 */
+  gap: 10px;
 }
 
 .product-bundle {
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
+  background-color: #fff; /* 卡片背景顏色設置為白色 */
+  border: 2px solid #ff6828; /* 卡片邊框顏色設置為暗橘色 */
   border-radius: 5px;
-  padding: 15px;
-  width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding: 10px 20px;
   cursor: pointer;
   position: relative; /* 為了讓按鈕相對定位 */
+  transition: border 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  flex: 1;
+  min-width: calc(33.33% - 10px); /* 使卡片寬度佔三分之一 */
+  box-sizing: border-box; /* 包括內邊距和邊框在內 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .product-bundle.selected {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: 2px solid #ff6600;
+  border-color: #f96e12; /* 選中卡片邊框顏色設置為橘色 */
+  color: #f96e12; /* 選中卡片字體顏色設置為橘色 */
+  background-color: #fff2e5; /* 選中卡片背景顏色設置為淡橘色 */
 }
 
 .bundle-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .bundle-title {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   margin-bottom: 8px;
-  color: #ff6600;
+  text-align: center; /* 文字居中 */
 }
 
 .bundle-price {
-  font-size: 1.2rem;
-  color: #ff6600;
+  font-size: 1rem;
+  text-align: center; /* 文字居中 */
 }
 
 .bundle-description {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #666;
   margin-bottom: 10px;
+  text-align: center; /* 文字居中 */
 }
 
 .choose-button {
-  background-color: #ff6600;
-  color: #fff;
+  background-color: transparent; /* 透明背景 */
+  color: inherit; /* 繼承字體顏色 */
   border: none;
-  padding: 8px 16px;
-  border-radius: 3px;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.choose-button:hover {
-  background-color: #cc5200;
 }
 
 .quantity-selector {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
   margin-top: 10px;
+  align-items:center;
 }
 
 .quantity-selector p {
   font-size: 1rem;
   margin-bottom: 8px;
-  color: #333;
+  color: #000000;
 }
 
 .quantity-controls {
@@ -89,7 +92,7 @@
 }
 
 .quantity-button {
-  background-color: #ff6600;
+  background-color: #fa8130;
   color: #fff;
   border: none;
   padding: 8px;
@@ -113,21 +116,19 @@
 .bundle-actions {
   display: flex;
   gap: 10px;
-  position: absolute;
-  bottom: 15px; /* 距離底部的距離 */
-  right: 15px; /* 距離右邊的距離 */
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .small-book-now-button,
 .small-add-to-cart-button {
-  background-color: #ff6600;
+  background-color: #fa8130;
   color: white;
   border: none;
-  padding: 4px 8px; /* 調整按鈕大小 */
-  border-radius: 3px;
+  padding: 8px 16px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 0.8rem; /* 調整按鈕字體大小 */
 }
 
 .small-book-now-button:hover,
@@ -136,14 +137,18 @@
 }
 
 .bundle-details {
-  flex: 1;
-  background-color: #f5f5f5;
+  margin-top: 20px;
+  background-color: #fff; /* 背景顏色設置為白色 */
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bundle-details h4 {
   color: #ff6600;
+}
+
+.bundle-details p {
+  color: #333;
 }
