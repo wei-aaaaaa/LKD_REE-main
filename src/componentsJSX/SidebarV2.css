@@ -1,0 +1,96 @@
+.filter-sidebar {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 250px;
+    color: #333;
+    font-family: Arial, sans-serif;
+  }
+  
+  .filter-group {
+    margin-bottom: 40px; /* 增加间距 */
+  }
+  
+  .filter-group h3 {
+    color: #f57c00; /* 橘色 */
+    margin-bottom: 10px;
+  }
+  
+  .filter-group label {
+    display: block;
+    margin: 10px 0;
+    color: #555; /* 灰色 */
+  }
+  
+  .price-range-filter {
+    margin-bottom: 40px; /* 增加间距 */
+  }
+  
+  .price-range-filter h3 {
+    color: #f57c00; /* 橘色 */
+    margin-bottom: 10px;
+  }
+  
+  .input-container {
+    margin-bottom: 10px;
+  }
+  
+  .input-container input {
+    width: 100%; /* 100%宽度 */
+    padding: 10px; /* 加大输入框的内边距 */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .reset-button,
+  .ok-button {
+    width: 48%; /* 增加按钮的宽度 */
+    padding: 10px; /* 增加按钮的内边距 */
+    font-size: 16px; /* 增加字体大小 */
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .reset-button {
+    background-color: #757575; /* 灰色 */
+    color: white;
+  }
+  
+  .reset-button:hover {
+    background-color: #616161; /* 深灰色 */
+  }
+  
+  .ok-button {
+    background-color: #f57c00; /* 橘色 */
+    color: white;
+  }
+  
+  .ok-button:hover {
+    background-color: #e65100; /* 深橘色 */
+  }
+  
+  .date-filter {
+    margin-bottom: 40px; /* 增加间距 */
+  }
+  
+  .date-filter h3 {
+    color: #f57c00; /* 橘色 */
+    margin-bottom: 10px;
+  }
+  
+  .date-filter .custom-datepicker {
+    width: 210px;
+    padding: 10px; /* 增加输入框的内边距 */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  

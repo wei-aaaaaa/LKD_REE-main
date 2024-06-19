@@ -1,0 +1,25 @@
+.photo-desc {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(555px, 1fr)); /* 自動填充列寬 */
+  gap: 20px; /* 元素間隔 */
+}
+
+.photo-desc-item {
+  text-align: center; /* 文字居中 */
+  border: 1px solid #ccc; /* 邊框 */
+  border-radius: 8px; /* 圓角 */
+  padding: 20px; /* 內邊距 */
+  background-color: #faeae1; /* 背景色 */
+}
+
+.photo-img {
+  width: 100%; /* 圖片寬度 */
+  height: auto; /* 自動高度 */
+  border-radius: 8px; /* 圓角 */
+}
+
+.photo-description {
+  margin-top: 15px; /* 上邊距 */
+  font-size: 18px; /* 字體大小 */
+  color: #6d0909; /* 文字顏色 */
+}
