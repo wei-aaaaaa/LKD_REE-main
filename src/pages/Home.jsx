@@ -4,9 +4,10 @@ import PromotionSection from "../componentsJSX/PromotionSection";
 import Rank from "../componentsJSX/Rank";
 import Area from "../componentsJSX/Area";
 import Weather from "../componentsJSX/Weather";
-import Redeye from "../componentsJSX/Redeye";
-import Loader from "../componentsJSX/Loader";
+// import Redeye from "../componentsJSX/Redeye";
+// import Loader from "../componentsJSX/Loader";
 import MyGoogleMap from "../componentsJSX/MyGoogleMap"; // Corrected import
+import Bot from "../componentsJSX/Bot";
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <Weather />
       {/* <Redeye /> */}
       <MyGoogleMap />
+      <Bot />
     </>
   );
 };
