@@ -54,6 +54,9 @@ const Titlebar = () => {
           <Link to="/favorite">
             <button className="titlebar-button">收藏</button>
           </Link>
+          <Link to="/member">
+            <button className="titlebar-button">會員中心</button>
+          </Link>
           <Link to="/register">
             <button className="titlebar-button">最近逛過</button>
           </Link>

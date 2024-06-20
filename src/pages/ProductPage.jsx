@@ -1,3 +1,4 @@
+// ProductPage.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -5,7 +6,7 @@ import GridPic from '../componentsJSX/GridPic';
 import Reviews from '../componentsJSX/Reviews';
 import ProductDesc from '../componentsJSX/ProductDesc';
 import ProductHeader from '../componentsJSX/ProductHeader';
-import PhotoDesc from '../componentsJSX/PhotoDesc'; // 引入 PhotoDesc 组件
+import PhotoDesc from '../componentsJSX/PhotoDesc';
 import ProductBundle from '../componentsJSX/ProductBundleBlock';
 import './ProductPage.css';
 
@@ -29,11 +30,11 @@ const ProductPage = () => {
         if (data.reviews && data.reviews.length > 0) {
           const totalRating = data.reviews.reduce((acc, review) => acc + review.rating, 0);
           const avgRating = totalRating / data.reviews.length;
-          setAverageRating(avgRating.toFixed(2)); // 保留兩位小數
+          setAverageRating(avgRating.toFixed(2));
         }
 
         // Fetch favorite status
-        const userId = 2; // 替換為實際用戶ID
+        const userId = 2;
         const favoriteResponse = await fetch(`https://localhost:7148/api/Bookings/favoriteStatus`, {
           method: 'POST',
           headers: {
@@ -49,7 +50,6 @@ const ProductPage = () => {
           const favoriteData = await favoriteResponse.json();
           setIsFavorite(favoriteData.isFavorite);
         }
-
       } catch (error) {
         console.error('Error fetching product:', error);
       }
@@ -62,98 +62,78 @@ const ProductPage = () => {
     return <div>Loading...</div>;
   }
 
-  // 格式化日期為西元年、月、日
   const formattedDate = format(new Date(product.date), 'yyyy年MM月dd日');
-
-  // 將 photo 和 photoDesc 結合
   const productImages = product.photo.map((src, index) => ({
     src: `data:image/png;base64,${src}`,
-    description: product.photoDesc[index] // 取對應的描述
+    description: product.photoDesc[index],
   }));
 
- const toggleFavorite = async () => {
-  try {
-    const userId = 2; // 替換為實際用戶ID
-    if (isFavorite) {
-      // 刪除收藏
-      const response = await fetch(`https://localhost:7148/api/Bookings?userId=${userId}&activityId=${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  const toggleFavorite = async () => {
+    try {
+      const userId = 2;
+      if (isFavorite) {
+        const response = await fetch(`https://localhost:7148/api/Bookings?userId=${userId}&activityId=${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to delete favorite');
+        if (!response.ok) {
+          throw new Error('Failed to delete favorite');
+        }
+        setIsFavorite(false);
+      } else {
+        const response = await fetch(`https://localhost:7148/api/Bookings`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            UserID: userId,
+            ActivityID: id,
+            BookingDate: new Date().toISOString(),
+            Price: product.price,
+            BookingStatesID: 2,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to add favorite');
+        }
+        setIsFavorite(true);
       }
-
-      setIsFavorite(false); // 更新為未收藏状态
-    } else {
-      // 添加收藏
-      const response = await fetch(`https://localhost:7148/api/Bookings`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          UserID: userId,
-          ActivityID: id,
-          BookingDate: new Date().toISOString(),
-          Price: product.price,
-          BookingStatesID: 2, // 2: 收藏
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add favorite');
-      }
-
-      setIsFavorite(true); // 更新為已收藏状态
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
     }
-  } catch (error) {
-    console.error('Error updating favorite status:', error);
-  }
-};
+  };
 
   return (
     <div className="product-page">
-      <ProductHeader 
-        title={product.name}
-        averageRating={averageRating}
-        isFavorite={isFavorite}
-        toggleFavorite={toggleFavorite}
-      />
-
-      {/* 在商品标题下方添加 Hashtag 区块 */}
-      <div className="hashtags">
-        {product.tags && product.tags.map((tag, index) => (
-          <span key={index} className="hashtag">
-            #{tag}
-          </span>
-        ))}
-      </div>
+       <ProductHeader 
+      title={product.name}
+      averageRating={averageRating}
+      isFavorite={isFavorite}
+      toggleFavorite={toggleFavorite}
+      address={product.address}  // 傳遞地址到 ProductHeader
+    />
 
       <GridPic images={productImages} />
 
-      <ProductDesc
-        price={product.price}
-        date={formattedDate}
-        remaining={product.remaining}
-        description={product.description}
-      />
+      <div className="product-info">
+        <ProductDesc
+          price={product.price}
+          date={formattedDate}
+          remaining={product.remaining}
+          description={product.description}
+        />
+      </div>
 
-      <ProductBundle/>
+      <ProductBundle />
 
-      <PhotoDesc images={productImages} />  {/* 新增 PhotoDesc 组件 */}
+      <PhotoDesc images={productImages} />
 
       <Reviews reviews={product.reviews} />
-
-      {/* <div className="product-footer">
-        <button className="book-now-button">立即預訂</button>
-        <button className="add-to-cart-button">加入購物車</button>
-        <div className="share-buttons">
-        </div>
-      </div> */}
     </div>
   );
 };
