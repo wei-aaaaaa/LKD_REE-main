@@ -1,0 +1,49 @@
+.recent-viewed-dropdown-container {
+    position: relative;
+  }
+  
+  .recent-viewed-dropdown {
+    position: absolute;
+    top: 45px; /* 根據實際情況調整位置 */
+    right: 0px; /* 增加這個值來讓下拉選單往左移動 */
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    min-width: 250px; /* 設置最小寬度 */
+  }
+  
+  .recent-viewed-dropdown__item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    white-space: nowrap; /* 防止內容換行 */
+  }
+  
+  .recent-viewed-dropdown__item:last-child {
+    border-bottom: none;
+  }
+  
+  .recent-viewed-dropdown__item img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+  
+  .recent-viewed-dropdown__info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* 確保信息部分佔滿剩餘空間 */
+  }
+  
+  .recent-viewed-dropdown__info p {
+    margin: 0;
+  }
+  
+  .recent-viewed-dropdown__price {
+    color: #ff5722;
+    font-weight: bold;
+  }
+  
