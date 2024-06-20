@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Rank.css';
 
 // 定義 Rank 組件
@@ -7,6 +8,7 @@ const Rank = () => {
     const [ranklists, setRanklists] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     // 使用 useEffect 鉤子在組件掛載後執行副作用
     useEffect(() => {
@@ -59,6 +61,11 @@ const Rank = () => {
         return Object.values(grouped).slice(0, 3);
     };
 
+    // 處理卡片點擊事件，導航到對應的產品頁面
+    const handleCardClick = (id) => {
+        navigate(`/productpage/${id}`);
+    };
+
     // 如果正在加載，顯示加載指示器
     if (loading) {
         return (
@@ -78,6 +85,7 @@ const Rank = () => {
             </div>
         );
     }
+
     // 渲染排名列表
     return (
         <section className="sectionRank">
@@ -95,7 +103,7 @@ const Rank = () => {
                             <h2>Top {index + 1}: {ranklist.cityName}</h2>
                             <ul>
                                 {ranklist.activities.slice(0, 3).map((product, productIndex) => (
-                                    <li key={product.activityId} className="product-item">
+                                    <li key={product.activityId} className="product-item" onClick={() => handleCardClick(product.activityId)}>
                                         {product.albums && product.albums.length > 0 && (
                                             <div className="image-container">
                                                 <img
@@ -118,7 +126,6 @@ const Rank = () => {
                 )}
             </div>
         </section>
-
     );
 };
 
