@@ -34,7 +34,7 @@ const UserProfile = () => {
     const handleSaveClick = async (field) => {
         const updatedUser = { ...user, [field]: editValues[field] };
 
-        const response = await fetch(`https://localhost:7090/api/Member/17`, {
+        const response = await fetch(`https://localhost:7148/api/Member/17`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
