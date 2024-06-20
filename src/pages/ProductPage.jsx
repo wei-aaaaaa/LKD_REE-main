@@ -19,6 +19,7 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        localStorage.setItem(Date.now(),`https://localhost:7148/api/ActivitiesAPI/${id}`);
         const response = await fetch(`https://localhost:7148/api/ActivitiesAPI/${id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
