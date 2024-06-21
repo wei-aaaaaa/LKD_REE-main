@@ -1,4 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
+import './AddReview.css'; // 引入CSS文件
 
 const AddReview = ({ userId, activityId }) => {
     const [comment, setComment] = useState('');
@@ -44,6 +45,8 @@ const AddReview = ({ userId, activityId }) => {
             if (response.ok) {
                 setMessage('評論提交成功');
                 setHasReviewed(true); // 更新 hasReviewed 狀態
+                alert('評論提交成功'); // 彈出提示框
+                window.location.reload(); // 提交評論後重新整理頁面
             } else {
                 const data = await response.json();
                 console.error('Error response data:', data);
@@ -57,21 +60,20 @@ const AddReview = ({ userId, activityId }) => {
 
     return (
         <div className="add-review-form">
-{/*            <h2>新增評論</h2>*/}
             {hasReviewed ? (
                 <p>已評論</p>
             ) : (
                 <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>評論:</label>
+                    <div className="form-group">
+                        <label>留下評論:</label>
                         <textarea
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             required
                         ></textarea>
                     </div>
-                    <div>
-                        <label>評分:</label>
+                    <div className="form-group">
+                        <label>評分分數:</label>
                         <input
                             type="number"
                             step="0.1" // 確保輸入步長為0.1

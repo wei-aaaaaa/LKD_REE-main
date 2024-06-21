@@ -1,5 +1,5 @@
 .user-profile {
-    width: 600px;
+    width: 800px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
@@ -13,6 +13,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+
 }
 
     .profile-header img {
@@ -35,10 +36,13 @@
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: 100px; /* 設置欄位高度 */
+    font-size: 20px;
 }
 
     .profile-item span {
         font-weight: bold;
+
     }
 
     .profile-item a {
@@ -57,6 +61,7 @@
         padding: 5px;
         border: 1px solid #ced4da;
         border-radius: 5px;
+        font-size: 14px;
     }
 
     .profile-item button {

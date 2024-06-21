@@ -1,0 +1,28 @@
+.add-review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+label {
+    flex: 0 0 auto;
+}
+
+textarea {
+    flex: 1;
+    resize: none; /* 禁止縮放 */
+    height: 2rem; /* 調整為所需的高度 */
+    font-size: 16px;
+}
+
+input[type="number"] {
+    margin-top: 5px;
+    height: 2rem; /* 調整為所需的高度 */
+    font-size: 16px;
+}

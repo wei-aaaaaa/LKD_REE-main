@@ -1,17 +1,30 @@
 .sidebar {
-    width: 400px;
+    width: 500px;
     background-color: darksalmon;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    height: 1000px;
+}
+
+.sidebar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 500%;
+    height: 800px; /* 根據需要調整高度 */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
+    pointer-events: none;
 }
 
 .profile {
     text-align: center;
     margin-bottom: 20px;
 }
-    .profile button {
-
+.profile button {
     margin-left: 5px;
     padding: 5px 10px;
     border: none;
@@ -19,12 +32,10 @@
     color: white;
     border-radius: 5px;
     cursor: pointer;
-
-    }
-
-        .profile button:hover {
-            background-color: #0056b3;
-        }
+}
+.profile button:hover {
+    background-color: #0056b3;
+}
 
 .avatar {
     width: 100px;
@@ -38,28 +49,28 @@
     margin-top: 20px;
 }
 
-    .menu h3 {
-        margin-bottom: 10px;
-        font-size: 1.2em;
-        color: #333;
-    }
+.menu h3 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #333;
+}
 
-    .menu ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
 
-    .menu li {
-        margin: 10px 0;
-        padding: 10px;
-        cursor: pointer;
-        color: #007bff;
-        transition: color 0.3s, background-color 0.3s;
-        border-radius: 5px;
-    }
+.menu li {
+    margin: 10px 0;
+    padding: 10px;
+    cursor: pointer;
+    color: #007bff;
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 5px;
+}
 
-        .menu li:hover {
-            color: #0056b3;
-            background-color: rgba(0, 123, 255, 0.1);
-        }
+.menu li:hover {
+    color: #0056b3;
+    background-color: rgba(0, 123, 255, 0.1);
+}
