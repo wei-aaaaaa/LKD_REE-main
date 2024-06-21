@@ -86,7 +86,7 @@ const Sidebar = ({ onMenuItemClick }) => {
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
                 />
-                <h2>用戶名稱: {username}</h2>
+                <h2> {username}</h2>
                 <button onClick={() => onMenuItemClick('profile')}>管理個人資料</button>
             </div>
             <div className="menu">
