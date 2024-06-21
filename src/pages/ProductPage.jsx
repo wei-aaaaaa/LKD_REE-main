@@ -16,10 +16,14 @@ const ProductPage = () => {
   const [averageRating, setAverageRating] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
 
+  var AddHistory=()=>{
+    history.pushState(Date.now(),"title 1","first.html?page=1")
+  }
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        localStorage.setItem(Date.now(),`https://localhost:7148/api/ActivitiesAPI/${id}`);
+        //localStorage.setItem('history/'+ Date.now(),`https://localhost:7148/api/ActivitiesAPI/${id}`);
         const response = await fetch(`https://localhost:7148/api/ActivitiesAPI/${id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');

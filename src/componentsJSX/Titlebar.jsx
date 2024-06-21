@@ -34,6 +34,39 @@ const Titlebar = () => {
     setShowRecentViewed(!showRecentViewed);
   };
 
+  const getToken = () => {
+    fetch('https://localhost:7148/api/LoginJWT/Log-in-hash',{
+      method:'post',
+      headers:{
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify({
+        username:'test1234',
+        password:'Test1234',
+      })
+    }).then(function(response){
+      return response.json();
+    }).then(function(data){
+      console.log(data);
+      //var token = JSON.parse(data.token);
+      localStorage.setItem('token',data.token);
+    })
+  }
+
+  const getUser = () => {
+    fetch('https://localhost:7148/api/LoginJWT/get-current-user',{
+      method:'get',
+      headers:{
+        Authorization:localStorage.getItem('token')
+      }
+    }).then(function(response){
+      return response.json();
+    }).then(function(data){
+      console.log(data);
+    })
+  }
+
   return (
     <div className="titlebar-container">
       <div className="titlebar">
@@ -52,6 +85,8 @@ const Titlebar = () => {
           />
         </div>
         <div className="titlebar-right">
+          <button onClick={getToken}>Get Token</button>
+          <button onClick={getUser}>Send out Token</button>
           <Link to="/contact">
             <button className="titlebar-button">客服中心</button>
           </Link>

@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./RecentViewedDropdown.css"; // 為下拉選單設計樣式
+
+useEffect(()=>{
+  if()
+})
 
 const RecentViewedDropdown = () => {
   return (
