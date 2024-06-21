@@ -3,8 +3,8 @@ import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/ap
 import './MyGoogleMap.css'; // 引入您的 CSS 文件
 
 const containerStyle = {
-    width: '75%', // 调整为适合您的需求的宽度
-    height: '50vh' // 调整为适合您的需求的高度
+    width: '100%', // 调整为适合您的需求的宽度
+    height: '90vh' // 调整为适合您的需求的高度
 };
 
 const center = {
@@ -53,7 +53,7 @@ const MyGoogleMap = () => {
         const toRad = (value) => value * Math.PI / 180;
         const R = 6371; // Earth radius in km
         const dLat = toRad(lat2 - lat1);
-        const dLng = toRad(lng2 - lng1);
+        const dLng = toRad(lat2 - lng1);
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
             Math.sin(dLng / 2) * Math.sin(dLng / 2);
@@ -112,51 +112,51 @@ const MyGoogleMap = () => {
                     </div>
                 ))}
                 {locationError && <p className="text-danger">{locationError}</p>}
-                <div className="button-container">
-                    <button className="btn btn-primary" onClick={handleCurrentLocationClick}>返回我的定位</button>
-                </div>
             </div>
-            <div className="map">
-                <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-                    <GoogleMap
-                        mapContainerStyle={containerStyle}
-                        center={currentLocation}
-                        zoom={12}
-                        onLoad={onLoad}
-                        onUnmount={onUnmount}
-                    >
-                        {sortedActivities.map(activity => {
-                            const isValidLatitude = typeof activity.latitude === 'number' && !isNaN(activity.latitude);
-                            const isValidLongitude = typeof activity.longitude === 'number' && !isNaN(activity.longitude);
+            <div className="map-wrapper">
+                <div className="map">
+                    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                        <GoogleMap
+                            mapContainerStyle={containerStyle}
+                            center={currentLocation}
+                            zoom={12}
+                            onLoad={onLoad}
+                            onUnmount={onUnmount}
+                        >
+                            {sortedActivities.map(activity => {
+                                const isValidLatitude = typeof activity.latitude === 'number' && !isNaN(activity.latitude);
+                                const isValidLongitude = typeof activity.longitude === 'number' && !isNaN(activity.longitude);
 
-                            return isValidLatitude && isValidLongitude ? (
-                                <Marker
-                                    key={activity.activityId}
-                                    position={{ lat: activity.latitude, lng: activity.longitude }}
-                                    title={activity.name}
-                                    onClick={() => handleActivityClick(activity)}
-                                    onMouseOver={() => handleActivityHover(activity)}
-                                    onMouseOut={handleActivityHoverLeave}
-                                >
-                                    {hoveredActivity === activity && (
-                                        <InfoWindow onCloseClick={handleActivityHoverLeave}>
-                                            <div>
-                                                <h6>{activity.name}</h6>
-                                                <p>{activity.description}</p>
-                                            </div>
-                                        </InfoWindow>
-                                    )}
-                                </Marker>
-                            ) : null;
-                        })}
-                        <Marker
-                            key="current-location"
-                            position={currentLocation}
-                            title="Your Current Location"
-                            icon={{ url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" }}
-                        />
-                    </GoogleMap>
-                </LoadScript>
+                                return isValidLatitude && isValidLongitude ? (
+                                    <Marker
+                                        key={activity.activityId}
+                                        position={{ lat: activity.latitude, lng: activity.longitude }}
+                                        title={activity.name}
+                                        onClick={() => handleActivityClick(activity)}
+                                        onMouseOver={() => handleActivityHover(activity)}
+                                        onMouseOut={handleActivityHoverLeave}
+                                    >
+                                        {hoveredActivity === activity && (
+                                            <InfoWindow onCloseClick={handleActivityHoverLeave}>
+                                                <div>
+                                                    <h6>{activity.name}</h6>
+                                                    <p>{activity.description}</p>
+                                                </div>
+                                            </InfoWindow>
+                                        )}
+                                    </Marker>
+                                ) : null;
+                            })}
+                            <Marker
+                                key="current-location"
+                                position={currentLocation}
+                                title="Your Current Location"
+                                icon={{ url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" }}
+                            />
+                        </GoogleMap>
+                    </LoadScript>
+                    <button className="btn btn-primary current-location-btn" onClick={handleCurrentLocationClick}>返回我的定位</button>
+                </div>
             </div>
         </div>
     );
