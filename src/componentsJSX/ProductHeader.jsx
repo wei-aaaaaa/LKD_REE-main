@@ -2,7 +2,13 @@ import React from "react";
 import "./ProductHeader.css";
 import HeartButton from "./HeartButton";
 
-const ProductHeader = ({ title, averageRating, isFavorite, toggleFavorite, address }) => {
+const ProductHeader = ({
+  title,
+  averageRating,
+  isFavorite,
+  toggleFavorite,
+  address,
+}) => {
   return (
     <div className="product-header">
       <div className="title-and-heart">
@@ -11,8 +17,10 @@ const ProductHeader = ({ title, averageRating, isFavorite, toggleFavorite, addre
       </div>
       <div className="header-bottom">
         <div className="hashtags">
-          {['熱賣中', '湊團導覽', '時長三小時內'].map((tag, index) => (
-            <span key={index} className="hashtag">#{tag}</span>
+          {["熱賣中", "湊團導覽", "時長四小時內"].map((tag, index) => (
+            <span key={index} className="hashtag">
+              #{tag}
+            </span>
           ))}
         </div>
         {averageRating && <p className="average-rating">★ {averageRating}</p>}

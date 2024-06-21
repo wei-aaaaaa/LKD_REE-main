@@ -55,7 +55,6 @@ const ProductPage = () => {
     const toggleFavorite = async () => {
         const userId = 2; // 使用實際的用戶 ID
         const method = isFavorite ? "DELETE" : "POST";
-        // 根据是否已经是收藏来调整URL路径
         const url = `https://localhost:7148/api/Favorites/${
             isFavorite ? `removeFavorite/${userId}/${id}` : "addFavorite"
         }`;
@@ -66,18 +65,14 @@ const ProductPage = () => {
                 headers: { "Content-Type": "application/json" },
             };
 
-            // 当添加收藏时发送请求体
-            options.body = JSON.stringify({
-                UserID: userId,
-                ActivityID: id,
-            });
+            if (!isFavorite) {
+                options.body = JSON.stringify({
+                    UserID: userId,
+                    ActivityID: id,
+                });
+            }
 
             const response = await fetch(url, options);
-            console.log(response);
-
-            // if (!response.ok) {
-            //     throw new Error(`Failed to ${isFavorite ? 'remove from' : 'add to'} favorites: ${response.statusText}`);
-            // }
 
             setIsFavorite(!isFavorite);
         } catch (error) {
@@ -110,9 +105,10 @@ const ProductPage = () => {
                 price={product.price}
                 date={formattedDate}
                 remaining={product.remaining}
-                description={product.description}
+                description={product.description} // 原始描述
+                descriptionJson={product.descriptionJson || null} // 传递结构化描述或 null
             />
-            <ProductBundle />
+            <ProductBundle productId={id} />
             <PhotoDesc images={productImages} />
             <Reviews reviews={product.reviews} />
         </div>
