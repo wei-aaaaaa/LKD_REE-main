@@ -1,7 +1,7 @@
 ﻿import React, { useRef, useState, useEffect } from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ onMenuItemClick }) => {
+const Sidebar = ({ userId, onMenuItemClick }) => {
     const fileInputRef = useRef(null);
     const [avatarUrl, setAvatarUrl] = useState('https://via.placeholder.com/150');
     const [username, setUsername] = useState('');
@@ -9,7 +9,7 @@ const Sidebar = ({ onMenuItemClick }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch('https://localhost:7148/api/Member/17');
+                const response = await fetch(`https://localhost:7148/api/Member/${userId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setUsername(data.username);
@@ -27,11 +27,11 @@ const Sidebar = ({ onMenuItemClick }) => {
         fetchUserData();
 
         // 設置一個間隔來定期獲取用戶資料
-        const intervalId = setInterval(fetchUserData, 2000); // 每5分鐘獲取一次
+        const intervalId = setInterval(fetchUserData, 5000); // 每5分鐘獲取一次
 
         // 清除 interval 以防止記憶體洩漏
         return () => clearInterval(intervalId);
-    }, []);
+    }, [userId]);
 
     const handleImageClick = () => {
         fileInputRef.current.click();
@@ -44,7 +44,7 @@ const Sidebar = ({ onMenuItemClick }) => {
             formData.append('file', file);
 
             try {
-                const response = await fetch('https://localhost:7148/api/Member/UploadUserPic/17', {
+                const response = await fetch(`https://localhost:7148/api/Member/UploadUserPic/${userId}`, {
                     method: 'PUT',
                     body: formData,
                 });
@@ -86,7 +86,7 @@ const Sidebar = ({ onMenuItemClick }) => {
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
                 />
-                <h2> {username}</h2>
+                <h2>{username}</h2>
                 <button onClick={() => onMenuItemClick('profile')}>管理個人資料</button>
             </div>
             <div className="menu">

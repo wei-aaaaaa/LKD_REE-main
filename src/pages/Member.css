@@ -1,7 +1,7 @@
 
 .member-center {
     display: flex;
-    max-width: 1335px;
+    max-width: 1355px;
     margin: auto;
     padding: 20px;
     position: relative; /* 确保内容相对定位 */
@@ -10,6 +10,7 @@
 
 
 .content {
+    width: 1500px;
     flex: 1;
     margin-left: 30px; /* 確保內容不會覆蓋 Sidebar */
     transition: all 0.3s ease; /* 添加過渡效果 */

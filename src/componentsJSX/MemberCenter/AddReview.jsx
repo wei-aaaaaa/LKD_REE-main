@@ -1,20 +1,25 @@
 ﻿import React, { useState, useEffect } from 'react';
-import './AddReview.css'; // 引入CSS文件
+import './AddReview.css';
 
 const AddReview = ({ userId, activityId }) => {
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState('');
     const [message, setMessage] = useState('');
     const [hasReviewed, setHasReviewed] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const checkReviewStatus = async () => {
             try {
                 const response = await fetch(`https://localhost:7148/api/Activities/has-reviewed/${userId}/${activityId}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 const result = await response.json();
                 setHasReviewed(result);
             } catch (error) {
                 console.error('Error checking review status:', error);
+                setMessage('無法檢查評論狀態，請稍後再試。');
             }
         };
 
@@ -23,12 +28,13 @@ const AddReview = ({ userId, activityId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
         const reviewData = {
             userId: parseInt(userId),
             activityId: parseInt(activityId),
             comment,
-            rating: parseFloat(rating).toFixed(1), // 確保評分為小數點後一位
+            rating: parseFloat(rating).toFixed(1),
         };
 
         console.log('Submitting review data:', reviewData);
@@ -44,9 +50,9 @@ const AddReview = ({ userId, activityId }) => {
 
             if (response.ok) {
                 setMessage('評論提交成功');
-                setHasReviewed(true); // 更新 hasReviewed 狀態
-                alert('評論提交成功'); // 彈出提示框
-                window.location.reload(); // 提交評論後重新整理頁面
+                setHasReviewed(true);
+                alert('評論提交成功');
+                window.location.reload();
             } else {
                 const data = await response.json();
                 console.error('Error response data:', data);
@@ -55,6 +61,8 @@ const AddReview = ({ userId, activityId }) => {
         } catch (error) {
             console.error('Fetch error:', error);
             setMessage('提交評論時發生錯誤');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -76,7 +84,7 @@ const AddReview = ({ userId, activityId }) => {
                         <label>評分分數:</label>
                         <input
                             type="number"
-                            step="0.1" // 確保輸入步長為0.1
+                            step="0.1"
                             value={rating}
                             onChange={(e) => setRating(e.target.value)}
                             required
@@ -84,7 +92,9 @@ const AddReview = ({ userId, activityId }) => {
                             max="5"
                         />
                     </div>
-                    <button type="submit">留下評論</button>
+                    <button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? '提交中...' : '留下評論'}
+                    </button>
                 </form>
             )}
             {message && <p>{message}</p>}
