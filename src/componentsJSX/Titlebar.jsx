@@ -7,6 +7,7 @@ import RecentViewedDropdown from "./RecentViewedDropdown"; // 引入下拉選單
 
 
 const Titlebar = () => {
+  const [history, sethistory] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showRecentViewed, setShowRecentViewed] = useState(false); // 添加狀態來控制下拉選單顯示
@@ -31,8 +32,33 @@ const Titlebar = () => {
   };
   
   const toggleRecentViewed = () => {
+    getUserHistory();
     setShowRecentViewed(!showRecentViewed);
   };
+
+  const getUserHistory = async() =>{
+    // fetch('https://localhost:7148/api/BrowsingHistoryAPI/GetByUser',{
+    //   method:'get',
+    //   headers:{
+    //     Authorization:localStorage.getItem('token')
+    //   }
+    // }).then(function(response){
+    //   return response.json();
+    // }).then(function(data){
+    //   console.log(data);
+    // })
+    const response = await fetch('https://localhost:7148/api/BrowsingHistoryAPI/GetByUser',{
+      method:'get',
+      headers:{
+        Authorization:localStorage.getItem('token')
+      }
+    });
+      if (!response.ok) {
+        throw new Error(`Http error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      sethistory(data);
+  }
 
   const getToken = () => {
     fetch('https://localhost:7148/api/LoginJWT/Log-in-hash',{
@@ -103,7 +129,7 @@ const Titlebar = () => {
             <button className="titlebar-button" onClick={toggleRecentViewed}>
               最近逛過
             </button>
-            {showRecentViewed && <RecentViewedDropdown />} {/* 展示下拉選單 */}
+            {showRecentViewed && <RecentViewedDropdown history={history} />} {/* 展示下拉選單 */}
           </div>
           <button className="titlebar-button" onClick={handleOpenModal}>
             登入

@@ -2,10 +2,25 @@ import React, { useEffect } from "react";
 import "./RecentViewedDropdown.css"; // 為下拉選單設計樣式
 
 
-const RecentViewedDropdown = () => {
+
+const RecentViewedDropdown = ({history}) => {
+
+  const handleClick = (id) => {
+    navigate(`/productpage/${id}`);
+  };
+
   return (
     <div className="recent-viewed-dropdown">
-      <div className="recent-viewed-dropdown__item">
+      {history.map(history=>(
+        <div className="recent-viewed-dropdown__item">
+        <img src={`data:image/png;base64,${history.photo[0]}`} alt="Item 1" />
+        <div className="recent-viewed-dropdown__info">
+          <p>{history.name}</p>
+          <p className="recent-viewed-dropdown__price">{history.price}</p>
+        </div>
+      </div>
+      ))}
+      {/* <div className="recent-viewed-dropdown__item">
         <img src="path-to-image1.jpg" alt="Item 1" />
         <div className="recent-viewed-dropdown__info">
           <p>日本環球影城門票</p>
@@ -32,7 +47,7 @@ const RecentViewedDropdown = () => {
           <p>十分瀑布 / 猴硐貓村</p>
           <p className="recent-viewed-dropdown__price">NT$ 479</p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

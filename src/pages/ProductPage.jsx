@@ -23,7 +23,23 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        //localStorage.setItem('history/'+ Date.now(),`https://localhost:7148/api/ActivitiesAPI/${id}`);
+
+        fetch('https://localhost:7148/api/BrowsingHistoryAPI/UserBrowse',{
+          method:'post',
+          headers:{
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization:localStorage.getItem('token')
+          },
+          body:JSON.stringify({
+            activityId: `${id}`
+          })
+        }).then(function(response){
+          return response.json();
+        }).then(function(data){
+          console.log(data);
+        })
+
         const response = await fetch(`https://localhost:7148/api/ActivitiesAPI/${id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
