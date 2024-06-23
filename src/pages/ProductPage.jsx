@@ -17,6 +17,7 @@ import {
 } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ProductPage.css";
+import Loader from "../componentsJSX/Loader";
 
 const ProductPage = () => {
     const { id } = useParams();
@@ -104,7 +105,11 @@ const ProductPage = () => {
     };
 
     if (!product) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loader />
+            </div>
+        );
     }
 
     const formattedDate = format(new Date(product.date), "yyyy年MM月dd日");

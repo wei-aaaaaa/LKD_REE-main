@@ -10,7 +10,7 @@ import Favorite from "./pages/Favorite";
 import Cart from "./pages/Cart";
 import ProductPage from "./pages/ProductPage";
 import CustomerService from "./pages/CustomerService";
-import Member from "./pages/Member"
+import Member from "./pages/Member";
 
 const App = () => {
   return (

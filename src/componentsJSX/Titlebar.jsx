@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Titlebar.css";
 import logo from "../assets/Logo.png"; // 確保 logo.png 的路徑正確
@@ -10,6 +10,7 @@ const Titlebar = () => {
   const [showModal, setShowModal] = useState(false);
   const [showRecentViewed, setShowRecentViewed] = useState(false);
   const navigate = useNavigate();
+  const recentViewedRef = useRef(null);
 
   const handleSearchKeyDown = (event) => {
     if (event.key === "Enter" && searchQuery.trim()) {
@@ -34,6 +35,22 @@ const Titlebar = () => {
   const toggleRecentViewed = () => {
     setShowRecentViewed(!showRecentViewed);
   };
+
+  const handleClickOutside = (event) => {
+    if (
+      recentViewedRef.current &&
+      !recentViewedRef.current.contains(event.target)
+    ) {
+      setShowRecentViewed(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="titlebar-container">
@@ -65,7 +82,10 @@ const Titlebar = () => {
           <Link to="/member">
             <button className="titlebar-button">會員中心</button>
           </Link>
-          <div className="recent-viewed-dropdown-container">
+          <div
+            className="recent-viewed-dropdown-container"
+            ref={recentViewedRef}
+          >
             <button className="titlebar-button" onClick={toggleRecentViewed}>
               最近逛過
             </button>
