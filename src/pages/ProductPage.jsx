@@ -20,25 +20,32 @@ const ProductPage = () => {
     history.pushState(Date.now(),"title 1","first.html?page=1")
   }
 
+  const fetchhistory = async() => {
+    try{
+      await fetch('https://localhost:7148/api/BrowsingHistoryAPI/UserBrowse',{
+        method:'post',
+        headers:{
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization:localStorage.getItem('token')
+        },
+        body:JSON.stringify({
+          activityId: `${id}`
+        })
+      }).then(function(response){
+        return response.json();
+      }).then(function(data){
+        console.log(data);
+      })
+    }
+    catch(error){
+      console.error('fail to fetch history',error);
+    }
+  }
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-
-        fetch('https://localhost:7148/api/BrowsingHistoryAPI/UserBrowse',{
-          method:'post',
-          headers:{
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization:localStorage.getItem('token')
-          },
-          body:JSON.stringify({
-            activityId: `${id}`
-          })
-        }).then(function(response){
-          return response.json();
-        }).then(function(data){
-          console.log(data);
-        })
 
         const response = await fetch(`https://localhost:7148/api/ActivitiesAPI/${id}`);
         if (!response.ok) {
@@ -75,7 +82,7 @@ const ProductPage = () => {
         console.error('Error fetching product:', error);
       }
     };
-
+    fetchhistory();
     fetchProduct();
   }, [id]);
 
