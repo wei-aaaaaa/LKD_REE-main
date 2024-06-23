@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Titlebar.css";
 import logo from "../assets/Logo.png"; // 確保你有一個 logo.png 文件在對應的路徑
 import LoginForm from "./LoginForm"; // 引入 LoginForm 組件
@@ -58,7 +58,13 @@ const Titlebar = () => {
       }
       const data = await response.json();
       sethistory(data);
+      console.log(data);
+      console.log(history);
   }
+
+  useEffect(() => {
+    console.log(history); // 這裡的history值在組件渲染時會顯示初始值，也就是空陣列
+  }, [history]);
 
   const getToken = () => {
     fetch('https://localhost:7148/api/LoginJWT/Log-in-hash',{
@@ -113,6 +119,7 @@ const Titlebar = () => {
         <div className="titlebar-right">
           <button onClick={getToken}>Get Token</button>
           <button onClick={getUser}>Send out Token</button>
+          <button onClick={getUserHistory}>Get History</button>
           <Link to="/contact">
             <button className="titlebar-button">客服中心</button>
           </Link>
@@ -129,7 +136,7 @@ const Titlebar = () => {
             <button className="titlebar-button" onClick={toggleRecentViewed}>
               最近逛過
             </button>
-            {showRecentViewed && <RecentViewedDropdown history={history} />} {/* 展示下拉選單 */}
+            {showRecentViewed && <RecentViewedDropdown history={history}/>} {/* 展示下拉選單 */}
           </div>
           <button className="titlebar-button" onClick={handleOpenModal}>
             登入

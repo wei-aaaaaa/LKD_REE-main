@@ -12,11 +12,11 @@ const RecentViewedDropdown = ({history}) => {
   return (
     <div className="recent-viewed-dropdown">
       {history.map(history=>(
-        <div className="recent-viewed-dropdown__item">
+        <div key={history.browsingHistoryId} className="recent-viewed-dropdown__item">
         <img src={`data:image/png;base64,${history.photo[0]}`} alt="Item 1" />
         <div className="recent-viewed-dropdown__info">
           <p>{history.name}</p>
-          <p className="recent-viewed-dropdown__price">{history.price}</p>
+          <p className="recent-viewed-dropdown__price">${history.price}</p>
         </div>
       </div>
       ))}
