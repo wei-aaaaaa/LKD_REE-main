@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./FavoriteProducts.css";
+import styles from "./Favorite99.module.css";
 
 const FavoriteProducts = () => {
   const [products, setProducts] = useState([]);
   const userId = 2; // 替換為實際的用戶ID
+
   useEffect(() => {
     const fetchFavoriteProducts = async () => {
       try {
@@ -51,27 +52,31 @@ const FavoriteProducts = () => {
   };
 
   return (
-    <div className="favorite-products">
-      <header className="header">
+    <div className={styles.favoritePageWrapper}>
+      <div className={styles.favoritePage}>
         <h1>我的收藏</h1>
-        <p>探索您最喜愛的商品，享受購物的樂趣</p>
-      </header>
-      <div className="product-list">
-        {products.map((product) => (
-          <div key={product.activityId} className="product-card">
-            <img
-              src={`data:image/png;base64,${product.photo}`}
-              alt={product.activityName}
-            />
-            <div className="product-info">
+        <div className={styles.favoriteGrid}>
+          {products.map((product) => (
+            <div key={product.activityId} className={styles.favoriteItem}>
+              <img
+                src={`data:image/png;base64,${product.photo[0]}`}
+                alt={product.activityName}
+                className={styles.favoriteImage}
+              />
               <h2>{product.activityName}</h2>
-              <p>活動詳情: {product.activityDescription}</p>
-              <button onClick={() => handleDelete(product.activityId)}>
+              <p>{product.activityDescription}</p>
+              <button
+                className={styles.deleteButton}
+                onClick={() => handleDelete(product.activityId)}
+              >
                 刪除
               </button>
             </div>
-          </div>
-        ))}
+          ))}
+          {products.length === 0 && (
+            <p className={styles.noFavorites}>目前沒有收藏的商品</p>
+          )}
+        </div>
       </div>
     </div>
   );

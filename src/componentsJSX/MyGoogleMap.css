@@ -1,12 +1,16 @@
-/* MyGoogleMap.css */
-
 .map-container {
   display: flex;
   justify-content: space-between;
+  width: 1366px; /* 固定寬度 */
+  height: 750px; /* 固定高度 */
+  margin: 0 auto; /* 水平居中 */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .product-cards {
   width: 25%; /* 左侧商品卡区域宽度 */
+  height: 100%; /* 固定高度，與容器高度相同 */
   overflow-y: auto; /* 如果商品卡超出高度，允许滚动 */
   padding: 20px;
   box-sizing: border-box;
@@ -18,44 +22,61 @@
   margin-bottom: 20px;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* 确保圆角效果 */
 }
 
 .card:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card-img {
   width: 100%;
-  height: 200px; /* 调整为适合您的需求的高度 */
+  height: 150px; /* 调整为适合您的需求的高度 */
   object-fit: cover;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
 }
 
 .card-body {
-  padding: 10px;
-}
-
-h5 {
-  margin-bottom: 10px;
-  font-size: 18px;
+  padding: 15px;
 }
 
 .card-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .card-text {
   font-size: 14px;
-  color: #777;
+  color: #666;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #e64a19;
 }
 
 .map {
   width: 75%; /* 右侧地图区域宽度 */
-  height: 50vh; /* 调整为适合您的需求的高度 */
+  height: 90%; /* 符合容器的高度 */
   border-radius: 10px; /* 添加圆角 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

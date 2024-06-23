@@ -38,17 +38,13 @@ const GridDropdownMenu = ({ items }) => {
   );
 };
 
-const ListDropdownMenu = ({ items }) => {
-  return (
-    <ul className="dropdown-menu list">
-      {items.map((item, index) => (
-        <li key={index}>{item.label}</li>
-      ))}
-    </ul>
-  );
-};
-
 const FilterBar = () => {
+  const navigate = useNavigate();
+
+  const handleButtonClick = (label) => {
+    navigate(`/search?query=${label}`);
+  };
+
   return (
     <div className="filter-bar">
       <FilterItem title="探索目的地" isGrid={true}>
@@ -66,41 +62,36 @@ const FilterBar = () => {
           ]}
         />
       </FilterItem>
-      <FilterItem title="全部分類" isGrid={false}>
-        <ListDropdownMenu
-          items={[{ label: "分類1" }, { label: "分類2" }, { label: "分類3" }]}
-        />
-      </FilterItem>
-      <FilterItem title="行程&體驗" isGrid={false}>
-        <ListDropdownMenu
-          items={[{ label: "體驗1" }, { label: "體驗2" }, { label: "體驗3" }]}
-        />
-      </FilterItem>
-      <FilterItem title="景點門票" isGrid={false}>
-        <ListDropdownMenu
-          items={[{ label: "門票1" }, { label: "門票2" }, { label: "門票3" }]}
-        />
-      </FilterItem>
-      <FilterItem title="飯店" isGrid={false}>
-        <ListDropdownMenu
-          items={[{ label: "飯店1" }, { label: "飯店2" }, { label: "飯店3" }]}
-        />
-      </FilterItem>
-      <FilterItem title="交通" isGrid={false}>
-        <ListDropdownMenu
-          items={[{ label: "交通1" }, { label: "交通2" }, { label: "交通3" }]}
-        />
-      </FilterItem>
-      <FilterItem title="美食品嚐" isGrid={false}>
-        <ListDropdownMenu
-          items={[{ label: "美食1" }, { label: "美食2" }, { label: "美食3" }]}
-        />
-      </FilterItem>
-      <FilterItem title="台灣高鐵" isGrid={false}>
-        <ListDropdownMenu
-          items={[{ label: "高鐵1" }, { label: "高鐵2" }, { label: "高鐵3" }]}
-        />
-      </FilterItem>
+      <button
+        className="filter-button"
+        onClick={() => handleButtonClick("台北")}
+      >
+        台北
+      </button>
+      <button
+        className="filter-button"
+        onClick={() => handleButtonClick("台中")}
+      >
+        台中
+      </button>
+      <button
+        className="filter-button"
+        onClick={() => handleButtonClick("台南")}
+      >
+        台南
+      </button>
+      <button
+        className="filter-button"
+        onClick={() => handleButtonClick("高雄")}
+      >
+        高雄
+      </button>
+      <button
+        className="filter-button"
+        onClick={() => handleButtonClick("台東")}
+      >
+        台東
+      </button>
     </div>
   );
 };

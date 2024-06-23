@@ -5,11 +5,11 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import "./MyGoogleMap.css"; // 引入您的 CSS 文件
+import "./MyGoogleMap.css";
 
 const containerStyle = {
-  width: "75%", // 调整为适合您的需求的宽度
-  height: "50vh", // 调整为适合您的需求的高度
+  width: "100%",
+  height: "100%",
 };
 
 const center = {
@@ -56,7 +56,7 @@ const MyGoogleMap = () => {
 
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
     const toRad = (value) => (value * Math.PI) / 180;
-    const R = 6371; // Earth radius in km
+    const R = 6371;
     const dLat = toRad(lat2 - lat1);
     const dLng = toRad(lng2 - lng1);
     const a =
@@ -113,7 +113,7 @@ const MyGoogleMap = () => {
       ),
     }))
     .sort((a, b) => a.distance - b.distance)
-    .slice(0, 3); // 限制为最多三个活动
+    .slice(0, 2); // 限制為最多兩個活動
 
   return (
     <div className="map-container">
@@ -146,10 +146,7 @@ const MyGoogleMap = () => {
         ))}
         {locationError && <p className="text-danger">{locationError}</p>}
         <div className="button-container">
-          <button
-            className="btn btn-primary"
-            onClick={handleCurrentLocationClick}
-          >
+          <button className="btn" onClick={handleCurrentLocationClick}>
             返回我的定位
           </button>
         </div>

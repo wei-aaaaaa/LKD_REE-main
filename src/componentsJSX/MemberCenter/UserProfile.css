@@ -1,74 +1,74 @@
 .user-profile {
-    width: 600px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-    .profile-header img {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-    }
+.profile-header img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
 
-    .profile-header h2 {
-        margin: 0;
-        font-size: 24px;
-    }
+.profile-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
 
 .profile-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0; /* 增加上下間距 */
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-    .profile-item span {
-        font-weight: bold;
-    }
+.profile-item span {
+  font-weight: bold;
+}
 
-    .profile-item a {
-        margin-left: 10px;
-        color: #007bff;
-        cursor: pointer;
-        text-decoration: none;
-    }
+.profile-item a {
+  margin-left: 10px;
+  color: #ff5722; /* 橘色 */
+  cursor: pointer;
+  text-decoration: none;
+}
 
-        .profile-item a:hover {
-            text-decoration: underline;
-        }
+.profile-item a:hover {
+  text-decoration: underline;
+}
 
-    .profile-item input {
-        width: 60%;
-        padding: 5px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-    }
+.profile-item input {
+  width: 60%;
+  padding: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
 
-    .profile-item button {
-        margin-left: 5px;
-        padding: 5px 10px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+.profile-item button {
+  margin-left: 5px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #ff5722; /* 橘色 */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-        .profile-item button:hover {
-            background-color: #0056b3;
-        }
+.profile-item button:hover {
+  background-color: #e64a19; /* 深橘色 */
+}

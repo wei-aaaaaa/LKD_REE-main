@@ -14,11 +14,11 @@ const Titlebar = () => {
   const handleSearchKeyDown = (event) => {
     if (event.key === "Enter" && searchQuery.trim()) {
       const currentUrlParams = new URLSearchParams(window.location.search);
-      if (currentUrlParams.has('query')) {
-        currentUrlParams.delete('query'); // 清除已有的 query 參數
+      if (currentUrlParams.has("query")) {
+        currentUrlParams.delete("query"); // 清除已有的 query 參數
       }
-      const queries = searchQuery.split(",").map(query => query.trim());
-      queries.forEach(query => currentUrlParams.append('query', query));
+      const queries = searchQuery.split(",").map((query) => query.trim());
+      queries.forEach((query) => currentUrlParams.append("query", query));
       navigate(`/search?${currentUrlParams.toString()}`);
     }
   };

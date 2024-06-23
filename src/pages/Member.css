@@ -1,51 +1,54 @@
 .member-center {
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; /* 淺灰色背景 */
     border-radius: 10px;
     display: flex;
-    max-width: 1200px;
+    width: 1366px; /* 填滿寬度 */
+    max-width: 1366px;
     margin: auto;
-    padding: 20px;
-    background-color: #f1f3f5;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+
 .content {
     flex: 1;
     margin-left: 20px;
 }
 
-    .member-center h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+.member-center h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff5722; /* 橘色 */
+}
 
 .member-info {
     margin-bottom: 20px;
 }
 
-    .member-info h2 {
-        margin-bottom: 10px;
-    }
+.member-info h2 {
+    margin-bottom: 10px;
+    color: #333; /* 深灰色 */
+}
 
-    .member-info p {
-        margin: 5px 0;
-    }
+.member-info p {
+    margin: 5px 0;
+    color: #555; /* 灰色 */
+}
 
 .member-actions {
     display: flex;
     justify-content: space-around;
 }
 
-    .member-actions button {
-        padding: 10px 20px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
+.member-actions button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff5722; /* 橘色 */
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
 
-        .member-actions button:hover {
-            background-color: #0056b3;
-        }
+.member-actions button:hover {
+    background-color: #e64a19; /* 深橘色 */
+}

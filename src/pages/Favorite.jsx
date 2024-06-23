@@ -4,13 +4,11 @@ import Favorite2 from "../componentsJSX/Favorite2";
 import "./Favorite.scss";
 
 const Favorite = () => {
-  return (
-    <div className="favorite-page">
-      <FavoriteProducts />
-      <Favorite2 />
-      <Recommand />
-    </div>
-  );
+    return (
+        <div className="favorite-page">
+            <FavoriteProducts />
+        </div>
+    );
 };
 
 export default Favorite;
