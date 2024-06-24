@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Favorite99.module.css";
 import { useUser } from "./UserDataContext";
 
@@ -6,7 +7,8 @@ const FavoriteProducts = () => {
   const [products, setProducts] = useState([]);
   const user = useUser(); // 獲取用戶信息
   const userId = user?.id; // 獲取用戶 ID
-  console.log(userId);
+  const navigate = useNavigate(); // 獲取導航功能
+
   useEffect(() => {
     const fetchFavoriteProducts = async () => {
       if (user) {
@@ -28,7 +30,6 @@ const FavoriteProducts = () => {
 
     fetchFavoriteProducts();
   }, [user]);
-  console.log(user);
 
   const handleDelete = async (activityId) => {
     if (window.confirm("確定要刪除此收藏嗎？")) {
@@ -57,13 +58,21 @@ const FavoriteProducts = () => {
     }
   };
 
+  const handleProductClick = (activityId) => {
+    navigate(`/productpage/${activityId}`);
+  };
+
   return (
     <div className={styles.favoritePageWrapper}>
       <div className={styles.favoritePage}>
         <h1>我的收藏</h1>
         <div className={styles.favoriteGrid}>
           {products.map((product) => (
-            <div key={product.activityId} className={styles.favoriteItem}>
+            <div
+              key={product.activityId}
+              className={styles.favoriteItem}
+              onClick={() => handleProductClick(product.activityId)} // 添加點擊事件
+            >
               <img
                 src={`data:image/png;base64,${product.photo[0]}`}
                 alt={product.activityName}
@@ -73,7 +82,10 @@ const FavoriteProducts = () => {
               <p>{product.activityDescription}</p>
               <button
                 className={styles.deleteButton}
-                onClick={() => handleDelete(product.activityId)}
+                onClick={(e) => {
+                  e.stopPropagation(); // 阻止事件冒泡
+                  handleDelete(product.activityId);
+                }}
               >
                 刪除
               </button>
