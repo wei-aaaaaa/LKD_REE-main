@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Titlebar.css";
 import logo from "../assets/Logo.png"; // 確保你有一個 logo.png 文件在對應的路徑
 import LoginForm from "./LoginForm"; // 引入 LoginForm 組件
@@ -13,6 +13,7 @@ const Titlebar = () => {
   const [showModal, setShowModal] = useState(false); // 添加狀態來控制模態框顯示
   const [isLogin, setLoginin] = useState("");
   const [showRecentViewed, setShowRecentViewed] = useState(false); // 添加狀態來控制下拉選單顯示
+  const recentViewedRef = useRef(null); // 添加引用來監聽點擊事件
   const navigate = useNavigate();
 
   const handleSearchKeyDown = (event) => {
@@ -32,10 +33,12 @@ const Titlebar = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
   const toggleRecentViewed = () => {
     getUserHistory();
     setShowRecentViewed(!showRecentViewed);
   };
+
   const getUserHistory = async () => {
     const response = await fetch(
       "https://localhost:7148/api/BrowsingHistoryAPI/GetByUser",
@@ -56,7 +59,24 @@ const Titlebar = () => {
   };
 
   useEffect(() => {
-    //expire  username
+    // 監聽點擊事件來隱藏下拉菜單
+    const handleClickOutside = (event) => {
+      if (
+        recentViewedRef.current &&
+        !recentViewedRef.current.contains(event.target)
+      ) {
+        setShowRecentViewed(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [recentViewedRef]);
+
+  useEffect(() => {
+    // expire  username
     const _token = localStorage.getItem("token")?.slice(7);
     const token = _token ? jwtDecode(_token) : "";
     // const loginUsername = localStorage.getItem("name");
@@ -70,10 +90,12 @@ const Titlebar = () => {
       : setLoginin("");
     // console.log("loginExpireloginExpire", loginExpire, loginUsername);
   }, []);
+
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload();
   };
+
   return (
     <div className="titlebar-container">
       <div className="titlebar">
@@ -93,19 +115,38 @@ const Titlebar = () => {
         </div>
         <div className="titlebar-right">
           <Link to="/contact">
-            <button className="titlebar-button">客服中心</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              客服中心
+            </button>
           </Link>
           <Link to="/cart">
-            <button className="titlebar-button">購物車</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              購物車
+            </button>
           </Link>
           <Link to="/favorite">
-            <button className="titlebar-button">收藏</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              收藏
+            </button>
           </Link>
-          <div className="recent-viewed-dropdown-container">
+
+          <div
+            className="recent-viewed-dropdown-container"
+            ref={recentViewedRef}
+          >
             <button className="titlebar-button" onClick={toggleRecentViewed}>
               最近逛過
             </button>
-            {showRecentViewed && <RecentViewedDropdown history={history} />}{" "}
+            {showRecentViewed && <RecentViewedDropdown history={history} />}
           </div>
           <Link to="/Member">
             <button className="titlebar-button">會員中心</button>

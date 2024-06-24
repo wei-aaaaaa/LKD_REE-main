@@ -188,14 +188,14 @@ const MyGoogleMap = () => {
                 </Marker>
               ) : null;
             })}
-            <Marker
+            {/* <Marker
               key="current-location"
               position={currentLocation}
               title="Your Current Location"
               icon={{
                 url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
               }}
-            />
+            /> */}
           </GoogleMap>
         </LoadScript>
       </div>

@@ -9,9 +9,9 @@ import PhotoDesc from "../componentsJSX/PhotoDesc";
 import ProductBundle from "../componentsJSX/ProductBundleBlock";
 import { ToastContainer, toast, Flip, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./ProductPage.css";
 import Loader from "../componentsJSX/Loader";
 import { useUser } from "../componentsJSX/UserDataContext";
+import "./ProductPage.css"; // 引入你剛剛創建的CSS文件
 
 const ProductPage = () => {
     const { id } = useParams();
