@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import "./LoginForm.css";
 import axios from "axios";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import * as jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 import Auth_JWT from "../../Auth_JWT";
 import fb from "../assets/images/icons/fb.png";
@@ -26,7 +26,7 @@ const LoginForm = ({ show, onClose }) => {
   });
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType_] = useState("password");
-
+  const _ReCAPTCHA = useRef();
   const handleChangeForm = (e, regOrSign) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
@@ -97,13 +97,16 @@ const LoginForm = ({ show, onClose }) => {
         setLoading(false);
         onClose();
         window.location.reload();
+        console.log("9999999999999999999999999999");
       })
       .catch((error) => {
         setErrorMsg(error.response.data);
         console.error("發送請求時發生錯誤：", error);
+        setRecapcha("");
       })
       .finally(() => {
-        setRecapcha("");
+        _ReCAPTCHA.current.reset();
+        // setRecapcha("");
       });
   };
 
@@ -113,15 +116,26 @@ const LoginForm = ({ show, onClose }) => {
   };
 
   const handleSignUp_WithGoogle = (data) => {
+    const params = {
+      username: data.name + "lookday",
+      email: data.email,
+      password: "A12345678a",
+    };
     axios
-      .post(
-        `https://localhost:7148/api/LoginJWT/sign-up/Username=${data.name}&Email=${data.email}&Password=A_12345678a`
-      )
+      .post(`https://localhost:7148/api/LoginJWT/sign-up`, params)
       .then(() => {
+        axios.post(`https://localhost:7148/api/LoginJWT/Log-in-Hash`, params);
+      })
+      .then((response) => {
+        Auth_JWT.login(response.data.token);
+        setLoading(false);
+        onClose();
         window.location.reload();
       })
       .catch((error) => {
-        console.error("發送請求時發生錯誤：", error);
+        setErrorMsg(error.response.data);
+        this.captcha.reset();
+        console.error("發送請求時發生錯誤9999：", error);
       });
   };
 
@@ -132,7 +146,10 @@ const LoginForm = ({ show, onClose }) => {
   const onChange_recapcha = (value) => {
     setRecapcha(value);
   };
-
+  console.log(
+    "_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA",
+    _ReCAPTCHA
+  );
   return (
     <div className="login-form">
       <div className="modal-overlay" onClick={onClose}></div>
@@ -152,8 +169,8 @@ const LoginForm = ({ show, onClose }) => {
                     handleSignUp_WithGoogle(
                       jwtDecode(credentialResponse.credential)
                     );
-                    onClose();
-                    window.location.reload();
+                    // onClose();
+                    // window.location.reload();
                   }}
                   onError={() => {
                     console.log("Login Failed");
@@ -166,14 +183,14 @@ const LoginForm = ({ show, onClose }) => {
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
                   src={fb}
-                  style={{ width: "70%", height: "70%" }}
+                  style={{ width: "95%", height: "95%" }}
                   alt="fb"
                 ></img>
               </a>
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
                   src={github}
-                  style={{ width: "120%", height: "120%" }}
+                  style={{ width: "160%", height: "160%" }}
                   alt="github"
                 ></img>
               </a>
@@ -221,6 +238,7 @@ const LoginForm = ({ show, onClose }) => {
             ></img>
             <p style={{ color: "red" }}>{errorMsg}</p>
             <ReCAPTCHA
+              ref={_ReCAPTCHA}
               sitekey="6LccXv4pAAAAAL4FitpaQadeDDOWQF5IHxpr-MjP"
               onChange={onChange_recapcha}
             />
@@ -252,14 +270,14 @@ const LoginForm = ({ show, onClose }) => {
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
                   src={fb}
-                  style={{ width: "70%", height: "70%" }}
+                  style={{ width: "95%", height: "95%" }}
                   alt="fb"
                 ></img>
               </a>
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
                   src={github}
-                  style={{ width: "120%", height: "120%" }}
+                  style={{ width: "160%", height: "160%" }}
                   alt="github"
                 ></img>
               </a>

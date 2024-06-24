@@ -115,28 +115,54 @@ const Titlebar = () => {
         </div>
         <div className="titlebar-right">
           <Link to="/contact">
-            <button className="titlebar-button">客服中心</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              客服中心
+            </button>
           </Link>
           <Link to="/cart">
-            <button className="titlebar-button">購物車</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              購物車
+            </button>
           </Link>
           <Link to="/favorite">
-            <button className="titlebar-button">收藏</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              收藏
+            </button>
           </Link>
+
           <div
             className="recent-viewed-dropdown-container"
             ref={recentViewedRef}
           >
-            <button className="titlebar-button" onClick={toggleRecentViewed}>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : toggleRecentViewed}
+            >
               最近逛過
             </button>
             {showRecentViewed && <RecentViewedDropdown history={history} />}
           </div>
-          <Link to="/Member">
-            <button className="titlebar-button">會員中心</button>
-          </Link>
+          {isLogin && (
+            <Link to="/Member">
+              <button
+                className="titlebar-button"
+                // onClick={!isLogin ? handleOpenModal : ""}
+              >
+                會員中心
+              </button>
+            </Link>
+          )}
           {isLogin ? (
-            <span style={{ color: "#f48414" }}>{isLogin}</span>
+            <button className="titlebar-button">{isLogin}</button>
           ) : (
             <button className="titlebar-button" onClick={handleOpenModal}>
               登入
