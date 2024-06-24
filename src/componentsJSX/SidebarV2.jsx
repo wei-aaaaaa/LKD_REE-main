@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./SidebarV2.css";
@@ -16,23 +16,27 @@ const SidebarV2 = ({ setFilters }) => {
   // This effect will run once on component mount to set initial filters from URL
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const locations = queryParams.getAll('query');
+    const locations = queryParams.getAll("query");
     setLocationFilters(locations);
   }, [location.search]);
 
   const updateUrlParams = (filters) => {
     const queryParams = new URLSearchParams(location.search);
-    queryParams.delete('query'); // Remove all existing 'query' entries
-    filters.forEach(filter => {
-      queryParams.append('query', filter); // Append each new filter as 'query' entry
+    queryParams.delete("query"); // Remove all existing 'query' entries
+    filters.forEach((filter) => {
+      queryParams.append("query", filter); // Append each new filter as 'query' entry
     });
-    navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
+    navigate(`${location.pathname}?${queryParams.toString()}`, {
+      replace: true,
+    });
   };
 
   const handleFilterChange = (e) => {
     const { value, checked } = e.target;
     setLocationFilters((prevFilters) => {
-      const newFilters = checked ? [...prevFilters, value] : prevFilters.filter((filter) => filter !== value);
+      const newFilters = checked
+        ? [...prevFilters, value]
+        : prevFilters.filter((filter) => filter !== value);
       updateUrlParams(newFilters); // Update URL with new filters
       return newFilters;
     });

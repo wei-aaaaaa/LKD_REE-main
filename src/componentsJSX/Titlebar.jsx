@@ -115,14 +115,30 @@ const Titlebar = () => {
         </div>
         <div className="titlebar-right">
           <Link to="/contact">
-            <button className="titlebar-button">客服中心</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              客服中心
+            </button>
           </Link>
           <Link to="/cart">
-            <button className="titlebar-button">購物車</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              購物車
+            </button>
           </Link>
           <Link to="/favorite">
-            <button className="titlebar-button">收藏</button>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : ""}
+            >
+              收藏
+            </button>
           </Link>
+
           <div
             className="recent-viewed-dropdown-container"
             ref={recentViewedRef}
