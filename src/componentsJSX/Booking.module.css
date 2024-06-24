@@ -1,5 +1,6 @@
 /* src/componentsJSX/Booking.module.css */
 .pageContainer {
+  width: 2000px;
   display: flex;
   justify-content: center;
 }
@@ -54,7 +55,8 @@
   margin-bottom: 20px;
 }
 
-.infoFields, .bookingDetails {
+.infoFields,
+.bookingDetails {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -133,6 +135,16 @@
   margin-bottom: 20px;
 }
 
+.demoButton {
+  background-color: salmon;
+  color: white;
+  border: none;
+  margin-left: 50px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
 .submitButton {
   background-color: #ff5722;
   color: white;
@@ -142,7 +154,8 @@
   cursor: pointer;
 }
 
-.summaryBlock, .pricingBlock {
+.summaryBlock,
+.pricingBlock {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

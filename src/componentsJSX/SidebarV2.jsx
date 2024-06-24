@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./SidebarV2.css";
-// import MyGoogleMap from "./MyGoogleMap"; // Import MyGoogleMap component
 
 const SidebarV2 = ({ setFilters }) => {
   const [locationFilters, setLocationFilters] = useState([]);
@@ -10,16 +10,32 @@ const SidebarV2 = ({ setFilters }) => {
   const [maxPrice, setMaxPrice] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // This effect will run once on component mount to set initial filters from URL
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const locations = queryParams.getAll('query');
+    setLocationFilters(locations);
+  }, [location.search]);
+
+  const updateUrlParams = (filters) => {
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.delete('query'); // Remove all existing 'query' entries
+    filters.forEach(filter => {
+      queryParams.append('query', filter); // Append each new filter as 'query' entry
+    });
+    navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
+  };
 
   const handleFilterChange = (e) => {
     const { value, checked } = e.target;
-    if (checked) {
-      setLocationFilters((prevFilters) => [...prevFilters, value]);
-    } else {
-      setLocationFilters((prevFilters) =>
-        prevFilters.filter((filter) => filter !== value)
-      );
-    }
+    setLocationFilters((prevFilters) => {
+      const newFilters = checked ? [...prevFilters, value] : prevFilters.filter((filter) => filter !== value);
+      updateUrlParams(newFilters); // Update URL with new filters
+      return newFilters;
+    });
   };
 
   const handlePriceRangeChange = () => {
@@ -29,21 +45,18 @@ const SidebarV2 = ({ setFilters }) => {
     }));
   };
 
-  const handleDateRangeChange = useCallback(
-    (dates) => {
-      const [start, end] = dates;
-      setStartDate(start);
-      setEndDate(end);
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        dateRange: {
-          start: start ? start.toISOString().split("T")[0] : null,
-          end: end ? end.toISOString().split("T")[0] : null,
-        },
-      }));
-    },
-    [setFilters]
-  );
+  const handleDateRangeChange = (dates) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      dateRange: {
+        start: start ? start.toISOString().split("T")[0] : null,
+        end: end ? end.toISOString().split("T")[0] : null,
+      },
+    }));
+  };
 
   const handleClearFilters = () => {
     setFilters({});
@@ -52,11 +65,7 @@ const SidebarV2 = ({ setFilters }) => {
     setMaxPrice("");
     setStartDate(null);
     setEndDate(null);
-    document
-      .querySelectorAll('input[type="checkbox"]')
-      .forEach((checkbox) => {
-        checkbox.checked = false;
-      });
+    updateUrlParams([]);
   };
 
   return (

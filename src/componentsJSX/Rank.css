@@ -5,7 +5,7 @@
   background-color: #ffffff;
   text-align: center;
   margin: 0 auto; /* 居中顯示 */
-  font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
 }
 
 .rank-title {
@@ -145,5 +145,6 @@
 }
 
 .body {
-  font-family: 'Noto Sans', 'Arial', 'Microsoft JhengHei', 'Heiti TC', 'sans-serif';
+  font-family: "Noto Sans", "Arial", "Microsoft JhengHei", "Heiti TC",
+    "sans-serif";
 }

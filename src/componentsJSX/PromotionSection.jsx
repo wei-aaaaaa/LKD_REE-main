@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./PromotionSection.css";
 
 const PromotionSection = () => {
   const [promotions, setPromotions] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // 加載活動資料的異步函數
     const loadPromotions = async () => {
       const url = "https://localhost:7148/api/HotActivities"; // API 端點
 
@@ -21,6 +22,7 @@ const PromotionSection = () => {
           const data = await response.json(); // 解析 JSON 數據
           console.log("Fetched data:", data); // 日誌：檢查 API 返回的數據
           const formattedData = data.map((activity) => ({
+            id: activity.activityId, // 添加活動 ID
             image: activity.albums[0]
               ? `data:image/jpeg;base64,${activity.albums[0]}`
               : "", // 假設活動有相冊圖片
@@ -40,6 +42,10 @@ const PromotionSection = () => {
     loadPromotions();
   }, []);
 
+  const handleCardClick = (id) => {
+    navigate(`/productpage/${id}`);
+  };
+
   return (
     <section className="promotion-section">
       <h2 className="title">強檔活動</h2>
@@ -53,8 +59,16 @@ const PromotionSection = () => {
             promo,
             index // 只顯示前四個活動
           ) => (
-            <div key={index} className="card">
-              <img src={promo.image} alt={promo.title} className="image" />
+            <div
+              key={index}
+              className="card"
+              onClick={() => handleCardClick(promo.id)} // 添加點擊事件處理程序
+            >
+              <img
+                src={promo.image || "/path/to/placeholder-image.jpg"}
+                alt={promo.title}
+                className="image"
+              />
               <h3 className="card-title">{promo.title}</h3>
               <p className="card-description">{promo.description}</p>
             </div>

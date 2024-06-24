@@ -11,6 +11,13 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 250px; /* 确保每行4个卡牌 */
+  cursor: pointer; /* Changes the cursor to a pointer */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
+}
+
+.search-results .search-result-item:hover {
+  transform: translateY(-5px); /* Moves the card up slightly */
+  box-shadow: 0 4px 20px rgba(251, 110, 50, 0.379); /* Increases shadow to create a floating effect */
 }
 
 .search-results .search-result-item img {

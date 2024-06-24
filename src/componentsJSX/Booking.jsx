@@ -1,8 +1,10 @@
-// src/componentsJSX/Booking.jsx
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styles from "./Booking.module.css";
 
 const Booking = () => {
+  const location = useLocation();
+  const { selectedCartItems } = location.state || { selectedCartItems: [] };
   const [contactInfo, setContactInfo] = useState({
     lastName: "",
     firstName: "",
@@ -11,39 +13,115 @@ const Booking = () => {
     email: "",
   });
 
+  const [passengerInfo, setPassengerInfo] = useState({
+    lastName: "",
+    firstName: "",
+    birthday: "",
+    idType: "",
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContactInfo({ ...contactInfo, [name]: value });
   };
 
+  const handlePassengerChange = (e) => {
+    const { name, value } = e.target;
+    setPassengerInfo({ ...passengerInfo, [name]: value });
+  };
+
+  const handleCheckout = async () => {
+    if (selectedCartItems.length === 0) {
+      window.alert("請選擇行程");
+      return;
+    }
+
+    const requestData = {
+      bookingIds: selectedCartItems.map((item) => item.bookingId),
+    };
+
+    try {
+      const response = await fetch(
+        "https://localhost:7148/api/Payment/CreatePayment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.text();
+        const div = document.createElement("div");
+        div.innerHTML = data;
+        document.body.appendChild(div);
+        const form = document.getElementById("ecpay_form");
+        if (form) {
+          form.submit();
+        } else {
+          console.error("表單未找到，無法自動提交");
+        }
+      } else {
+        console.error("Failed to get payment form", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Payment failed");
+    }
+  };
+
+  const fillDemoData = () => {
+    setContactInfo({
+      lastName: "陳",
+      firstName: "曉明",
+      country: "台北",
+      phone: "0920123456",
+      email: "bbb@gmail.com",
+    });
+    setPassengerInfo({
+      lastName: "陳",
+      firstName: "曉明",
+      birthday: "86/01/05",
+      idType: "F221234567",
+    });
+  };
+
+  const calculateTotalPrice = () => {
+    const total = selectedCartItems.reduce(
+      (total, item) => total + item.price * item.member,
+      0
+    );
+    return total.toLocaleString("en-US");
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.mainContainer}>
-        {/* Left Side: Booking Information and Forms */}
         <div className={styles.leftContainer}>
-          {/* Booking Info */}
           <div className={styles.bookingInfo}>
             <h2 className={styles.sectionTitle}>填寫資料</h2>
             <div className={styles.bookingDetails}>
               <h3 className={styles.subTitle}>預訂資料</h3>
-              <div className={styles.bookingItem}>
-                <img
-                  className={styles.bookingImage}
-                  src="path/to/your/image.jpg" // 替换为实际图片路径
-                  alt="Booking"
-                />
-                <div className={styles.bookingDescription}>
-                  <p>野柳&九份&十分&十分瀑布&黃金瀑布一日遊</p>
-                  <p>野柳&九份&十分&十分瀑布&黃金瀑布一日遊（西門町出發）</p>
+              {selectedCartItems.map((item) => (
+                <div key={item.bookingId} className={styles.bookingItem}>
+                  <img
+                    className={styles.bookingImage}
+                    src={`data:image/jpeg;base64,${item.activity.photo}`}
+                    alt={item.activity.name}
+                  />
+                  <div className={styles.bookingDescription}>
+                    <p>{item.activity.name}</p>
+                    <p>{item.activity.date}</p>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Passenger Info */}
           <div className={styles.passengerInfo}>
             <h2 className={styles.sectionTitle}>參加人資料</h2>
-            <button className={styles.addButton}>+ 新增</button>
             <div className={styles.infoFields}>
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>姓氏</label>
@@ -51,8 +129,8 @@ const Booking = () => {
                   className={styles.input}
                   type="text"
                   name="lastName"
-                  value={contactInfo.lastName}
-                  onChange={handleChange}
+                  value={passengerInfo.lastName}
+                  onChange={handlePassengerChange}
                   placeholder="請填寫"
                 />
               </div>
@@ -62,8 +140,8 @@ const Booking = () => {
                   className={styles.input}
                   type="text"
                   name="firstName"
-                  value={contactInfo.firstName}
-                  onChange={handleChange}
+                  value={passengerInfo.firstName}
+                  onChange={handlePassengerChange}
                   placeholder="請填寫"
                 />
               </div>
@@ -73,8 +151,8 @@ const Booking = () => {
                   className={styles.input}
                   type="text"
                   name="birthday"
-                  value={contactInfo.birthday}
-                  onChange={handleChange}
+                  value={passengerInfo.birthday}
+                  onChange={handlePassengerChange}
                   placeholder="請選擇"
                 />
               </div>
@@ -84,19 +162,17 @@ const Booking = () => {
                   className={styles.input}
                   type="text"
                   name="idType"
-                  value={contactInfo.idType}
-                  onChange={handleChange}
+                  value={passengerInfo.idType}
+                  onChange={handlePassengerChange}
                   placeholder="請選擇"
                 />
               </div>
             </div>
           </div>
 
-          {/* Contact Info */}
           <div className={styles.contactInfo}>
             <h2 className={styles.sectionTitle}>聯絡資料</h2>
             <p className={styles.sectionSubtitle}>如訂單有變動，我們將通知您</p>
-            <button className={styles.addButton}>+ 新增</button>
             <div className={styles.infoFields}>
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>姓氏</label>
@@ -158,7 +234,6 @@ const Booking = () => {
             </div>
           </div>
 
-          {/* Confirmation and Submit */}
           <div className={styles.confirmationSection}>
             <p className={styles.confirmationText}>
               我了解並同意 Lookday 服務條款與隱私權政策
@@ -169,30 +244,33 @@ const Booking = () => {
             <p className={styles.finalNote}>
               前往付款後，訂單即送出，請於下一步選擇付款方式
             </p>
-            <button className={styles.submitButton}>前往付款</button>
+            <button className={styles.submitButton} onClick={handleCheckout}>
+              前往付款
+            </button>
+            <div className="cart-summary">
+              <p>
+                Total: <span id="total-price">NTD {calculateTotalPrice()}</span>
+              </p>
+            </div>
+            <button className={styles.demoButton} onClick={fillDemoData}>
+              DEMO
+            </button>
           </div>
         </div>
 
-        {/* Right Side: Summary and Pricing */}
         <div className={styles.rightContainer}>
-          {/* Summary Block */}
-          <div className={styles.summaryBlock}>
-            <h3 className={styles.summaryTitle}>
-              野柳&九份&十分&十分瀑布&黃金瀑布一日遊
-            </h3>
-            <p>野柳&九份&十分&十分瀑布&黃金瀑布一日遊（西門町出發）</p>
-            <p>24小時前可免費取消</p>
-            <p>日期：2024年6月21日</p>
-            <p>數量：成人 x 1</p>
-            <p>總價：NT$ 694</p>
-          </div>
-
-          {/* Pricing Block */}
+          {selectedCartItems.map((item) => (
+            <div key={item.bookingId} className={styles.summaryBlock}>
+              <h3 className={styles.summaryTitle}>{item.activity.name}</h3>
+              <p>{item.activity.date}</p>
+              <p>人數：成人 x {item.member}</p>
+              <p>總價：NTD {item.price * item.member}</p>
+            </div>
+          ))}
           <div className={styles.pricingBlock}>
-            <p>原價：NT$ 991</p>
-            <p>優惠活動折扣：-NT$ 297</p>
-            <p className={styles.finalPrice}>付款金額：NT$ 694</p>
-            <p className={styles.totalSavings}>共省下：NT$ 297</p>
+            <p className={styles.finalPrice}>
+              付款金額：NTD {calculateTotalPrice()}
+            </p>
           </div>
         </div>
       </div>

@@ -1,0 +1,40 @@
+.orderList {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.fontcolor {
+  color: gray;
+}
+
+.orderItem {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.orderItem h2 {
+  margin: 0 0 10px;
+}
+
+.orderItem p {
+  margin: 5px 0;
+}
+
+.orderItem button {
+  background-color: #ff5722; /* 橘色 */
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.orderItem button:hover {
+  background-color: #e64a19; /* 深橘色 */
+}

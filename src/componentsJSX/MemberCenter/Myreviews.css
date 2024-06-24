@@ -1,72 +1,73 @@
 .order-list {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    color: #333;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
-    .order-list h1 {
-        text-align: center;
-        color: #ff6600;
-        margin-bottom: 20px;
-    }
+.order-list h1 {
+  text-align: center;
+  color: #ff6600;
+  margin-bottom: 20px;
+}
 
 .order-item {
-    border: 1px solid #eaeaea;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-    .order-item h2 {
-        color: #333;
-        margin-bottom: 10px;
-    }
+.order-item h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
 
-    .order-item p {
-        color: #666;
-        margin: 5px 0;
-    }
+.order-item p {
+  color: #666;
+  margin: 5px 0;
+}
 
-    .order-item .fontcolor {
-        color: #ff6600;
-    }
+.order-item .fontcolor {
+  color: #ff6600;
+}
 
 .albums {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-    .albums img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 5px;
-        border: 1px solid #eaeaea;
-    }
+.albums img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+}
 
 .order-item button {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #ff6600;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-    .order-item button:hover {
-        background-color: #e55a00;
-    }
+.order-item button:hover {
+  background-color: #e55a00;
+}
 
-.loading, .error {
-    text-align: center;
-    color: #ff6600;
-    margin-top: 20px;
+.loading,
+.error {
+  text-align: center;
+  color: #ff6600;
+  margin-top: 20px;
 }

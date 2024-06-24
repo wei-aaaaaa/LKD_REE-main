@@ -36,10 +36,8 @@
 
 .header-bottom {
   display: flex;
-  align-items: center; /* Align items horizontally */
-  justify-content:flex-start;
-  gap: 220px; /* Spread tags and rating across the full width */
-  width: 100%;
+  align-items: center;
+  width: 100%; /* Full width to accommodate children */
 }
 
 .hashtags {
@@ -49,26 +47,16 @@
   align-items: center;
 }
 
-.hashtag {
-  background-color: #f0f0f0;
-  color: #333;
-  border-radius: 15px;
-  padding: 5px 10px;
-  font-size: 0.9em;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
 .average-rating {
   font-size: 1.2em;
   color: #ffa502;
+  margin: 0 auto; /* Automatically margin for centering */
 }
 
 .address-container {
   display: flex;
   align-items: center;
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
+  margin-left: auto; /* Push the address container to the right */
 }
 
 .address-container img {
