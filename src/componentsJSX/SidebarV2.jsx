@@ -76,7 +76,22 @@ const SidebarV2 = ({ setFilters }) => {
     <div className="filter-sidebar">
       <div className="filter-group">
         <h3>目的地</h3>
-        {["台北", "台中", "高雄", "台南", "宜蘭"].map((location) => (
+        {[
+          "台北",
+          "台中",
+          "高雄",
+          "台南",
+          "宜蘭",
+          "花蓮",
+          "台東",
+          "澎湖",
+          "金門",
+          "馬祖",
+          "基隆",
+          "嘉義",
+          "屏東",
+          "南投",
+        ].map((location) => (
           <label key={location}>
             <input
               type="checkbox"

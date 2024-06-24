@@ -1,0 +1,69 @@
+/* ProductDesc.module.css */
+.productInfo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 將網格設為三列 */
+  gap: 20px;
+  margin-bottom: 40px;
+  background-color: #f4f4f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1366px; /* 限制最大寬度 */
+  width: 100%; /* 自適應寬度 */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.productInfo > div {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.productPrice,
+.productDate,
+.productLocation {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.productDescription {
+  grid-column: 1 / -1;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.productDescription h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #ff5722;
+  border-bottom: 2px solid #ff5722;
+  padding-bottom: 10px;
+}
+
+.productDescription p {
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* 针对 descriptionJson 内部元素的样式 */
+.productDescription .header {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.productDescription .paragraph {
+  font-size: 1em;
+  color: #666;
+  margin-top: 10px;
+}

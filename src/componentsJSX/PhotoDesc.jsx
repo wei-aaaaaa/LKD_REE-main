@@ -1,13 +1,17 @@
-import React from 'react';
-import './PhotoDesc.css'; // 如果需要自定义CSS
+import React from "react";
+import styles from "./PhotoDesc.module.css"; // 引用CSS模組
 
 const PhotoDesc = ({ images }) => {
   return (
-    <div className="photo-desc">
+    <div className={styles.photoDesc}>
       {images.map((image, index) => (
-        <div key={index} className="photo-desc-item">
-          <img src={image.src} alt={`Image ${index + 1}`} className="photo-img" />
-          <p className="photo-description">{image.description}</p>
+        <div key={index} className={styles.photoDescItem}>
+          <img
+            src={image.src}
+            alt={`Image ${index + 1}`}
+            className={styles.photoImg}
+          />
+          <p className={styles.photoDescription}>{image.description}</p>
         </div>
       ))}
     </div>
