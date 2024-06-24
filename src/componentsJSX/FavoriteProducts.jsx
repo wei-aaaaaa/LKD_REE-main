@@ -1,28 +1,34 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Favorite99.module.css";
+import { useUser } from "./UserDataContext";
 
 const FavoriteProducts = () => {
   const [products, setProducts] = useState([]);
-  const userId = 2; // 替換為實際的用戶ID
+  const user = useUser(); // 獲取用戶信息
+  const userId = user?.id; // 獲取用戶 ID
 
   useEffect(() => {
     const fetchFavoriteProducts = async () => {
-      try {
-        const response = await fetch(
-          `https://localhost:7148/api/Favorites/${userId}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+      if (user) {
+        try {
+          const response = await fetch(
+            `https://localhost:7148/api/Favorites/${userId}`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          console.log("Fetched data:", data); // 輸出查看數據
+          setProducts(data);
+        } catch (error) {
+          console.error("Error fetching favorite products:", error);
         }
-        const data = await response.json();
-        console.log("Fetched data:", data); // 輸出查看數據
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching favorite products:", error);
       }
     };
+
     fetchFavoriteProducts();
-  }, [userId]);
+  }, [user]);
+  console.log(user);
 
   const handleDelete = async (activityId) => {
     if (window.confirm("確定要刪除此收藏嗎？")) {

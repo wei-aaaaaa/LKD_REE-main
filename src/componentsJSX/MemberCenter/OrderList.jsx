@@ -1,11 +1,10 @@
-﻿import React, { useEffect, useState } from "react";
+﻿﻿﻿import React, { useEffect, useState } from "react";
 import "./OrderList.module.css";
 import AddReview from "./AddReview";
 
 const OrderList = ({ userId }) => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +22,7 @@ const OrderList = ({ userId }) => {
         );
         setBookings(filteredData);
       } catch (error) {
-        setError(error.message);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -32,18 +31,12 @@ const OrderList = ({ userId }) => {
     fetchData();
   }, [userId]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
     <div className="order-list">
       <h1>訂單紀錄</h1>
-      {bookings.length === 0 ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : bookings.length === 0 ? (
         <p>目前沒有訂單記錄。</p>
       ) : (
         bookings.map((booking, index) => (

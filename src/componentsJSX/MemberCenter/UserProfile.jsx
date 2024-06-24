@@ -1,9 +1,9 @@
-﻿import React, { useState, useEffect } from "react";
+﻿﻿import React, { useState, useEffect } from "react";
 import "./UserProfile.css";
 
-const UserProfile = () => {
+const UserProfile = ({ userId }) => {
   const [user, setUser] = useState({
-    userId: 17, // 假設你已經知道使用者的ID
+    userId: userId,
     username: "",
     fPhone: "",
   });
@@ -14,13 +14,21 @@ const UserProfile = () => {
   const [editValues, setEditValues] = useState({});
 
   useEffect(() => {
-    // 模擬從API獲取資料
-    fetch("https://localhost:7148/api/Member/17") // 請確保URL正確
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-      });
-  }, []);
+    // 使用從 props 傳遞進來的 userId 進行 API 請求
+    fetch(`https://localhost:7148/api/Member/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => setUser(data))
+      .catch((error) => console.error("Error fetching user data:", error));
+  }, [userId]);
 
   const handleEditClick = (field) => {
     setIsEditing((prev) => ({ ...prev, [field]: true }));
@@ -34,20 +42,49 @@ const UserProfile = () => {
   const handleSaveClick = async (field) => {
     const updatedUser = { ...user, [field]: editValues[field] };
 
-    const response = await fetch(`https://localhost:7148/api/Member/{id}`, {
-      // 請確保URL正確
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedUser),
-    });
+    try {
+      const response = await fetch(
+        `https://localhost:7148/api/Member/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(updatedUser),
+        }
+      );
 
-    if (response.ok) {
-      setUser(updatedUser);
-      setIsEditing((prev) => ({ ...prev, [field]: false }));
-    } else {
-      console.error("Failed to update user");
+      if (response.ok) {
+        setUser(updatedUser);
+        setIsEditing((prev) => ({ ...prev, [field]: false }));
+
+        if (field === "username") {
+          // 刷新 token
+          const tokenResponse = await fetch(
+            `https://localhost:7148/api/LoginJWT/refresh-token`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              body: JSON.stringify({ token: localStorage.getItem("token") }),
+            }
+          );
+
+          if (tokenResponse.ok) {
+            const tokenData = await tokenResponse.json();
+            localStorage.setItem("token", tokenData.token);
+          } else {
+            console.error("Failed to refresh token");
+          }
+        }
+      } else {
+        console.error("Failed to update user");
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
     }
   };
 

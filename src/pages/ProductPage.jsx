@@ -7,26 +7,48 @@ import ProductDesc from "../componentsJSX/ProductDesc";
 import ProductHeader from "../componentsJSX/ProductHeader";
 import PhotoDesc from "../componentsJSX/PhotoDesc";
 import ProductBundle from "../componentsJSX/ProductBundleBlock";
-import {
-    ToastContainer,
-    toast,
-    Slide,
-    Flip,
-    Zoom,
-    Bounce,
-} from "react-toastify";
+import { ToastContainer, toast, Flip, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ProductPage.css";
 import Loader from "../componentsJSX/Loader";
+import { useUser } from "../componentsJSX/UserDataContext";
 
 const ProductPage = () => {
     const { id } = useParams();
+    const user = useUser(); // 獲取用戶信息
+    const userId = user?.id; // 獲取用戶 ID
     const [product, setProduct] = useState(null);
     const [averageRating, setAverageRating] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
 
+    const fetchhistory = async () => {
+        try {
+            await fetch(
+                "https://localhost:7148/api/BrowsingHistoryAPI/UserBrowse",
+                {
+                    method: "post",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: localStorage.getItem("token"),
+                    },
+                    body: JSON.stringify({
+                        activityId: `${id}`,
+                    }),
+                }
+            )
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    console.log(data);
+                });
+        } catch (error) {
+            console.error("fail to fetch history", error);
+        }
+    };
+
     useEffect(() => {
-        const userId = 2; // Replace with actual user ID from session or context
         const fetchProduct = async () => {
             try {
                 const response = await fetch(
@@ -48,22 +70,34 @@ const ProductPage = () => {
                     );
                 }
 
-                const favoriteResponse = await fetch(
-                    `https://localhost:7148/api/Favorites/${userId}/${id}`
-                );
-                if (favoriteResponse.ok) {
-                    setIsFavorite(true);
+                if (userId) {
+                    const favoriteResponse = await fetch(
+                        `https://localhost:7148/api/Favorites/${userId}/${id}`
+                    );
+                    if (favoriteResponse.ok) {
+                        setIsFavorite(true);
+                    }
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-
+        if (userId) {
+            fetchhistory();
+        }
         fetchProduct();
-    }, [id]);
+    }, [id, userId]);
 
     const toggleFavorite = async () => {
-        const userId = 2; // 使用實際的用戶 ID
+        if (!userId) {
+            toast.error("請先登入", {
+                autoClose: 1000,
+                transition: Zoom,
+                position: "top-center",
+            });
+            return;
+        }
+
         const method = isFavorite ? "DELETE" : "POST";
         const url = `https://localhost:7148/api/Favorites/${
             isFavorite ? `removeFavorite/${userId}/${id}` : "addFavorite"

@@ -1,0 +1,135 @@
+.cart {
+    max-width: 1200px;
+    width: 1234px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+}
+
+.cart h1 {
+    text-align: center;
+    color: #333;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: #ff7e00;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #e67300;
+}
+/* 調整勾選方塊的大小 */
+.cart-item input[type="checkbox"] {
+    width: 20px; /* 可以根據需要調整大小 */
+    height: 20px; /* 可以根據需要調整大小 */
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-left: 20px;
+}
+
+.cart-item-details {
+    margin-left: 50px;
+    flex: 1;
+}
+
+.cart-item-details div {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #555;
+}
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.cart-item-quantity button {
+    background-color: #ff7e00;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cart-item-quantity span {
+    margin: 0 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.cart-item-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-left: 20px;
+}
+
+.cart-item-remove button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cart-item-remove button:hover {
+    background-color: #e60000;
+}
+
+.cart-summary {
+    text-align: right;
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+}
+
+.cart-summary p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff7e00;
+}
+
+.cart-summary button {
+    background-color: #ff7e00;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.cart-summary button:hover {
+    background-color: #e67300;
+}
