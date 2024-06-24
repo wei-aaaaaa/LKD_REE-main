@@ -12,6 +12,7 @@ import Cart from "./pages/Cart";
 import ProductPage from "./pages/ProductPage";
 import CustomerService from "./pages/CustomerService";
 import Member from "./pages/Member";
+import Checkout from "./pages/Checkout";
 import { UserDataProvider } from "./componentsJSX/UserDataContext";
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="login" element={<Login />} />
             <Route path="search" element={<Search />} />
             <Route path="productpage/:id" element={<ProductPage />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="customerservice" element={<CustomerService />} />
             <Route path="member" element={<Member />} />
           </Route>

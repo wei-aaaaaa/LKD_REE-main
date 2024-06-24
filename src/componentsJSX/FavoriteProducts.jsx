@@ -6,7 +6,7 @@ const FavoriteProducts = () => {
   const [products, setProducts] = useState([]);
   const user = useUser(); // 獲取用戶信息
   const userId = user?.id; // 獲取用戶 ID
-
+  console.log(userId);
   useEffect(() => {
     const fetchFavoriteProducts = async () => {
       if (user) {

@@ -1,11 +1,35 @@
 import React, { useState, useEffect } from "react";
 import "./ProductBundleBlock.css";
 import { id } from "date-fns/locale";
+import { useUser } from "./UserDataContext";
 
 const ProductBundleBlock = ({ productId }) => {
+  const user = useUser(); // 獲取用戶信息
+  const userId = user?.id; // 獲取用戶 ID
   const [bundles, setBundles] = useState([]);
   const [selectedBundleId, setSelectedBundleId] = useState(null);
   const [quantities, setQuantities] = useState({});
+  console.log("user:", userId, productId);
+  const addToCart = async () => {
+    try {
+      const url = `https://localhost:7148/api/ShoppingCartApi?UserId=${userId}&ActivityId=${productId}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        alert("已成功加入購物車");
+      } else {
+        const errorMessage = await response.text();
+        alert(`添加購物車失敗: ${errorMessage}`);
+      }
+    } catch (error) {
+      alert(`添加購物車時出錯: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
     const fetchBundles = async () => {
@@ -109,7 +133,9 @@ const ProductBundleBlock = ({ productId }) => {
           </div>
           <div className="bundle-actions">
             <button className="small-book-now-button">立即預訂</button>
-            <button className="small-add-to-cart-button">加入購物車</button>
+            <button className="small-add-to-cart-button" onClick={addToCart}>
+              加入購物車
+            </button>
           </div>
         </div>
       )}
