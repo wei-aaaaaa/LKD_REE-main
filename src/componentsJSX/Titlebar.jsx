@@ -33,6 +33,74 @@ const Titlebar = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+  
+  const toggleRecentViewed = () => {
+    getUserHistory();
+    setShowRecentViewed(!showRecentViewed);
+  };
+
+  const getUserHistory = async() =>{
+    // fetch('https://localhost:7148/api/BrowsingHistoryAPI/GetByUser',{
+    //   method:'get',
+    //   headers:{
+    //     Authorization:localStorage.getItem('token')
+    //   }
+    // }).then(function(response){
+    //   return response.json();
+    // }).then(function(data){
+    //   console.log(data);
+    // })
+    const response = await fetch('https://localhost:7148/api/BrowsingHistoryAPI/GetByUser',{
+      method:'get',
+      headers:{
+        Authorization:localStorage.getItem('token')
+      }
+    });
+      if (!response.ok) {
+        throw new Error(`Http error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      sethistory(data);
+      console.log(data);
+      console.log(history);
+  }
+
+  useEffect(() => {
+    console.log(history); // 這裡的history值在組件渲染時會顯示初始值，也就是空陣列
+  }, [history]);
+
+  const getToken = () => {
+    fetch('https://localhost:7148/api/LoginJWT/Log-in-hash',{
+      method:'post',
+      headers:{
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify({
+        username:'test1234',
+        password:'Test1234',
+      })
+    }).then(function(response){
+      return response.json();
+    }).then(function(data){
+      console.log(data);
+      //var token = JSON.parse(data.token);
+      localStorage.setItem('token',data.token);
+    })
+  }
+
+  const getUser = () => {
+    fetch('https://localhost:7148/api/LoginJWT/get-current-user',{
+      method:'get',
+      headers:{
+        Authorization:localStorage.getItem('token')
+      }
+    }).then(function(response){
+      return response.json();
+    }).then(function(data){
+      console.log(data);
+    })
+  }
 
   const toggleRecentViewed = () => {
     getUserHistory();
@@ -114,6 +182,9 @@ const Titlebar = () => {
           />
         </div>
         <div className="titlebar-right">
+          <button onClick={getToken}>Get Token</button>
+          <button onClick={getUser}>Send out Token</button>
+          <button onClick={getUserHistory}>Get History</button>
           <Link to="/contact">
             <button className="titlebar-button">客服中心</button>
           </Link>
