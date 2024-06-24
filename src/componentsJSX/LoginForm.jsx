@@ -169,8 +169,8 @@ const LoginForm = ({ show, onClose }) => {
                     handleSignUp_WithGoogle(
                       jwtDecode(credentialResponse.credential)
                     );
-                    // onClose();
-                    // window.location.reload();
+                    onClose();
+                    window.location.reload();
                   }}
                   onError={() => {
                     console.log("Login Failed");
