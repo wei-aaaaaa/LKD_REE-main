@@ -22,6 +22,8 @@ import Checkout from "./pages/Checkout";
 import { UserDataProvider } from "./componentsJSX/UserDataContext";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import Myreviews from "./componentsJSX/MemberCenter/Myreviews";
+
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
@@ -69,6 +71,7 @@ const App = () => {
               element={!isLogin ? <Navigate to="/" replace /> : <Member />}
             />
             <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/my-reviews" component={Myreviews} />
           </Route>
         </Routes>
       </UserDataProvider>

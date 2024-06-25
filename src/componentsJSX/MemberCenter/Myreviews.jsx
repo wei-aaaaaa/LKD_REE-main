@@ -1,10 +1,12 @@
 ﻿﻿import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Myreviews.css";
 
 const Myreviews = ({ userId }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // 使用 useNavigate
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +30,10 @@ const Myreviews = ({ userId }) => {
     fetchData();
   }, [userId]);
 
+  const handleViewDetails = (activityId) => {
+    navigate(`/productpage/${activityId}`);
+  };
+
   if (error) {
     return <div className="error">Error: {error}</div>;
   }
@@ -44,7 +50,7 @@ const Myreviews = ({ userId }) => {
             <p>{review.comment}</p>
             <p className="fontcolor">評分: {review.rating.toFixed(1)}</p>{" "}
             {/* 格式化評分 */}
-            <button>查看詳細資訊</button>
+            <button onClick={() => handleViewDetails(review.activityId)}>查看詳細資訊</button>
           </div>
         ))
       )}
