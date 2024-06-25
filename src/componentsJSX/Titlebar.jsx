@@ -151,12 +151,28 @@ const Titlebar = () => {
             </button>
             {showRecentViewed && <RecentViewedDropdown history={history} />}
           </div>
+
+
+
+
+
+
+
+
           {isLogin && (
             <Link to="/Member">
               <button
                 className="titlebar-button"
                 // onClick={!isLogin ? handleOpenModal : ""}
               >
+
+
+
+
+
+
+
+                
                 會員中心
               </button>
             </Link>
