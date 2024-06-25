@@ -151,7 +151,7 @@ const Titlebar = () => {
             </button>
             {showRecentViewed && <RecentViewedDropdown history={history} />}
           </div>
-          {isLogin && (
+          {/* {isLogin && (
             <Link to="/Member">
               <button
                 className="titlebar-button"
@@ -160,9 +160,11 @@ const Titlebar = () => {
                 會員中心
               </button>
             </Link>
-          )}
+          )} */}
           {isLogin ? (
-            <button className="titlebar-button">{isLogin}</button>
+            <Link to="/Member">
+              <button className="titlebar-button">{isLogin}</button>
+            </Link>
           ) : (
             <button className="titlebar-button" onClick={handleOpenModal}>
               登入
