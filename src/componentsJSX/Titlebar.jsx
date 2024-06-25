@@ -143,18 +143,26 @@ const Titlebar = () => {
             className="recent-viewed-dropdown-container"
             ref={recentViewedRef}
           >
-            <button className="titlebar-button" onClick={toggleRecentViewed}>
+            <button
+              className="titlebar-button"
+              onClick={!isLogin ? handleOpenModal : toggleRecentViewed}
+            >
               最近逛過
             </button>
             {showRecentViewed && <RecentViewedDropdown history={history} />}
           </div>
           {isLogin && (
             <Link to="/Member">
-              <button className="titlebar-button">會員中心</button>
+              <button
+                className="titlebar-button"
+                // onClick={!isLogin ? handleOpenModal : ""}
+              >
+                會員中心
+              </button>
             </Link>
           )}
           {isLogin ? (
-            <span style={{ color: "#f48414" }}>{isLogin}</span>
+            <button className="titlebar-button">{isLogin}</button>
           ) : (
             <button className="titlebar-button" onClick={handleOpenModal}>
               登入

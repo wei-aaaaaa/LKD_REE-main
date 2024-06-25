@@ -1,4 +1,5 @@
 import React from "react";
+import PaymentSuccess from "./componentsJSX/Paymentsuccess";
 import {
   BrowserRouter as Router,
   Route,
@@ -69,7 +70,7 @@ const App = () => {
               path="member"
               element={!isLogin ? <Navigate to="/" replace /> : <Member />}
             />
-
+            <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/my-reviews" component={Myreviews} />
           </Route>
         </Routes>

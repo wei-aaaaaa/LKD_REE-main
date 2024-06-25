@@ -11,8 +11,15 @@ const ProductBundleBlock = ({ productId }) => {
   const [quantities, setQuantities] = useState({});
   console.log("user:", userId, productId);
   const addToCart = async () => {
+    if (!userId) {
+      alert("請先登入會員");
+      return;
+    }
+
+    const quantity = quantities[selectedBundleId] || 1; // 確保 quantity 有值
+
     try {
-      const url = `https://localhost:7148/api/ShoppingCartApi?UserId=${userId}&ActivityId=${productId}`;
+      const url = `https://localhost:7148/api/ShoppingCartApi?UserId=${userId}&ActivityId=${productId}&ModelId=${selectedBundleId}&Quantity=${quantity}`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
