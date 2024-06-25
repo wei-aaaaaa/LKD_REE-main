@@ -6,11 +6,19 @@ import { jwtDecode } from "jwt-decode";
 
 import Auth_JWT from "../../Auth_JWT";
 import fb from "../assets/images/icons/fb.png";
-import github from "../assets/images/icons/github.png";
+import instagram from "../assets/images/icons/instagram.png";
 import ReCAPTCHA from "react-google-recaptcha";
 import eye from "../assets/images/icons/eye.png";
+import { isValid } from "date-fns";
 
 const LoginForm = ({ show, onClose }) => {
+  /////////input輸入錯誤後顯示的訊息
+  const [error2, setError] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  ////////////////////////////////
   const [errorMsg, setErrorMsg] = useState("");
   const [recapcha, setRecapcha] = useState("");
   const [form, setForm] = useState({
@@ -24,6 +32,40 @@ const LoginForm = ({ show, onClose }) => {
       Password: "",
     },
   });
+
+  /////////////////////////////////////////////////////////////////////
+  const validateInput = (name, value) => {
+    let error = "";
+
+    switch (name) {
+      case "Username":
+        if (value.length < 7) {
+          error = "至少7個字元";
+        }
+        break;
+      case "Email":
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          error = "請輸入有效的電子郵件";
+        }
+        break;
+      case "Password":
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,24}$/;
+        if (!passwordRegex.test(value)) {
+          error = "密碼需要至少8-24個字，並至少包含一個大小寫字母";
+        }
+        break;
+      default:
+        break;
+    }
+
+    setError((prevErrorMsg) => ({
+      ...prevErrorMsg,
+      [name.toLowerCase()]: error,
+    }));
+  };
+  ////////////////////////////////////////////////////////////////////
+
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType_] = useState("password");
   const _ReCAPTCHA = useRef();
@@ -36,6 +78,9 @@ const LoginForm = ({ show, onClose }) => {
         [name]: value,
       },
     }));
+    ////////////////////////////////
+    validateInput(name, value);
+    ///////////////////////////////
   };
 
   const containerRef = useRef(null);
@@ -44,12 +89,27 @@ const LoginForm = ({ show, onClose }) => {
     containerRef.current.classList.add("active");
     setPasswordType_("password");
     setErrorMsg("");
+    //////////////////////
+    setError({
+      username: "",
+      email: "",
+      password: "",
+    });
+
+    //////////////////////
   };
 
   const handleLoginClick = () => {
     containerRef.current.classList.remove("active");
     setPasswordType_("password");
     setErrorMsg("");
+    ///////////////////////
+    setError({
+      username: "",
+      password: "",
+    });
+
+    //////////////////////
   };
 
   if (!show) {
@@ -189,9 +249,9 @@ const LoginForm = ({ show, onClose }) => {
               </a>
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
-                  src={github}
-                  style={{ width: "160%", height: "160%" }}
-                  alt="github"
+                  src={instagram}
+                  style={{ width: "115%", height: "115%" }}
+                  alt="instagram"
                 ></img>
               </a>
             </div>
@@ -204,6 +264,9 @@ const LoginForm = ({ show, onClose }) => {
               required
               onChange={(e) => handleChangeForm(e, "reg")}
             />
+            {error2.username && (
+              <span style={{ color: "red" }}>{error2.username}</span>
+            )}
             <input
               type="email"
               placeholder="電子郵件"
@@ -212,6 +275,9 @@ const LoginForm = ({ show, onClose }) => {
               required
               onChange={(e) => handleChangeForm(e, "reg")}
             />
+            {error2.email && (
+              <span style={{ color: "red" }}>{error2.email}</span>
+            )}
             <input
               type={passwordType}
               placeholder="密碼"
@@ -223,6 +289,9 @@ const LoginForm = ({ show, onClose }) => {
               onChange={(e) => handleChangeForm(e, "reg")}
               style={{ position: "relative" }}
             />
+            {error2.password && (
+              <span style={{ color: "red" }}>{error2.password}</span>
+            )}
             <img
               src={eye}
               style={{
@@ -276,20 +345,32 @@ const LoginForm = ({ show, onClose }) => {
               </a>
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
-                  src={github}
-                  style={{ width: "160%", height: "160%" }}
-                  alt="github"
+                  src={instagram}
+                  style={{ width: "115%", height: "115%" }}
+                  alt="instagram"
                 ></img>
               </a>
             </div>
+
             <span>或使用其他方式登入</span>
-            <input
+            {/* <input
               type="email"
               placeholder="使用者名稱"
               value={form.sign.Email}
               name="Email"
               onChange={(e) => handleChangeForm(e, "sign")}
+            /> */}
+            <input
+              type="text"
+              placeholder="使用者名稱"
+              value={form.sign.username}
+              name="Username"
+              onChange={(e) => handleChangeForm(e, "sign")}
             />
+            {error2.username && (
+              <span style={{ color: "red" }}>{error2.username}</span>
+            )}
+
             <input
               type={passwordType}
               placeholder="密碼"
@@ -297,6 +378,9 @@ const LoginForm = ({ show, onClose }) => {
               name="Password"
               onChange={(e) => handleChangeForm(e, "sign")}
             />
+            {error2.password && (
+              <span style={{ color: "red" }}>{error2.password}</span>
+            )}
             <img
               src={eye}
               style={{
