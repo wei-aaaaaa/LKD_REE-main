@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./PicCarousel.css";
 
 // 引入本地圖片
-import ad1 from "../assets/images/adHome/ad1.jpg";
+import ad1 from "../assets/images/areas/hualien.jpg";
 import ad2 from "../assets/images/adHome/ad2.jpg";
 import ad3 from "../assets/images/adHome/ad3.jpg";
 import ad4 from "../assets/images/adHome/ad4.jpg";

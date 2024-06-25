@@ -1,10 +1,11 @@
-﻿import React, { useState, useCallback, useEffect } from "react";
+﻿﻿import React, { useState, useCallback, useEffect } from "react";
 import {
   GoogleMap,
   LoadScript,
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+import { useNavigate } from "react-router-dom";
 import "./MyGoogleMap.css";
 
 const containerStyle = {
@@ -25,6 +26,7 @@ const MyGoogleMap = () => {
   const [loading, setLoading] = useState(true);
   const [locationError, setLocationError] = useState(null);
   const [hoveredActivity, setHoveredActivity] = useState(null);
+  const navigate = useNavigate();
 
   const onLoad = useCallback(function callback(map) {
     setMap(map);
@@ -35,7 +37,11 @@ const MyGoogleMap = () => {
   }, []);
 
   const handleActivityClick = (activity) => {
-    window.location.href = `/ProductPage/${activity.activityId}`;
+    setSelectedActivity(activity);
+    setCurrentLocation({
+      lat: activity.latitude,
+      lng: activity.longitude,
+    });
   };
 
   const handleActivityHover = (activity) => {
@@ -52,21 +58,6 @@ const MyGoogleMap = () => {
       map.setZoom(12);
     }
     setSelectedActivity(null);
-  };
-
-  const calculateDistance = (lat1, lng1, lat2, lng2) => {
-    const toRad = (value) => (value * Math.PI) / 180;
-    const R = 6371;
-    const dLat = toRad(lat2 - lat1);
-    const dLng = toRad(lng2 - lng1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) *
-        Math.cos(toRad(lat2)) *
-        Math.sin(dLng / 2) *
-        Math.sin(dLng / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
   };
 
   useEffect(() => {
@@ -102,48 +93,32 @@ const MyGoogleMap = () => {
       });
   }, []);
 
-  const sortedActivities = carActivities
-    .map((activity) => ({
-      ...activity,
-      distance: calculateDistance(
-        currentLocation.lat,
-        currentLocation.lng,
-        activity.latitude,
-        activity.longitude
-      ),
-    }))
-    .sort((a, b) => a.distance - b.distance)
-    .slice(0, 2); // 限制為最多兩個活動
-
   return (
     <div className="map-container">
       <div className="product-cards">
-        {sortedActivities.map((activity) => (
+        {selectedActivity && (
           <div
-            key={activity.activityId}
+            key={selectedActivity.activityId}
             className="card"
             onClick={() =>
-              setCurrentLocation({
-                lat: activity.latitude,
-                lng: activity.longitude,
-              })
+              navigate(`/ProductPage/${selectedActivity.activityId}`)
             }
           >
             <img
               src={`data:image/jpeg;base64,${
-                activity.albums && activity.albums.length > 0
-                  ? activity.albums[0]
+                selectedActivity.albums && selectedActivity.albums.length > 0
+                  ? selectedActivity.albums[0]
                   : ""
               }`}
               className="card-img"
-              alt={activity.name}
+              alt={selectedActivity.name}
             />
             <div className="card-body">
-              <h5 className="card-title">{activity.name}</h5>
-              <p className="card-text">{activity.price} NT$</p>
+              <h5 className="card-title">{selectedActivity.name}</h5>
+              <p className="card-text">{selectedActivity.price} NT$</p>
             </div>
           </div>
-        ))}
+        )}
         {locationError && <p className="text-danger">{locationError}</p>}
         <div className="button-container">
           <button className="btn" onClick={handleCurrentLocationClick}>
@@ -160,7 +135,7 @@ const MyGoogleMap = () => {
             onLoad={onLoad}
             onUnmount={onUnmount}
           >
-            {sortedActivities.map((activity) => {
+            {carActivities.map((activity) => {
               const isValidLatitude =
                 typeof activity.latitude === "number" &&
                 !isNaN(activity.latitude);
@@ -188,14 +163,6 @@ const MyGoogleMap = () => {
                 </Marker>
               ) : null;
             })}
-            <Marker
-              key="current-location"
-              position={currentLocation}
-              title="Your Current Location"
-              icon={{
-                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-              }}
-            />
           </GoogleMap>
         </LoadScript>
       </div>

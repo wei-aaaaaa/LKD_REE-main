@@ -1,0 +1,39 @@
+/* PhotoDesc.module.css */
+.photoDesc {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 每行兩列 */
+  gap: 20px; /* 元素間隔 */
+  max-width: 1366px; /* 限制最大寬度 */
+  width: 100%; /* 自適應寬度 */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px; /* 添加內邊距 */
+}
+
+.photoDescItem {
+  text-align: center; /* 文字居中 */
+  border: 1px solid #ccc; /* 灰色邊框 */
+  border-radius: 10px; /* 圓角 */
+  overflow: hidden; /* 隱藏溢出內容 */
+  background-color: #fff; /* 白色背景 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加過渡效果 */
+}
+
+.photoDescItem:hover {
+  transform: translateY(-10px); /* 懸停上移效果 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 懸停陰影效果 */
+}
+
+.photoImg {
+  width: 100%; /* 圖片寬度 */
+  height: 85%; /* 自動高度 */
+  border-bottom: 1px solid #ccc; /* 灰色底部邊框 */
+}
+
+.photoDescription {
+  margin: 15px 0; /* 上下邊距 */
+  font-size: 1rem; /* 字體大小 */
+  color: #ff5722; /* 橘色文字 */
+  padding: 0 10px; /* 內邊距 */
+}

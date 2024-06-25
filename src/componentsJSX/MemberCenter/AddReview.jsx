@@ -30,16 +30,16 @@ const AddReview = ({ userId, activityId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+  
     const reviewData = {
       userId: parseInt(userId),
       activityId: parseInt(activityId),
       comment,
-      rating: parseFloat(rating).toFixed(1),
+      rating: parseFloat(parseFloat(rating).toFixed(1)),
     };
-
+  
     console.log("Submitting review data:", reviewData);
-
+  
     try {
       const response = await fetch(
         "https://localhost:7148/api/Activities/add-review",
@@ -51,7 +51,7 @@ const AddReview = ({ userId, activityId }) => {
           body: JSON.stringify(reviewData),
         }
       );
-
+  
       if (response.ok) {
         setMessage("評論提交成功");
         setHasReviewed(true);
@@ -68,7 +68,7 @@ const AddReview = ({ userId, activityId }) => {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <div className="add-review-form">
       {hasReviewed ? (

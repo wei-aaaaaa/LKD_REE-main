@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./PaymentSuccess.css";
+import "./Paymentsuccess.css";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
@@ -17,11 +17,14 @@ const PaymentSuccess = () => {
         }
       );
 
+      console.log("Response status:", response.status); // 添加這行檢查狀態碼
+
       if (!response.ok) {
         throw new Error("Failed to update order status");
       }
 
       // 更新成功後導向首頁
+      console.log("Navigating to home"); // 添加這行檢查 navigate 是否被調用
       navigate("/"); // 返回首頁
     } catch (error) {
       console.error("Failed to update order status:", error);

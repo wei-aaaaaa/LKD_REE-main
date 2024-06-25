@@ -21,7 +21,7 @@ const Cart = () => {
 
     useEffect(() => {
         calculateTotalPrice();
-    }, [selectedItems, cartItems]);
+    }, [cartItems, selectedItems]);
 
     const fetchCurrentUser = async () => {
         try {
@@ -60,18 +60,30 @@ const Cart = () => {
                 }
             );
             const data = await response.json();
+            console.log("Fetched cart items: ", data); // 確認收到的數據
             setCartItems(data);
         } catch (error) {
             console.error("Error:", error);
         }
     };
 
+    // const calculateTotalPrice = () => {
+    //     console.log("Calculating total price with cart items: ", cartItems);
+    //     const total = selectedItems.reduce((sum, itemId) => {
+    //         const item = cartItems.find(
+    //             (cartItem) => cartItem.bookingId === itemId
+    //         );
+    //         console.log("Calculating item: ", item);
+    //         return item ? sum + item.price * item.member : sum;
+    //     }, 0);
+    //     console.log("Total price calculated: ", total);
+    //     setTotalPrice(total);
+    // };
+
     const calculateTotalPrice = () => {
         const total = selectedItems.reduce((sum, itemId) => {
-            const item = cartItems.find(
-                (cartItem) => cartItem.bookingId === itemId
-            );
-            return item ? sum + item.price * item.member : sum;
+            const item = cartItems.find(cartItem => cartItem.bookingId === itemId);
+            return item ? sum + item.price : sum;
         }, 0);
         setTotalPrice(total);
     };
@@ -156,7 +168,7 @@ const Cart = () => {
         setCartItems((prevItems) =>
             prevItems.map((item) =>
                 item.bookingId === bookingId
-                    ? { ...item, member: newQuantity }
+                    ? { ...item, member: newQuantity, price: item.modelId ? item.model.modelPrice * newQuantity : item.activity.price * newQuantity }
                     : item
             )
         );
@@ -225,7 +237,7 @@ const Cart = () => {
                             </div>
                             <div className="cart-item-price">
                                 NTD{" "}
-                                {(item.price * item.member).toLocaleString()}
+                                {item.price.toLocaleString()}
                             </div>
                             <div className="cart-item-remove">
                                 <button
