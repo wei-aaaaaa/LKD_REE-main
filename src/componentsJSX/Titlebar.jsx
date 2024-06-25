@@ -8,10 +8,10 @@ import { jwtDecode } from "jwt-decode";
 import RecentViewedDropdown from "./RecentViewedDropdown";
 
 const Titlebar = () => {
-  const [history, setHistory] = useState([]);
+  const [history, sethistory] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false); // 添加狀態來控制模態框顯示
-  const [isLogin, setIsLogin] = useState("");
+  const [isLogin, setLoginin] = useState("");
   const [showRecentViewed, setShowRecentViewed] = useState(false); // 添加狀態來控制下拉選單顯示
   const recentViewedRef = useRef(null); // 添加引用來監聽點擊事件
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const Titlebar = () => {
       throw new Error(`Http error! Status: ${response.status}`);
     }
     const data = await response.json();
-    setHistory(data);
+    sethistory(data);
     console.log(data);
     console.log(history);
   };
@@ -86,8 +86,8 @@ const Titlebar = () => {
       token?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
     console.log("name", name, token.exp);
     token.exp > Date.now() / 1000
-      ? setIsLogin(name || name_google)
-      : setIsLogin("");
+      ? setLoginin(name || name_google)
+      : setLoginin("");
     // console.log("loginExpireloginExpire", loginExpire, loginUsername);
   }, []);
 
@@ -151,7 +151,7 @@ const Titlebar = () => {
             </button>
             {showRecentViewed && <RecentViewedDropdown history={history} />}
           </div>
-          {isLogin && (
+          {/* {isLogin && (
             <Link to="/Member">
               <button
                 className="titlebar-button"
@@ -160,9 +160,11 @@ const Titlebar = () => {
                 會員中心
               </button>
             </Link>
-          )}
+          )} */}
           {isLogin ? (
-            <button className="titlebar-button">{isLogin}</button>
+            <Link to="/Member">
+              <button className="titlebar-button">{isLogin}</button>
+            </Link>
           ) : (
             <button className="titlebar-button" onClick={handleOpenModal}>
               登入
