@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PaymentSuccess from "./componentsJSX/Paymentsuccess";
 import {
   BrowserRouter as Router,
@@ -32,7 +32,6 @@ const App = () => {
     token.exp > Date.now() / 1000 ? setIsLogin(true) : setIsLogin(false);
   }, []);
   console.log("isLoginisLoginisLogin", isLogin);
-  const a = 1;
   return (
     <Router>
       <UserDataProvider>

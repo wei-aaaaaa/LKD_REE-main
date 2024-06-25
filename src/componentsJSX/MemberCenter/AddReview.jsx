@@ -1,5 +1,6 @@
 ﻿﻿import React, { useState, useEffect } from "react";
 import Rating from "../Rating"; // 引入Rating组件
+import { ToastContainer, toast, Flip, Zoom, Bounce } from "react-toastify";
 import "./AddReview.css"; // 引入CSS文件
 
 const AddReview = ({ userId, activityId }) => {
@@ -57,7 +58,7 @@ const AddReview = ({ userId, activityId }) => {
       if (response.ok) {
         setMessage("評論提交成功");
         setHasReviewed(true);
-        alert("評論提交成功");
+        toast.success("評論提交成功", { autoClose: 1000 });
       } else {
         const data = await response.json();
         console.error("Error response data:", data);
@@ -73,6 +74,7 @@ const AddReview = ({ userId, activityId }) => {
 
   return (
     <div className="add-review-form">
+      <ToastContainer />
       {hasReviewed ? (
         <div>
           <img
