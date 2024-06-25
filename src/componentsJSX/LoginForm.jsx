@@ -32,15 +32,16 @@ const LoginForm = ({ show, onClose }) => {
       Password: "",
     },
   });
+  console.log("error2error2error2", error2);
 
   /////////////////////////////////////////////////////////////////////
   const validateInput = (name, value) => {
     let error = "";
 
     switch (name) {
-      case "Username":
+      case "Name":
         if (value.length < 7) {
-          error = "至少7個字元";
+          error = "帳號名稱至少7個字元";
         }
         break;
       case "Email":
@@ -264,9 +265,9 @@ const LoginForm = ({ show, onClose }) => {
               required
               onChange={(e) => handleChangeForm(e, "reg")}
             />
-            {error2.username && (
+            {/* {error2.username && (
               <span style={{ color: "red" }}>{error2.username}</span>
-            )}
+            )} */}
             <input
               type="email"
               placeholder="電子郵件"
@@ -275,9 +276,9 @@ const LoginForm = ({ show, onClose }) => {
               required
               onChange={(e) => handleChangeForm(e, "reg")}
             />
-            {error2.email && (
+            {/* {error2.email && (
               <span style={{ color: "red" }}>{error2.email}</span>
-            )}
+            )} */}
             <input
               type={passwordType}
               placeholder="密碼"
@@ -289,9 +290,9 @@ const LoginForm = ({ show, onClose }) => {
               onChange={(e) => handleChangeForm(e, "reg")}
               style={{ position: "relative" }}
             />
-            {error2.password && (
+            {/* {error2.password && (
               <span style={{ color: "red" }}>{error2.password}</span>
-            )}
+            )} */}
             <img
               src={eye}
               style={{
@@ -305,6 +306,15 @@ const LoginForm = ({ show, onClose }) => {
               alt="eye"
               onClick={setPasswordType}
             ></img>
+            {(error2.password || error2.email || error2.name) && (
+              <>
+                <span style={{ color: "red" }}>
+                  {Object.values(error2)?.find((i) => i)}
+                </span>
+                {/* <span style={{ color: "red" }}>{error2.email}</span>
+                <span style={{ color: "red" }}>{error2.password}</span> */}
+              </>
+            )}
             <p style={{ color: "red" }}>{errorMsg}</p>
             <ReCAPTCHA
               ref={_ReCAPTCHA}
@@ -397,7 +407,8 @@ const LoginForm = ({ show, onClose }) => {
             <p style={{ color: "red" }}>{errorMsg}</p>
             <a href="#">忘記密碼?</a>
             <button onClick={(e) => handleLogin(e)}>
-              {loading ? "登入中" : "登入"}
+              {/* {loading ? "登入中" : "登入"} */}
+              登入
             </button>
           </form>
         </div>

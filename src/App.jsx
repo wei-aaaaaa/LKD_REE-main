@@ -25,7 +25,7 @@ import { jwtDecode } from "jwt-decode";
 import Myreviews from "./componentsJSX/MemberCenter/Myreviews";
 
 const App = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   useEffect(() => {
     const _token = localStorage.getItem("token")?.slice(7);
     const token = _token ? jwtDecode(_token) : "";
