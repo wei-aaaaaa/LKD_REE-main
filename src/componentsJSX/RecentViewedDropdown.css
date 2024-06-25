@@ -5,13 +5,13 @@
 
 .recent-viewed-dropdown {
   position: absolute;
-  top: 45px; /* 根據實際情況調整位置 */
-  right: 0px; /* 增加這個值來讓下拉選單往左移動 */
+  top: 100%; /* 使用100%讓下拉選單出現在按鈕正下方 */
+  right: 0; /* 讓下拉選單右對齊 */
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   z-index: 1000;
-  min-width: 250px; /* 設置最小寬度 */
+  min-width: 250px;
 }
 
 .recent-viewed-dropdown__item {
