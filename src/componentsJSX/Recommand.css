@@ -35,7 +35,7 @@
   position: absolute;
   top: 0;
   border-radius: 12px;
-  background: #ff7043; /* 橘色背景 */
+  background: transparent; /* 橘色背景 */
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* 淺灰色陰影 */
 }
 
@@ -96,6 +96,7 @@
 }
 
 .btns .btn {
+  background-color: transparent;
   cursor: pointer;
   font-size: 3rem; /* 調整箭頭大小 */
   color: #ff7043; /* 橘色箭頭 */

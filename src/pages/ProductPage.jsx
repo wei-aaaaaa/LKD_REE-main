@@ -7,7 +7,7 @@ import ProductDesc from "../componentsJSX/ProductDesc";
 import ProductHeader from "../componentsJSX/ProductHeader";
 import PhotoDesc from "../componentsJSX/PhotoDesc";
 import ProductBundle from "../componentsJSX/ProductBundleBlock";
-import { ToastContainer, toast, Flip, Zoom } from "react-toastify";
+import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../componentsJSX/Loader";
 import { useUser } from "../componentsJSX/UserDataContext";
@@ -123,11 +123,19 @@ const ProductPage = () => {
             }
 
             setIsFavorite(!isFavorite);
-            toast(isFavorite ? "取消收藏💔" : "已加入收藏！❤️", {
-                autoClose: 1000,
-                transition: Flip,
-                position: "top-center",
-            });
+            if (isFavorite) {
+                toast.error("取消收藏", {
+                    autoClose: 1000,
+                    transition: Bounce,
+                    position: "top-center",
+                });
+            } else {
+                toast.success("已加入收藏！", {
+                    autoClose: 1000,
+                    transition: Bounce,
+                    position: "top-center",
+                });
+            }
         } catch (error) {
             console.error("Error updating favorite status:", error);
             toast.error(`Error updating favorite status: ${error.message}`, {

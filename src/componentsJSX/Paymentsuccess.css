@@ -20,3 +20,8 @@
   text-decoration: none;
   border-radius: 5px;
 }
+
+.noFavorites {
+  width: 1366px;
+  max-width: 1366px;
+}

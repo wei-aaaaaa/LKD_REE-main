@@ -90,10 +90,16 @@ const Booking = () => {
 
   const calculateTotalPrice = () => {
     const total = selectedCartItems.reduce(
-      (total, item) => total + item.price * item.member,
+      (total, item) => total + item.model.modelPrice * item.member,
       0
     );
     return total.toLocaleString("en-US");
+  };
+
+  /*更改的地方*/
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   return (
@@ -103,7 +109,7 @@ const Booking = () => {
           <div className={styles.bookingInfo}>
             <h2 className={styles.sectionTitle}>填寫資料</h2>
             <div className={styles.bookingDetails}>
-              <h3 className={styles.subTitle}>預訂資料</h3>
+              <h3 className={styles.subTitle}>預訂行程</h3>
               {selectedCartItems.map((item) => (
                 <div key={item.bookingId} className={styles.bookingItem}>
                   <img
@@ -112,8 +118,11 @@ const Booking = () => {
                     alt={item.activity.name}
                   />
                   <div className={styles.bookingDescription}>
-                    <p>{item.activity.name}</p>
-                    <p>{item.activity.date}</p>
+                    <p>
+                      {item.activity.name}
+                      {item.model ? ` - ${item.model.modelName}` : ""}
+                    </p>
+                    <p>{formatDate(item.activity.date)}</p>
                   </div>
                 </div>
               ))}
@@ -153,18 +162,18 @@ const Booking = () => {
                   name="birthday"
                   value={passengerInfo.birthday}
                   onChange={handlePassengerChange}
-                  placeholder="請選擇"
+                  placeholder="請填寫"
                 />
               </div>
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>身份證件類型</label>
+                <label className={styles.label}>身份證字號</label>
                 <input
                   className={styles.input}
                   type="text"
                   name="idType"
                   value={passengerInfo.idType}
                   onChange={handlePassengerChange}
-                  placeholder="請選擇"
+                  placeholder="請填寫"
                 />
               </div>
             </div>
@@ -204,7 +213,7 @@ const Booking = () => {
                   name="country"
                   value={contactInfo.country}
                   onChange={handleChange}
-                  placeholder="請選擇"
+                  placeholder="請填寫"
                 />
               </div>
               <div className={styles.fieldGroup}>
@@ -261,10 +270,16 @@ const Booking = () => {
         <div className={styles.rightContainer}>
           {selectedCartItems.map((item) => (
             <div key={item.bookingId} className={styles.summaryBlock}>
-              <h3 className={styles.summaryTitle}>{item.activity.name}</h3>
-              <p>{item.activity.date}</p>
+              <h3 className={styles.summaryTitle}>
+                {item.activity.name}
+                {item.model ? ` - ${item.model.modelName}` : ""}
+              </h3>
+              <p>{formatDate(item.activity.date)}</p>
               <p>人數：成人 x {item.member}</p>
-              <p>總價：NTD {item.price * item.member}</p>
+              <p>
+                總價：NTD{" "}
+                {(item.model.modelPrice * item.member).toLocaleString("en-US")}
+              </p>
             </div>
           ))}
           <div className={styles.pricingBlock}>

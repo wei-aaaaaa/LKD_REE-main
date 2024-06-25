@@ -1,16 +1,16 @@
 .sidebar {
   width: 300px;
-  background-color: darksalmon;
+  background-color: #ffcc80; /* 淺橘色背景 */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
-  height: 500px;
+  height: auto; /* 允許高度自適應內容 */
 }
 
 .sidebar::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -24,17 +24,30 @@
   text-align: center;
   margin-bottom: 20px;
 }
+
+.profile img {
+  display: block;
+  margin: 0 auto 15px; /* 圖片底部間距 */
+}
+
+.profile-name {
+  margin-bottom: 15px; /* 使用者名稱底部間距 */
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 .profile button {
-  margin-left: 5px;
+  margin-top: 15px; /* 按鈕頂部間距 */
   padding: 5px 10px;
   border: none;
-  background-color: #007bff;
+  background-color: #ffa726; /* 橘色背景 */
   color: white;
   border-radius: 5px;
   cursor: pointer;
 }
+
 .profile button:hover {
-  background-color: #0056b3;
+  background-color: #ff9800; /* 深橘色 */
 }
 
 .avatar {
@@ -44,22 +57,22 @@
   object-fit: cover;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   object-fit: cover; /* 確保圖片以合適的比例填滿容器 */
-  transition: transform 0.3s ease,box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.avatar:hover{
-  transform:scale(1.1);
+.avatar:hover {
+  transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .menu {
-  margin-top: 20px;
+  margin-top: 30px; /* 調整與頭像區域的距離 */
 }
 
 .menu h3 {
-  margin-bottom: 10px;
+  margin-bottom: 20px; /* 增加標題與列表項目之間的間距 */
   font-size: 1.2em;
-  color: #333;
+  color: #555; /* 淺灰色文字 */
 }
 
 .menu ul {
@@ -69,19 +82,18 @@
 }
 
 .menu li {
-  margin: 10px 0;
+  margin: 20px 0; /* 增加上下間距 */
   padding: 10px;
   cursor: pointer;
-  color:#0056b3;
+  color: #555; /* 淺灰色文字 */
   transition: color 0.3s, background-color 0.3s;
   border-radius: 5px;
   font-weight: 700;
-  border-bottom:10cm;
 }
 
 .menu li:hover {
-  color: #0056b3;
-  background-color: rgba(0, 123, 255, 0.1);
+  color: #fff; /* 白色文字 */
+  background-color: #ffa726; /* 橘色背景 */
 }
 
 .menu-icon {
@@ -89,7 +101,4 @@
   height: 30px;
   margin-right: 8px; /* 根據需要調整圖標與文本之間的間距 */
   vertical-align: middle; /* 保持圖標與文本垂直對齊 */
-
-  
 }
-

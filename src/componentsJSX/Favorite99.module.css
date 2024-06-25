@@ -88,3 +88,8 @@
 .deleteButton:hover {
   background-color: #e05550;
 }
+
+.noFavorites {
+  width: 1366px;
+  max-width: 1366px;
+}

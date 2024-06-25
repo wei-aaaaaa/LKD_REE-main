@@ -82,7 +82,9 @@ const Cart = () => {
 
     const calculateTotalPrice = () => {
         const total = selectedItems.reduce((sum, itemId) => {
-            const item = cartItems.find(cartItem => cartItem.bookingId === itemId);
+            const item = cartItems.find(
+                (cartItem) => cartItem.bookingId === itemId
+            );
             return item ? sum + item.price : sum;
         }, 0);
         setTotalPrice(total);
@@ -168,7 +170,13 @@ const Cart = () => {
         setCartItems((prevItems) =>
             prevItems.map((item) =>
                 item.bookingId === bookingId
-                    ? { ...item, member: newQuantity, price: item.modelId ? item.model.modelPrice * newQuantity : item.activity.price * newQuantity }
+                    ? {
+                          ...item,
+                          member: newQuantity,
+                          price: item.modelId
+                              ? item.model.modelPrice * newQuantity
+                              : item.activity.price * newQuantity,
+                      }
                     : item
             )
         );
@@ -190,7 +198,7 @@ const Cart = () => {
                 </div>
             )}
             {cartItems.length === 0 ? (
-                <p>目前購物車無商品</p>
+                <p>目前購物車暫無商品</p>
             ) : (
                 <div>
                     {cartItems.map((item) => (
@@ -208,8 +216,16 @@ const Cart = () => {
                                 className="cart-item-photo"
                             />
                             <div className="cart-item-details">
-                                <div>{item.activity.name}</div>
-                                <div>{item.activity.date}</div>
+                                <div>
+                                    {item.model
+                                        ? `${item.activity.name} - 【${item.model.modelName}】`
+                                        : item.activity.name}
+                                </div>
+                                <div>
+                                    {new Date(
+                                        item.activity.date
+                                    ).toLocaleDateString()}
+                                </div>
                             </div>
                             <div className="cart-item-quantity">
                                 <button
@@ -236,8 +252,7 @@ const Cart = () => {
                                 </button>
                             </div>
                             <div className="cart-item-price">
-                                NTD{" "}
-                                {item.price.toLocaleString()}
+                                NTD {item.price.toLocaleString()}
                             </div>
                             <div className="cart-item-remove">
                                 <button
