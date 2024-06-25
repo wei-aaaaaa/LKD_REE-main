@@ -1,8 +1,10 @@
 ﻿﻿import React, { useState, useEffect } from "react";
+import Rating from "../Rating"; // 引入Rating组件
+import "./AddReview.css"; // 引入CSS文件
 
 const AddReview = ({ userId, activityId }) => {
   const [comment, setComment] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState("0.0"); // 初始化评分为0.0
   const [message, setMessage] = useState("");
   const [hasReviewed, setHasReviewed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,16 +32,16 @@ const AddReview = ({ userId, activityId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+
     const reviewData = {
       userId: parseInt(userId),
       activityId: parseInt(activityId),
       comment,
-      rating: parseFloat(parseFloat(rating).toFixed(1)),
+      rating: parseFloat(rating), // 确保为浮点数
     };
-  
+
     console.log("Submitting review data:", reviewData);
-  
+
     try {
       const response = await fetch(
         "https://localhost:7148/api/Activities/add-review",
@@ -51,7 +53,7 @@ const AddReview = ({ userId, activityId }) => {
           body: JSON.stringify(reviewData),
         }
       );
-  
+
       if (response.ok) {
         setMessage("評論提交成功");
         setHasReviewed(true);
@@ -68,11 +70,18 @@ const AddReview = ({ userId, activityId }) => {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <div className="add-review-form">
       {hasReviewed ? (
-        <p>已評論</p>
+        <div>
+          <img
+            src="src\assets\images\icons\Reviewed.png"
+            alt="已評論"
+            className="reviewed-icon"
+          />
+          <span>已評論</span>
+        </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -83,17 +92,9 @@ const AddReview = ({ userId, activityId }) => {
               required
             ></textarea>
           </div>
-          <div className="form-group">
+          <div className="form-group rating-group">
             <label>評分分數:</label>
-            <input
-              type="number"
-              step="0.1"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              required
-              min="1"
-              max="5"
-            />
+            <Rating rating={rating} setRating={setRating} />
           </div>
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "提交中..." : "留下評論"}

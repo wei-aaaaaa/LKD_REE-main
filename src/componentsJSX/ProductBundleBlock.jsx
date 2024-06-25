@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ProductBundleBlock.css";
 import { id } from "date-fns/locale";
 import { useUser } from "./UserDataContext";
+import { ToastContainer, toast, Flip, Zoom, Bounce } from "react-toastify";
 
 const ProductBundleBlock = ({ productId }) => {
   const user = useUser(); // 獲取用戶信息
@@ -28,7 +29,9 @@ const ProductBundleBlock = ({ productId }) => {
       });
 
       if (response.ok) {
-        alert("已成功加入購物車");
+        toast.success("已成功加入購物車", {
+          autoClose: 1000,
+        });
       } else {
         const errorMessage = await response.text();
         alert(`添加購物車失敗: ${errorMessage}`);
