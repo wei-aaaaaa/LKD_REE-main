@@ -6,7 +6,7 @@
 }
 
 .search-results .search-result-item {
-  background: white;
+  background: rgb(255, 255, 255);
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -50,13 +50,23 @@
 
 .search-results .result-meta .price {
   font-size: 1.25rem;
-  color: #ff5722;
+  color: #df5930;
 }
 
 .search-results .result-meta .rating {
-  background: #ffd700;
-  border-radius: 3px;
-  padding: 5px 10px;
-  font-size: 1rem;
-  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  color: #ff5722;
+}
+
+.search-results .result-meta .rating .rating-star {
+  margin-left: 5px;
+  color: #f46e14; /* 橘色 */
+}
+
+.search-results .result-meta .rating .rating-score {
+  font-weight: 600;
+  font-style: italic;
+  color: #f46e14;
 }

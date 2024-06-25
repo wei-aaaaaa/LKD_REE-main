@@ -90,7 +90,7 @@ const AddReview = ({ userId, activityId }) => {
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>留下評論:</label>
+            <label>留下評論：</label>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
