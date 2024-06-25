@@ -58,7 +58,10 @@ const AddReview = ({ userId, activityId }) => {
       if (response.ok) {
         setMessage("評論提交成功");
         setHasReviewed(true);
-        toast.success("評論提交成功", { autoClose: 1000 });
+        toast.success("評論提交成功", {
+          autoClose: 3000,
+          position: "top-center",
+        });
       } else {
         const data = await response.json();
         console.error("Error response data:", data);

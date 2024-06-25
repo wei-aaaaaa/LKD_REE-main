@@ -1,0 +1,17 @@
+/* LogoAnimation.css */
+.logo-animation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: extend 2s ease-in-out;
+}
+
+@keyframes extend {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}

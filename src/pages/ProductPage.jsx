@@ -125,15 +125,11 @@ const ProductPage = () => {
             setIsFavorite(!isFavorite);
             if (isFavorite) {
                 toast.error("取消收藏", {
-                    autoClose: 1000,
-                    transition: Bounce,
-                    position: "top-center",
+                    autoClose: 1500,
                 });
             } else {
                 toast.success("已加入收藏！", {
-                    autoClose: 1000,
-                    transition: Bounce,
-                    position: "top-center",
+                    autoClose: 1500,
                 });
             }
         } catch (error) {

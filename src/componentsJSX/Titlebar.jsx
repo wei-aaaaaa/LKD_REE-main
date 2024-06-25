@@ -18,11 +18,15 @@ const Titlebar = () => {
 
   const handleSearchKeyDown = (event) => {
     if (event.key === "Enter") {
-      const queries = searchQuery
-        .split(",")
-        .map((query) => query.trim())
-        .join("&query=");
-      navigate(`/search?query=${queries}`);
+      if (searchQuery.trim() === "") {
+        navigate("/search");
+      } else {
+        const queries = searchQuery
+          .split(",")
+          .map((query) => query.trim())
+          .join("&query=");
+        navigate(`/search?query=${queries}`);
+      }
     }
   };
 
