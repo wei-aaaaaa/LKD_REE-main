@@ -1,5 +1,6 @@
 import ContactSection from "../componentsJSX/ContactSection";
 import FAQ from "../componentsJSX/FAQ";
+import FloatingButton from '../componentsJSX/signalr/FloatingButton';
 
 
 const Contact = () => {
@@ -7,7 +8,7 @@ const Contact = () => {
   <div>
     <ContactSection />
     <FAQ />
-
+    <FloatingButton />
   </div>
 );
 };
