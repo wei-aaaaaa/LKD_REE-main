@@ -8,10 +8,10 @@ import { jwtDecode } from "jwt-decode";
 import RecentViewedDropdown from "./RecentViewedDropdown";
 
 const Titlebar = () => {
-  const [history, sethistory] = useState([]);
+  const [history, setHistory] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false); // 添加狀態來控制模態框顯示
-  const [isLogin, setLoginin] = useState("");
+  const [isLogin, setIsLogin] = useState("");
   const [showRecentViewed, setShowRecentViewed] = useState(false); // 添加狀態來控制下拉選單顯示
   const recentViewedRef = useRef(null); // 添加引用來監聽點擊事件
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const Titlebar = () => {
       throw new Error(`Http error! Status: ${response.status}`);
     }
     const data = await response.json();
-    sethistory(data);
+    setHistory(data);
     console.log(data);
     console.log(history);
   };
@@ -86,8 +86,8 @@ const Titlebar = () => {
       token?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
     console.log("name", name, token.exp);
     token.exp > Date.now() / 1000
-      ? setLoginin(name || name_google)
-      : setLoginin("");
+      ? setIsLogin(name || name_google)
+      : setIsLogin("");
     // console.log("loginExpireloginExpire", loginExpire, loginUsername);
   }, []);
 
@@ -148,9 +148,11 @@ const Titlebar = () => {
             </button>
             {showRecentViewed && <RecentViewedDropdown history={history} />}
           </div>
-          <Link to="/Member">
-            <button className="titlebar-button">會員中心</button>
-          </Link>
+          {isLogin && (
+            <Link to="/Member">
+              <button className="titlebar-button">會員中心</button>
+            </Link>
+          )}
           {isLogin ? (
             <span style={{ color: "#f48414" }}>{isLogin}</span>
           ) : (

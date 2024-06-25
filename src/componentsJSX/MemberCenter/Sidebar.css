@@ -1,44 +1,40 @@
 .sidebar {
-  width: 400px;
-  background-color: #ffd699; /* 橘色調的背景 */
+  width: 300px;
+  background-color: darksalmon;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+}
+
+.sidebar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 500%;
+  height: 0px; /* 根據需要調整高度 */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
+  pointer-events: none;
 }
 
 .profile {
   text-align: center;
   margin-bottom: 20px;
 }
-
-.profile img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* 增加頭像和名稱之間的距離 */
-}
-
-.profile h2 {
-  margin-bottom: 20px; /* 增加名稱和按鈕之間的距離 */
-  font-size: 1.5em;
-  color: #333;
-}
-
 .profile button {
   margin-left: 5px;
   padding: 5px 10px;
   border: none;
-  background-color: #ffaa80; /* 橘色 */
+  background-color: #007bff;
   color: white;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
-
 .profile button:hover {
-  background-color: #e6956e; /* 深橘色 */
+  background-color: #0056b3;
 }
 
 .avatar {
@@ -47,6 +43,13 @@
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  object-fit: cover; /* 確保圖片以合適的比例填滿容器 */
+  transition: transform 0.3s ease,box-shadow 0.3s ease;
+}
+
+.avatar:hover{
+  transform:scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .menu {
@@ -56,7 +59,7 @@
 .menu h3 {
   margin-bottom: 10px;
   font-size: 1.2em;
-  color: #333; /* 深灰色 */
+  color: #333;
 }
 
 .menu ul {
@@ -69,12 +72,24 @@
   margin: 10px 0;
   padding: 10px;
   cursor: pointer;
-  color: #333; /* 深灰色 */
+  color:#0056b3;
   transition: color 0.3s, background-color 0.3s;
   border-radius: 5px;
+  font-weight: 700;
+  border-bottom:10cm;
 }
 
 .menu li:hover {
-  color: #222; /* 深色 */
-  background-color: #f5f5f5; /* 淺灰色背景 */
+  color: #0056b3;
+  background-color: rgba(0, 123, 255, 0.1);
 }
+
+.menu-icon {
+  width: 30px; /* 根據需要調整圖標大小 */
+  height: 30px;
+  margin-right: 8px; /* 根據需要調整圖標與文本之間的間距 */
+  vertical-align: middle; /* 保持圖標與文本垂直對齊 */
+
+  
+}
+

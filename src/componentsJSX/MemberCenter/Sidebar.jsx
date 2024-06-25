@@ -3,7 +3,7 @@ import "./Sidebar.css";
 
 const Sidebar = ({ userId, onMenuItemClick }) => {
   const fileInputRef = useRef(null);
-  const [avatarUrl, setAvatarUrl] = useState("https://via.placeholder.com/150");
+  const [avatarUrl, setAvatarUrl] = useState("src/assets/images/icons/camera.png");
   const [username, setUsername] = useState("");
 
   useEffect(() => {
@@ -96,9 +96,18 @@ const Sidebar = ({ userId, onMenuItemClick }) => {
       </div>
       <div className="menu">
         <ul>
-          <li onClick={() => onMenuItemClick("orders")}>我的訂單</li>
-          <li onClick={() => onMenuItemClick("reviews")}>我的評價</li>
-          <li onClick={() => onMenuItemClick("payment")}>管理付款方式</li>
+          <li onClick={() => onMenuItemClick("orders")}>
+            <img src="src/assets/images/icons/List.png" alt="Orders" className="menu-icon" />
+            我的訂單
+          </li>
+          <li onClick={() => onMenuItemClick("reviews")}>
+            <img src="src/assets/images/icons/review.png" alt="Reviews" className="menu-icon" />
+            我的評價
+          </li>
+          <li onClick={() => onMenuItemClick("payment")}>
+            <img src="src/assets/images/icons/mycredit.png" alt="Payment" className="menu-icon" />
+            管理付款方式
+          </li>
         </ul>
       </div>
     </div>
