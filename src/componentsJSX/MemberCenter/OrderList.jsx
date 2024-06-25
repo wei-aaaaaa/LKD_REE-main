@@ -1,5 +1,5 @@
-﻿﻿﻿import React, { useEffect, useState } from "react";
-import "./OrderList.module.css";
+﻿﻿import React, { useEffect, useState } from "react";
+import styles from "./OrderList.module.css";
 import AddReview from "./AddReview";
 
 const OrderList = ({ userId }) => {
@@ -32,18 +32,27 @@ const OrderList = ({ userId }) => {
   }, [userId]);
 
   return (
-    <div className="order-list">
+    <div className={styles.orderList}>
       <h1>訂單紀錄</h1>
       {loading ? (
         <p>Loading...</p>
       ) : bookings.length === 0 ? (
-        <p>目前沒有訂單記錄。</p>
+        <>
+          <p>
+            <img
+              className={styles.catgif}
+              src="src/assets/images/icons/cat.gif"
+              alt="cat"
+            />
+          </p>
+          <p>目前沒有訂單記錄。</p>
+        </>
       ) : (
         bookings.map((booking, index) => (
-          <div className="order-item" key={`${booking.bookingId}-${index}`}>
+          <div className={styles.orderItem} key={`${booking.bookingId}-${index}`}>
             <h2>{booking.activityName}</h2>
             <p>價格: NTS {booking.price}</p>
-            <p className="fontcolor">{booking.activityDescription}</p>
+            <p className={styles.fontcolor}>{booking.activityDescription}</p>
             <AddReview userId={userId} activityId={booking.activityId} />
           </div>
         ))
