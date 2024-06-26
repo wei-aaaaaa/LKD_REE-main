@@ -7,7 +7,7 @@ import ProductDesc from "../componentsJSX/ProductDesc";
 import ProductHeader from "../componentsJSX/ProductHeader";
 import PhotoDesc from "../componentsJSX/PhotoDesc";
 import ProductBundle from "../componentsJSX/ProductBundleBlock";
-import { ToastContainer, toast, Flip, Zoom } from "react-toastify";
+import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../componentsJSX/Loader";
 import { useUser } from "../componentsJSX/UserDataContext";
@@ -90,10 +90,9 @@ const ProductPage = () => {
 
     const toggleFavorite = async () => {
         if (!userId) {
-            toast.error("請先登入", {
-                autoClose: 1000,
-                transition: Zoom,
+            toast.error("請先登入會員", {
                 position: "top-center",
+                autoClose: 1500,
             });
             return;
         }
@@ -123,11 +122,15 @@ const ProductPage = () => {
             }
 
             setIsFavorite(!isFavorite);
-            toast(isFavorite ? "取消收藏💔" : "已加入收藏！❤️", {
-                autoClose: 1000,
-                transition: Flip,
-                position: "top-center",
-            });
+            if (isFavorite) {
+                toast.error("取消收藏", {
+                    autoClose: 1500,
+                });
+            } else {
+                toast.success("已加入收藏！", {
+                    autoClose: 1500,
+                });
+            }
         } catch (error) {
             console.error("Error updating favorite status:", error);
             toast.error(`Error updating favorite status: ${error.message}`, {
@@ -170,7 +173,7 @@ const ProductPage = () => {
                 description={product.description} // 原始描述
                 descriptionJson={product.descriptionJson || null} // 传递结构化描述或 null
             />
-            <ProductBundle productId={id} />
+            <ProductBundle productId={id} productImages={productImages} />
             <PhotoDesc images={productImages} />
             <Reviews reviews={product.reviews} />
         </div>

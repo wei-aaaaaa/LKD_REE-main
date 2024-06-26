@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "./ProductBundleBlock.css";
-import { id } from "date-fns/locale";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "./UserDataContext";
+import { ToastContainer, toast, Flip, Zoom, Bounce } from "react-toastify";
 
-const ProductBundleBlock = ({ productId }) => {
+const ProductBundleBlock = ({ productId, productImage }) => {
   const user = useUser(); // 獲取用戶信息
   const userId = user?.id; // 獲取用戶 ID
   const [bundles, setBundles] = useState([]);
   const [selectedBundleId, setSelectedBundleId] = useState(null);
   const [quantities, setQuantities] = useState({});
-  console.log("user:", userId, productId);
+  const navigate = useNavigate(); // 添加 navigate 方法
+
   const addToCart = async () => {
     if (!userId) {
-      alert("請先登入會員");
+      toast.error("請先登入會員", {
+        position: "top-center",
+        autoClose: 1500,
+      });
       return;
     }
 
@@ -28,7 +33,9 @@ const ProductBundleBlock = ({ productId }) => {
       });
 
       if (response.ok) {
-        alert("已成功加入購物車");
+        toast.success("已成功加入購物車", {
+          autoClose: 1000,
+        });
       } else {
         const errorMessage = await response.text();
         alert(`添加購物車失敗: ${errorMessage}`);
@@ -38,13 +45,41 @@ const ProductBundleBlock = ({ productId }) => {
     }
   };
 
+  const handleBookNow = () => {
+    if (!userId) {
+      toast.error("請先登入會員", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+      return;
+    }
+
+    const selectedBundle = bundles.find(
+      (bundle) => bundle.modelId === selectedBundleId
+    );
+
+    const selectedCartItems = [
+      {
+        bookingId: Date.now(),
+        activity: {
+          name: selectedBundle.modelName,
+          photo: productImage, // 您可能需要傳遞活動的照片
+          date: new Date().toISOString(), // 或者您可以傳遞實際的活動日期
+        },
+        model: selectedBundle,
+        member: quantities[selectedBundleId],
+      },
+    ];
+
+    navigate("/checkout", { state: { selectedCartItems } });
+  };
+
   useEffect(() => {
     const fetchBundles = async () => {
       try {
         const response = await fetch(
           `https://localhost:7148/api/ActivitiesAPI/${productId}/ActivitiesModels`
         );
-        console.log("productId:", productId);
         if (!response.ok) {
           throw new Error("Failed to fetch bundles");
         }
@@ -98,7 +133,6 @@ const ProductBundleBlock = ({ productId }) => {
                 <h4 className="bundle-title">{bundle.modelName}</h4>
                 <p className="bundle-price">${bundle.modelPrice}</p>
               </div>
-              {/* <button className="choose-button">選擇</button> */}
             </div>
             <p className="bundle-description">{bundle.modelContent}</p>
           </div>
@@ -109,15 +143,18 @@ const ProductBundleBlock = ({ productId }) => {
           <h4>
             {bundles.find((b) => b.modelId === selectedBundleId).modelName}
           </h4>
+          <br />
           <p>
             {bundles.find((b) => b.modelId === selectedBundleId).modelContent}
           </p>
+          <br />
           <p>
-            價格: $
+            價格： $
             {bundles.find((b) => b.modelId === selectedBundleId).modelPrice}
           </p>
+          <br />
           <div className="quantity-selector">
-            <p>選擇人數:</p>
+            <p>選擇人數：</p>
             <button
               className="quantity-button"
               onClick={(e) => {
@@ -125,7 +162,7 @@ const ProductBundleBlock = ({ productId }) => {
                 handleQuantityChange(selectedBundleId, -1);
               }}
             >
-              -
+              －
             </button>
             <span className="quantity">{quantities[selectedBundleId]}</span>
             <button
@@ -135,11 +172,13 @@ const ProductBundleBlock = ({ productId }) => {
                 handleQuantityChange(selectedBundleId, 1);
               }}
             >
-              +
+              ＋
             </button>
           </div>
           <div className="bundle-actions">
-            <button className="small-book-now-button">立即預訂</button>
+            <button className="small-book-now-button" onClick={handleBookNow}>
+              立即預訂
+            </button>
             <button className="small-add-to-cart-button" onClick={addToCart}>
               加入購物車
             </button>

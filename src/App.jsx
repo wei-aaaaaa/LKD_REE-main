@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useContext } from "react";
 import PaymentSuccess from "./componentsJSX/Paymentsuccess";
 import {
   BrowserRouter as Router,
@@ -25,14 +26,13 @@ import { jwtDecode } from "jwt-decode";
 import Myreviews from "./componentsJSX/MemberCenter/Myreviews";
 
 const App = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     const _token = localStorage.getItem("token")?.slice(7);
     const token = _token ? jwtDecode(_token) : "";
     token.exp > Date.now() / 1000 ? setIsLogin(true) : setIsLogin(false);
   }, []);
   console.log("isLoginisLoginisLogin", isLogin);
-  const a = 1;
   return (
     <Router>
       <UserDataProvider>

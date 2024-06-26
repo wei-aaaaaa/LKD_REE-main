@@ -1,8 +1,11 @@
 ﻿﻿import React, { useState, useEffect } from "react";
+import Rating from "../Rating"; // 引入Rating组件
+import { ToastContainer, toast, Flip, Zoom, Bounce } from "react-toastify";
+import "./AddReview.css"; // 引入CSS文件
 
 const AddReview = ({ userId, activityId }) => {
   const [comment, setComment] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState("0.0"); // 初始化评分为0.0
   const [message, setMessage] = useState("");
   const [hasReviewed, setHasReviewed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,7 +38,7 @@ const AddReview = ({ userId, activityId }) => {
       userId: parseInt(userId),
       activityId: parseInt(activityId),
       comment,
-      rating: parseFloat(parseFloat(rating).toFixed(1)),
+      rating: parseFloat(rating), // 确保为浮点数
     };
   
     console.log("Submitting review data:", reviewData);
@@ -55,7 +58,10 @@ const AddReview = ({ userId, activityId }) => {
       if (response.ok) {
         setMessage("評論提交成功");
         setHasReviewed(true);
-        alert("評論提交成功");
+        toast.success("評論提交成功", {
+          autoClose: 3000,
+          position: "top-center",
+        });
       } else {
         const data = await response.json();
         console.error("Error response data:", data);
@@ -71,29 +77,29 @@ const AddReview = ({ userId, activityId }) => {
   
   return (
     <div className="add-review-form">
+      <ToastContainer />
       {hasReviewed ? (
-        <p>已評論</p>
+        <div>
+          <img
+            src="src\assets\images\icons\Reviewed.png"
+            alt="已評論"
+            className="reviewed-icon"
+          />
+          <span>已評論</span>
+        </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>留下評論:</label>
+            <label>留下評論：</label>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               required
             ></textarea>
           </div>
-          <div className="form-group">
+          <div className="form-group rating-group">
             <label>評分分數:</label>
-            <input
-              type="number"
-              step="0.1"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              required
-              min="1"
-              max="5"
-            />
+            <Rating rating={rating} setRating={setRating} />
           </div>
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "提交中..." : "留下評論"}

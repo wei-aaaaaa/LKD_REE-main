@@ -44,6 +44,7 @@
   align-items: center;
   width: 100%;
   margin-top: 10px; /* 增加上下間距 */
+  justify-content: space-between; /* 調整子元素位置 */
 }
 
 .hashtags {
@@ -62,9 +63,10 @@
 }
 
 .averageRating {
-  font-size: 1.2em;
+  font-size: 1.3em;
   color: #ffa502;
-  margin: 0 auto;
+  margin-left: auto; /* 向右移動 */
+  margin-right: 20px; /* 調整與右邊距離 */
 }
 
 .addressContainer {

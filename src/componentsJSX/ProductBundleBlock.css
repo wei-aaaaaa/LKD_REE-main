@@ -8,6 +8,7 @@
   background-color: transparent; /* 背景顏色設置為灰白色 */
   padding: 20px;
   border-radius: 5px;
+  width: 1366px;
 }
 
 .product-bundle-container {
@@ -63,6 +64,7 @@
   color: #666;
   margin-bottom: 10px;
   text-align: center; /* 文字居中 */
+  font-weight: bold;
 }
 
 .choose-button {
@@ -84,6 +86,7 @@
   font-size: 1rem;
   margin-bottom: 8px;
   color: #000000;
+  font-weight: bold;
 }
 
 .quantity-controls {
