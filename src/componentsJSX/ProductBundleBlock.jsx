@@ -104,7 +104,9 @@ const ProductBundleBlock = ({ productId }) => {
       });
 
       if (response.ok) {
-        alert("已成功加入購物車");
+        toast.success("已加入購物車", {
+          autoClose: 1500,
+        });
       } else {
         const errorMessage = await response.text();
         alert(`添加購物車失敗: ${errorMessage}`);

@@ -33,16 +33,16 @@ const AddReview = ({ userId, activityId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+
     const reviewData = {
       userId: parseInt(userId),
       activityId: parseInt(activityId),
       comment,
       rating: parseFloat(rating), // 确保为浮点数
     };
-  
+
     console.log("Submitting review data:", reviewData);
-  
+
     try {
       const response = await fetch(
         "https://localhost:7148/api/Activities/add-review",
@@ -54,7 +54,7 @@ const AddReview = ({ userId, activityId }) => {
           body: JSON.stringify(reviewData),
         }
       );
-  
+
       if (response.ok) {
         setMessage("評論提交成功");
         setHasReviewed(true);
@@ -74,14 +74,14 @@ const AddReview = ({ userId, activityId }) => {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <div className="add-review-form">
       <ToastContainer />
       {hasReviewed ? (
         <div>
           <img
-            src="src\assets\images\icons\Reviewed.png"
+            src="src/assets/images/icons/Reviewed.png"
             alt="已評論"
             className="reviewed-icon"
           />
@@ -99,7 +99,11 @@ const AddReview = ({ userId, activityId }) => {
           </div>
           <div className="form-group rating-group">
             <label>評分分數:</label>
-            <Rating rating={rating} setRating={setRating} />
+            <Rating
+              rating={rating}
+              setRating={setRating}
+              activityId={activityId}
+            />
           </div>
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "提交中..." : "留下評論"}
