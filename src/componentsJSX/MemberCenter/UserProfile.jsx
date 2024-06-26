@@ -111,9 +111,9 @@ const UserProfile = ({ userId }) => {
         ) : (
           <div>
             {user.username}
-            <a href="#" onClick={() => handleEditClick("username")}>
+            {/* <a href="#" onClick={() => handleEditClick("username")}>
               編輯
-            </a>
+            </a> */}
           </div>
         )}
       </div>
