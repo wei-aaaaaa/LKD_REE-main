@@ -27,8 +27,9 @@ function App() {
                 }
 
                 const data = await response.json();
+                console.log("User Data fetched: ", data); // 確認獲取的用戶數據結構
                 setCurrentUser(data.username);
-                setUserId(data.userId);
+                setUserId(data.id); // 確認這裡的 key 是正確的
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -38,6 +39,13 @@ function App() {
     }, []);
 
     const joinChatRoom = async () => {
+        console.log("Attempting to join chat room with UserId:", userId, "Username:", currentUser); // 確認 userId 和 currentUser 設置
+
+        if (!userId) {
+            console.error("UserId is not set");
+            return;
+        }
+
         try {
             const connection = new HubConnectionBuilder()
                 .withUrl("https://localhost:7148/chat")
@@ -63,6 +71,7 @@ function App() {
             await connection.start().catch(err => console.error("Error starting connection:", err));
 
             const chatroom = ''; // This should be set to the specific chat room ID if needed
+            console.log("Invoking JoinSpecificChatRoom with", { userId, username: currentUser, chatroom }); // 確認傳遞的數據
             await connection.invoke("JoinSpecificChatRoom", { userId, username: currentUser, chatroom }).catch(err => console.error("Error invoking method:", err));
 
             setConnection(connection);
