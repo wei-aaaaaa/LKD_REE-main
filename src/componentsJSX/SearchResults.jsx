@@ -19,7 +19,11 @@ const SearchResults = ({ results }) => {
       ? description.substring(0, 15) + "..."
       : description;
   };
-  console.log(results);
+
+  const truncateName = (name) => {
+    return name.length > 17 ? name.substring(0, 17) + "..." : name;
+  };
+
   return (
     <div className="search-results">
       {results.map((result) => (
@@ -33,12 +37,15 @@ const SearchResults = ({ results }) => {
             alt={result.name}
           />
           <div className="result-details">
-            <h3>{result.name}</h3>
+            <h3>{truncateName(result.name)}</h3>
             <p>{formatDate(result.date)}</p>
             <p>{truncateDescription(result.description)}</p>
             <div className="result-meta">
               <span className="price">NT$ {result.price}</span>
-              <span className="rating">{result.rating}</span>
+              <div className="rating">
+                <span className="rating-star">★</span>
+                <span className="rating-score">{result.rating}</span>
+              </div>
             </div>
           </div>
         </div>

@@ -42,7 +42,7 @@ const OrderList = ({ userId }) => {
         bookings.map((booking, index) => (
           <div className="order-item" key={`${booking.bookingId}-${index}`}>
             <h2>{booking.activityName}</h2>
-            <p>價格: NTS {booking.price}</p>
+            <p>價格: NTD {booking.price}</p>
             <p className="fontcolor">{booking.activityDescription}</p>
             <AddReview userId={userId} activityId={booking.activityId} />
           </div>

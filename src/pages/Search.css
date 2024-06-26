@@ -112,6 +112,18 @@
 .search-controls .search-sort select {
     padding: 5px 10px;
     font-size: 1rem;
+    border: 2px solid #f48414; /* 橘色邊框 */
+    border-radius: 5px; /* 邊框圓角 */
+    background-color: #fff; /* 背景顏色 */
+    color: #333; /* 文字顏色 */
+    cursor: pointer; /* 鼠標變為指針 */
+    transition: all 1s ease; /* 平滑過渡 */
+}
+
+.search-controls .search-sort select:focus {
+    outline: none; /* 移除默認的 focus 樣式 */
+    border-color: #f48414; /* focus 邊框顏色 */
+    box-shadow: 0 0 5px rgba(255, 87, 34, 0.5); /* focus 外邊框陰影 */
 }
 
 .search-results-container {
