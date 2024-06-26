@@ -2,15 +2,23 @@ import React, { useState, useRef } from "react";
 import "./LoginForm.css";
 import axios from "axios";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import * as jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 import Auth_JWT from "../../Auth_JWT";
 import fb from "../assets/images/icons/fb.png";
-import github from "../assets/images/icons/github.png";
+import instagram from "../assets/images/icons/instagram.png";
 import ReCAPTCHA from "react-google-recaptcha";
 import eye from "../assets/images/icons/eye.png";
+import { isValid } from "date-fns";
 
 const LoginForm = ({ show, onClose }) => {
+  /////////input輸入錯誤後顯示的訊息
+  const [error2, setError] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  ////////////////////////////////
   const [errorMsg, setErrorMsg] = useState("");
   const [recapcha, setRecapcha] = useState("");
   const [form, setForm] = useState({
@@ -24,9 +32,44 @@ const LoginForm = ({ show, onClose }) => {
       Password: "",
     },
   });
+  console.log("error2error2error2", error2);
+
+  /////////////////////////////////////////////////////////////////////
+  const validateInput = (name, value) => {
+    let error = "";
+
+    switch (name) {
+      case "Name":
+        if (value.length < 7) {
+          error = "帳號名稱至少7個字元";
+        }
+        break;
+      case "Email":
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          error = "請輸入有效的電子郵件";
+        }
+        break;
+      case "Password":
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,24}$/;
+        if (!passwordRegex.test(value)) {
+          error = "密碼需要至少8-24個字，並至少包含一個大小寫字母";
+        }
+        break;
+      default:
+        break;
+    }
+
+    setError((prevErrorMsg) => ({
+      ...prevErrorMsg,
+      [name.toLowerCase()]: error,
+    }));
+  };
+  ////////////////////////////////////////////////////////////////////
+
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType_] = useState("password");
-
+  const _ReCAPTCHA = useRef();
   const handleChangeForm = (e, regOrSign) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
@@ -36,6 +79,9 @@ const LoginForm = ({ show, onClose }) => {
         [name]: value,
       },
     }));
+    ////////////////////////////////
+    validateInput(name, value);
+    ///////////////////////////////
   };
 
   const containerRef = useRef(null);
@@ -44,12 +90,27 @@ const LoginForm = ({ show, onClose }) => {
     containerRef.current.classList.add("active");
     setPasswordType_("password");
     setErrorMsg("");
+    //////////////////////
+    setError({
+      username: "",
+      email: "",
+      password: "",
+    });
+
+    //////////////////////
   };
 
   const handleLoginClick = () => {
     containerRef.current.classList.remove("active");
     setPasswordType_("password");
     setErrorMsg("");
+    ///////////////////////
+    setError({
+      username: "",
+      password: "",
+    });
+
+    //////////////////////
   };
 
   if (!show) {
@@ -60,7 +121,7 @@ const LoginForm = ({ show, onClose }) => {
     e.preventDefault();
     setLoading(true);
     const params = {
-      username: form.sign.Email,
+      username: form.sign.Username,
       password: form.sign.Password,
     };
     axios
@@ -74,6 +135,11 @@ const LoginForm = ({ show, onClose }) => {
       .catch((error) => {
         setErrorMsg(error.response.data);
         console.error("發送請求時發生錯誤：", error);
+        setRecapcha("");
+      })
+      .finally(() => {
+        _ReCAPTCHA.current.reset();
+        // setRecapcha("");
       });
   };
 
@@ -97,13 +163,16 @@ const LoginForm = ({ show, onClose }) => {
         setLoading(false);
         onClose();
         window.location.reload();
+        console.log("9999999999999999999999999999");
       })
       .catch((error) => {
         setErrorMsg(error.response.data);
         console.error("發送請求時發生錯誤：", error);
+        setRecapcha("");
       })
       .finally(() => {
-        setRecapcha("");
+        _ReCAPTCHA.current.reset();
+        // setRecapcha("");
       });
   };
 
@@ -113,15 +182,26 @@ const LoginForm = ({ show, onClose }) => {
   };
 
   const handleSignUp_WithGoogle = (data) => {
+    const params = {
+      username: data.name + "lookday",
+      email: data.email,
+      password: "A12345678a",
+    };
     axios
-      .post(
-        `https://localhost:7148/api/LoginJWT/sign-up/Username=${data.name}&Email=${data.email}&Password=A_12345678a`
-      )
+      .post(`https://localhost:7148/api/LoginJWT/sign-up`, params)
       .then(() => {
+        axios.post(`https://localhost:7148/api/LoginJWT/Log-in-Hash`, params);
+      })
+      .then((response) => {
+        Auth_JWT.login(response.data.token);
+        setLoading(false);
+        onClose();
         window.location.reload();
       })
       .catch((error) => {
-        console.error("發送請求時發生錯誤：", error);
+        setErrorMsg(error.response.data);
+        this.captcha.reset();
+        console.error("發送請求時發生錯誤9999：", error);
       });
   };
 
@@ -132,7 +212,10 @@ const LoginForm = ({ show, onClose }) => {
   const onChange_recapcha = (value) => {
     setRecapcha(value);
   };
-
+  console.log(
+    "_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA",
+    _ReCAPTCHA
+  );
   return (
     <div className="login-form">
       <div className="modal-overlay" onClick={onClose}></div>
@@ -166,15 +249,15 @@ const LoginForm = ({ show, onClose }) => {
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
                   src={fb}
-                  style={{ width: "70%", height: "70%" }}
+                  style={{ width: "95%", height: "95%" }}
                   alt="fb"
                 ></img>
               </a>
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
-                  src={github}
-                  style={{ width: "120%", height: "120%" }}
-                  alt="github"
+                  src={instagram}
+                  style={{ width: "108%", height: "108%" }}
+                  alt="instagram"
                 ></img>
               </a>
             </div>
@@ -187,6 +270,9 @@ const LoginForm = ({ show, onClose }) => {
               required
               onChange={(e) => handleChangeForm(e, "reg")}
             />
+            {/* {error2.username && (
+              <span style={{ color: "red" }}>{error2.username}</span>
+            )} */}
             <input
               type="email"
               placeholder="電子郵件"
@@ -195,6 +281,9 @@ const LoginForm = ({ show, onClose }) => {
               required
               onChange={(e) => handleChangeForm(e, "reg")}
             />
+            {/* {error2.email && (
+              <span style={{ color: "red" }}>{error2.email}</span>
+            )} */}
             <input
               type={passwordType}
               placeholder="密碼"
@@ -206,6 +295,9 @@ const LoginForm = ({ show, onClose }) => {
               onChange={(e) => handleChangeForm(e, "reg")}
               style={{ position: "relative" }}
             />
+            {/* {error2.password && (
+              <span style={{ color: "red" }}>{error2.password}</span>
+            )} */}
             <img
               src={eye}
               style={{
@@ -219,8 +311,18 @@ const LoginForm = ({ show, onClose }) => {
               alt="eye"
               onClick={setPasswordType}
             ></img>
+            {(error2.password || error2.email || error2.name) && (
+              <>
+                <span style={{ color: "red" }}>
+                  {Object.values(error2)?.find((i) => i)}
+                </span>
+                {/* <span style={{ color: "red" }}>{error2.email}</span>
+                <span style={{ color: "red" }}>{error2.password}</span> */}
+              </>
+            )}
             <p style={{ color: "red" }}>{errorMsg}</p>
             <ReCAPTCHA
+              ref={_ReCAPTCHA}
               sitekey="6LccXv4pAAAAAL4FitpaQadeDDOWQF5IHxpr-MjP"
               onChange={onChange_recapcha}
             />
@@ -252,26 +354,38 @@ const LoginForm = ({ show, onClose }) => {
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
                   src={fb}
-                  style={{ width: "70%", height: "70%" }}
+                  style={{ width: "95%", height: "95%" }}
                   alt="fb"
                 ></img>
               </a>
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
-                  src={github}
-                  style={{ width: "120%", height: "120%" }}
-                  alt="github"
+                  src={instagram}
+                  style={{ width: "108%", height: "108%" }}
+                  alt="instagram"
                 ></img>
               </a>
             </div>
+
             <span>或使用其他方式登入</span>
-            <input
+            {/* <input
               type="email"
               placeholder="使用者名稱"
               value={form.sign.Email}
               name="Email"
               onChange={(e) => handleChangeForm(e, "sign")}
+            /> */}
+            <input
+              type="text"
+              placeholder="使用者名稱"
+              value={form.sign.username}
+              name="Username"
+              onChange={(e) => handleChangeForm(e, "sign")}
             />
+            {error2.username && (
+              <span style={{ color: "red" }}>{error2.username}</span>
+            )}
+
             <input
               type={passwordType}
               placeholder="密碼"
@@ -279,11 +393,14 @@ const LoginForm = ({ show, onClose }) => {
               name="Password"
               onChange={(e) => handleChangeForm(e, "sign")}
             />
+            {error2.password && (
+              <span style={{ color: "red" }}>{error2.password}</span>
+            )}
             <img
               src={eye}
               style={{
                 position: "absolute",
-                top: "290px",
+                top: "255px",
                 left: "370px",
                 cursor: "pointer",
                 width: "5%",
@@ -294,8 +411,14 @@ const LoginForm = ({ show, onClose }) => {
             ></img>
             <p style={{ color: "red" }}>{errorMsg}</p>
             <a href="#">忘記密碼?</a>
+            <ReCAPTCHA
+              ref={_ReCAPTCHA}
+              sitekey="6LccXv4pAAAAAL4FitpaQadeDDOWQF5IHxpr-MjP"
+              onChange={onChange_recapcha}
+            />
             <button onClick={(e) => handleLogin(e)}>
-              {loading ? "登入中" : "登入"}
+              {/* {loading ? "登入中" : "登入"} */}
+              登入
             </button>
           </form>
         </div>
