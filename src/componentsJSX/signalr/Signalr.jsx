@@ -9,11 +9,36 @@ function App() {
     const [conn, setConnection] = useState(null);
     const [messages, setMessages] = useState([]);
     const [currentUser, setCurrentUser] = useState('');
+    const [userId, setUserId] = useState(null);
 
-    const joinChatRoom = async (username) => {
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch("https://localhost:7148/api/LoginJWT/get-current-user", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: localStorage.getItem("token"),
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                setCurrentUser(data.username);
+                setUserId(data.userId);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    const joinChatRoom = async () => {
         try {
-            setCurrentUser(username);
-
             const connection = new HubConnectionBuilder()
                 .withUrl("https://localhost:7148/chat")
                 .configureLogging(LogLevel.Information)
@@ -37,8 +62,8 @@ function App() {
 
             await connection.start().catch(err => console.error("Error starting connection:", err));
 
-            const chatroom = '';
-            await connection.invoke("JoinSpecificChatRoom", { username, chatroom }).catch(err => console.error("Error invoking method:", err));
+            const chatroom = ''; // This should be set to the specific chat room ID if needed
+            await connection.invoke("JoinSpecificChatRoom", { userId, username: currentUser, chatroom }).catch(err => console.error("Error invoking method:", err));
 
             setConnection(connection);
         } catch (e) {
@@ -59,8 +84,8 @@ function App() {
             <main>
                 <Container>
                     {!conn
-                        ? <WaitingRoom joinChatRoom={joinChatRoom} />
-                        : <ChatRoom messages={messages} sendMessage={sendMessage} currentUser={currentUser} username={currentUser} />}
+                        ? <WaitingRoom joinChatRoom={joinChatRoom} currentUser={currentUser} />
+                        : <ChatRoom messages={messages} sendMessage={sendMessage} currentUser={currentUser} userId={userId} />}
                 </Container>
             </main>
         </div>

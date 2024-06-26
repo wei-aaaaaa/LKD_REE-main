@@ -5,6 +5,7 @@ import OrderList from "../componentsJSX/MemberCenter/OrderList";
 import UserProfile from "../componentsJSX/MemberCenter/UserProfile";
 import Myreviews from "../componentsJSX/MemberCenter/Myreviews";
 import Payment from "../componentsJSX/MemberCenter/Payment";
+import WaitingRoom from "../componentsJSX/signalr/WaitingRoom"; // 確保導入 WaitingRoom 組件
 
 const MemberCenter = () => {
     const [activeComponent, setActiveComponent] = useState("profile");
@@ -73,6 +74,9 @@ const MemberCenter = () => {
                 )}
                 {activeComponent === "payment" && userData && (
                     <Payment userId={userData.id} />
+                )}
+                {activeComponent === "waitingRoom" && userData && (
+                    <WaitingRoom userData={userData} />
                 )}
             </div>
         </div>
