@@ -145,10 +145,12 @@
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 .loading-container {
+    height: 400px; /* 調整這個值以確保在整個容器中垂直居中 */
+}
+
+.Loader-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 400px; /* 調整這個值以確保在整個容器中垂直居中 */
 }

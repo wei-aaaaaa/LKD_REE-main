@@ -21,7 +21,13 @@ const SearchResults = ({ results }) => {
   };
 
   const truncateName = (name) => {
-    return name.length > 17 ? name.substring(0, 17) + "..." : name;
+    if (name.length > 17) {
+      return name.substring(0, 17) + "...";
+    } else if (name.length < 12) {
+      return name.padEnd(12, " "); // 補齊到12個字元
+    } else {
+      return name;
+    }
   };
 
   return (
@@ -37,7 +43,7 @@ const SearchResults = ({ results }) => {
             alt={result.name}
           />
           <div className="result-details">
-            <h3>{truncateName(result.name)}</h3>
+            <h3>懶覺{truncateName(result.name)}</h3>
             <p>{formatDate(result.date)}</p>
             <p>{truncateDescription(result.description)}</p>
             <div className="result-meta">
