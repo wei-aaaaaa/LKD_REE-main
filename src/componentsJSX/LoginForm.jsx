@@ -10,6 +10,7 @@ import instagram from "../assets/images/icons/instagram.png";
 import ReCAPTCHA from "react-google-recaptcha";
 import eye from "../assets/images/icons/eye.png";
 import { isValid } from "date-fns";
+import { TwoFactor, VerifyOTP } from "./TwoFactor";
 
 const LoginForm = ({ show, onClose }) => {
   /////////input輸入錯誤後顯示的訊息
@@ -32,6 +33,26 @@ const LoginForm = ({ show, onClose }) => {
       Password: "",
     },
   });
+  const [dataURL_2fa, setDataURL_2fa] = useState("");
+  const [OTP, setOTP] = useState("");
+  const [OTP_Success, setOTP_Success] = useState(false);
+  const [token, setToken] = useState("");
+  const handleChangeOTP = (e) => {
+    setOTP(e.target.value);
+  };
+  const handleOTPSubmit = (e) => {
+    e.preventDefault();
+    const OTP_Success = VerifyOTP(OTP, dataURL_2fa.dataSecret);
+    if (OTP_Success) {
+      Auth_JWT.login(token);
+      setLoading(false);
+      onClose();
+      window.location.reload();
+    } else {
+      alert("Error: 驗證碼錯誤");
+    }
+  };
+
   console.log("error2error2error2", error2);
 
   /////////////////////////////////////////////////////////////////////
@@ -127,10 +148,18 @@ const LoginForm = ({ show, onClose }) => {
     axios
       .post(`https://localhost:7148/api/LoginJWT/Log-in-Hash`, params)
       .then((response) => {
-        Auth_JWT.login(response.data.token);
-        setLoading(false);
-        onClose();
-        window.location.reload();
+        const token = response.data.token;
+        return TwoFactor().then((data) => {
+          const dataURL = data.dataURL;
+          const dataSecret = data.secret;
+          setDataURL_2fa({ dataURL, dataSecret });
+          setToken(token);
+        });
+
+        // Auth_JWT.login(response.data.token);
+        // setLoading(false);
+        // onClose();
+        // window.location.reload();
       })
       .catch((error) => {
         setErrorMsg(error.response.data);
@@ -152,23 +181,28 @@ const LoginForm = ({ show, onClose }) => {
     };
     axios
       .post(`https://localhost:7148/api/LoginJWT/sign-up`, params)
-      .then(() => {
-        return axios.post(
-          `https://localhost:7148/api/LoginJWT/Log-in-Hash`,
-          params
-        );
-      })
+      // .then(() => {
+      //   return axios.post(
+      //     `https://localhost:7148/api/LoginJWT/Log-in-Hash`,
+      //     params
+      //   );
+      // })
       .then((response) => {
-        Auth_JWT.login(response.data.token);
-        setLoading(false);
-        onClose();
+        // Auth_JWT.login(response.data.token);
+        // setLoading(false);
+        // onClose();
+        alert("註冊成功，請至信箱收取驗證信");
         window.location.reload();
-        console.log("9999999999999999999999999999");
+        // console.log("9999999999999999999999999999");
       })
       .catch((error) => {
         setErrorMsg(error.response.data);
         console.error("發送請求時發生錯誤：", error);
         setRecapcha("");
+
+        ///------------------
+        alert("註冊成功，請至信箱收取驗證信");
+        window.location.reload();
       })
       .finally(() => {
         _ReCAPTCHA.current.reset();
@@ -432,15 +466,41 @@ const LoginForm = ({ show, onClose }) => {
               </button>
             </div>
             <div className="toggle-panel toggle-right">
-              <h1>歡迎回來!</h1>
-              <p>填寫您的個人詳細信息註冊以使用本網站的所有內容</p>
-              <button
-                className="hidden"
-                id="register"
-                onClick={handleRegisterClick}
-              >
-                註冊
-              </button>
+              {!dataURL_2fa.dataURL ? (
+                <>
+                  {" "}
+                  <h1>歡迎回來!</h1>
+                  <p>填寫您的個人詳細信息註冊以使用本網站的所有內容</p>
+                  <button
+                    className="hidden"
+                    id="register"
+                    onClick={handleRegisterClick}
+                  >
+                    註冊
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h1>雙因子驗證</h1>
+                  <p>驗證啦糙提高安全性</p>
+                  <img src={dataURL_2fa.dataURL?.toString()} />
+                  <input
+                    type={passwordType}
+                    placeholder="OTP驗證碼"
+                    value={OTP}
+                    name="OTP"
+                    onChange={(e) => handleChangeOTP(e)}
+                  />
+
+                  <button
+                    className="hidden"
+                    id="register"
+                    onClick={(e) => handleOTPSubmit(e)}
+                  >
+                    送出
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
