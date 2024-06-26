@@ -121,7 +121,7 @@ const LoginForm = ({ show, onClose }) => {
     e.preventDefault();
     setLoading(true);
     const params = {
-      username: form.sign.Email,
+      username: form.sign.Username,
       password: form.sign.Password,
     };
     axios
@@ -135,6 +135,11 @@ const LoginForm = ({ show, onClose }) => {
       .catch((error) => {
         setErrorMsg(error.response.data);
         console.error("發送請求時發生錯誤：", error);
+        setRecapcha("");
+      })
+      .finally(() => {
+        _ReCAPTCHA.current.reset();
+        // setRecapcha("");
       });
   };
 
@@ -395,7 +400,7 @@ const LoginForm = ({ show, onClose }) => {
               src={eye}
               style={{
                 position: "absolute",
-                top: "290px",
+                top: "255px",
                 left: "370px",
                 cursor: "pointer",
                 width: "5%",
@@ -406,6 +411,11 @@ const LoginForm = ({ show, onClose }) => {
             ></img>
             <p style={{ color: "red" }}>{errorMsg}</p>
             <a href="#">忘記密碼?</a>
+            <ReCAPTCHA
+              ref={_ReCAPTCHA}
+              sitekey="6LccXv4pAAAAAL4FitpaQadeDDOWQF5IHxpr-MjP"
+              onChange={onChange_recapcha}
+            />
             <button onClick={(e) => handleLogin(e)}>
               {/* {loading ? "登入中" : "登入"} */}
               登入
