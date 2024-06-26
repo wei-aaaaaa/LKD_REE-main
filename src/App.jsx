@@ -21,6 +21,7 @@ import CustomerService from "./pages/CustomerService";
 import Member from "./pages/Member";
 import Checkout from "./pages/Checkout";
 import { UserDataProvider } from "./componentsJSX/UserDataContext";
+import AuPage from "./pages/AuPage";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Myreviews from "./componentsJSX/MemberCenter/Myreviews";
@@ -72,6 +73,7 @@ const App = () => {
             />
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/my-reviews" component={Myreviews} />
+            <Route path="/AuPage"element={<AuPage/>} />
           </Route>
         </Routes>
       </UserDataProvider>
