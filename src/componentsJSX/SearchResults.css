@@ -28,6 +28,7 @@
 
 .search-results .result-details {
   padding: 15px;
+  height: 220px;
 }
 
 .search-results .result-details h3 {
@@ -39,6 +40,7 @@
 
 .search-results .result-details p {
   margin: 0 0 10px;
+  height: 40px;
   font-size: 1rem;
   color: #555;
 }
@@ -72,4 +74,8 @@
   font-style: italic;
   color: #f46e14;
   margin-bottom: 0;
+}
+
+.dateFormat {
+  height: 20px;
 }

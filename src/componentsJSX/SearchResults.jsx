@@ -43,8 +43,8 @@ const SearchResults = ({ results }) => {
             alt={result.name}
           />
           <div className="result-details">
-            <h3>懶覺{truncateName(result.name)}</h3>
-            <p>{formatDate(result.date)}</p>
+            <h3>{truncateName(result.name)}</h3>
+            <p style={{ height: "20px" }}>{formatDate(result.date)}</p>
             <p>{truncateDescription(result.description)}</p>
             <div className="result-meta">
               <span className="price">NT$ {result.price}</span>
