@@ -251,7 +251,7 @@ const LoginForm = ({ show, onClose }) => {
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
                   src={instagram}
-                  style={{ width: "115%", height: "115%" }}
+                  style={{ width: "108%", height: "108%" }}
                   alt="instagram"
                 ></img>
               </a>
@@ -356,7 +356,7 @@ const LoginForm = ({ show, onClose }) => {
               <a href="#" className="icon" style={{ border: "none" }}>
                 <img
                   src={instagram}
-                  style={{ width: "115%", height: "115%" }}
+                  style={{ width: "108%", height: "108%" }}
                   alt="instagram"
                 ></img>
               </a>
