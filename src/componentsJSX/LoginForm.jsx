@@ -66,7 +66,6 @@ const LoginForm = ({ show, onClose }) => {
     }));
   };
   ////////////////////////////////////////////////////////////////////
-
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType_] = useState("password");
   const _ReCAPTCHA = useRef();
@@ -84,6 +83,31 @@ const LoginForm = ({ show, onClose }) => {
     ///////////////////////////////
   };
 
+  const setDemoClick = () => {
+    setForm({
+      ...form,
+      reg: {
+        // Username: "張多雅dsafsdafasd",
+        // name: "張多雅asdfadsf",
+        Name: "張多雅asdfadsf",
+        // username: "張多雅adsfasdf",
+        Email: "lookday336@gmail.com",
+        Password: "Aa111111",
+      },
+    });
+  };
+
+  const setDemoClick2 = () => {
+    setForm({
+      ...form,
+      sign: {
+        username: "張多雅adsfasdf",
+        Password: "Aa111111",
+      },
+    });
+  };
+
+  console.log("form", form);
   const containerRef = useRef(null);
 
   const handleRegisterClick = () => {
@@ -327,6 +351,12 @@ const LoginForm = ({ show, onClose }) => {
               onChange={onChange_recapcha}
             />
             <button>註冊</button>
+            <p
+              style={{ position: "absolute", top: "460px", left: "290px" }}
+              onClick={setDemoClick}
+            >
+              demo
+            </p>
           </form>
         </div>
         <div className="form-container sign-in">
@@ -420,6 +450,12 @@ const LoginForm = ({ show, onClose }) => {
               {/* {loading ? "登入中" : "登入"} */}
               登入
             </button>
+            <p
+              style={{ position: "absolute", top: "450px", left: "290px" }}
+              onClick={setDemoClick2}
+            >
+              demo
+            </p>
           </form>
         </div>
         <div className="toggle-container">
