@@ -1,16 +1,87 @@
 import React, { useState, useEffect } from "react";
 import "./ProductBundleBlock.css";
-import { useNavigate } from "react-router-dom";
+import { id } from "date-fns/locale";
 import { useUser } from "./UserDataContext";
-import { ToastContainer, toast, Flip, Zoom, Bounce } from "react-toastify";
+//立即預定跳轉頁面設定
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
 
-const ProductBundleBlock = ({ productId, productImage }) => {
+const ProductBundleBlock = ({ productId }) => {
+  const navigate = useNavigate(); //立即預定跳轉頁面設定
   const user = useUser(); // 獲取用戶信息
   const userId = user?.id; // 獲取用戶 ID
   const [bundles, setBundles] = useState([]);
   const [selectedBundleId, setSelectedBundleId] = useState(null);
   const [quantities, setQuantities] = useState({});
-  const navigate = useNavigate(); // 添加 navigate 方法
+  console.log("user:", userId, productId);
+
+  //立即預定功能
+  const addBookingNow = async () => {
+    if (!userId) {
+      toast.error("請先登入會員", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    }
+
+    const quantity = quantities[selectedBundleId] || 1; // 確保 quantity 有值
+    try {
+      const url = `https://localhost:7148/api/BookingNow?UserId=${userId}&ActivityId=${productId}&ModelId=${selectedBundleId}&Quantity=${quantity}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      //     if (response.json) {
+      //       // 導到 checkout 頁面
+      //       //const selectedCartItems = {item:bookingId}
+      //       const responseData = await response.json(); // 解析 response body
+      //       console.log('response = ', responseData);
+
+      //       navigate("/checkout", { state: { responseData } });
+      //     } else {
+      //       alert("立即預定失敗");
+      //     }
+      //   } catch (error) {
+      //     alert(`立即預定出錯: ${error.message}`);
+      //   }
+      // };
+
+      if (response.ok) {
+        const responseData = await response.json(); // 解析 response body
+        console.log("API Response: ", responseData); // 打印API返回的數據結構
+        //*****立即預訂*****//
+        const selectedCartItems = [
+          {
+            bookingId: responseData.bookingId,
+            activity: {
+              name: responseData.activityName,
+              date: responseData.activityDate,
+              photo: responseData.activityPhoto, // 假設 responseData 包含活動的照片
+            },
+            model: responseData.modelName
+              ? {
+                  modelName: responseData.modelName,
+                  modelPrice: responseData.modelPrice, // 確保價格正確傳遞 //***立即預訂***//
+                  modelId: responseData.modelId, // 確保 modelId 正確傳遞 //***立即預訂***//
+                }
+              : null,
+            price: responseData.price,
+            member: responseData.member,
+          },
+        ];
+        console.log("Selected cart items: ", selectedCartItems); // 確認選中的項目數據正確
+        navigate("/checkout", { state: { selectedCartItems } });
+      } else {
+        alert("立即預訂失敗");
+      }
+    } catch (error) {
+      alert(`立即預訂出錯: ${error.message}`);
+    }
+  };
+  //-------------------------------------------------------
 
   const addToCart = async () => {
     if (!userId) {
@@ -33,9 +104,7 @@ const ProductBundleBlock = ({ productId, productImage }) => {
       });
 
       if (response.ok) {
-        toast.success("已成功加入購物車", {
-          autoClose: 1000,
-        });
+        alert("已成功加入購物車");
       } else {
         const errorMessage = await response.text();
         alert(`添加購物車失敗: ${errorMessage}`);
@@ -45,41 +114,13 @@ const ProductBundleBlock = ({ productId, productImage }) => {
     }
   };
 
-  const handleBookNow = () => {
-    if (!userId) {
-      toast.error("請先登入會員", {
-        position: "top-center",
-        autoClose: 1500,
-      });
-      return;
-    }
-
-    const selectedBundle = bundles.find(
-      (bundle) => bundle.modelId === selectedBundleId
-    );
-
-    const selectedCartItems = [
-      {
-        bookingId: Date.now(),
-        activity: {
-          name: selectedBundle.modelName,
-          photo: productImage, // 您可能需要傳遞活動的照片
-          date: new Date().toISOString(), // 或者您可以傳遞實際的活動日期
-        },
-        model: selectedBundle,
-        member: quantities[selectedBundleId],
-      },
-    ];
-
-    navigate("/checkout", { state: { selectedCartItems } });
-  };
-
   useEffect(() => {
     const fetchBundles = async () => {
       try {
         const response = await fetch(
           `https://localhost:7148/api/ActivitiesAPI/${productId}/ActivitiesModels`
         );
+        console.log("productId:", productId);
         if (!response.ok) {
           throw new Error("Failed to fetch bundles");
         }
@@ -133,6 +174,7 @@ const ProductBundleBlock = ({ productId, productImage }) => {
                 <h4 className="bundle-title">{bundle.modelName}</h4>
                 <p className="bundle-price">${bundle.modelPrice}</p>
               </div>
+              {/* <button className="choose-button">選擇</button> */}
             </div>
             <p className="bundle-description">{bundle.modelContent}</p>
           </div>
@@ -143,18 +185,15 @@ const ProductBundleBlock = ({ productId, productImage }) => {
           <h4>
             {bundles.find((b) => b.modelId === selectedBundleId).modelName}
           </h4>
-          <br />
           <p>
             {bundles.find((b) => b.modelId === selectedBundleId).modelContent}
           </p>
-          <br />
           <p>
-            價格： $
+            價格: $
             {bundles.find((b) => b.modelId === selectedBundleId).modelPrice}
           </p>
-          <br />
           <div className="quantity-selector">
-            <p>選擇人數：</p>
+            <p>選擇人數:</p>
             <button
               className="quantity-button"
               onClick={(e) => {
@@ -162,7 +201,7 @@ const ProductBundleBlock = ({ productId, productImage }) => {
                 handleQuantityChange(selectedBundleId, -1);
               }}
             >
-              －
+              -
             </button>
             <span className="quantity">{quantities[selectedBundleId]}</span>
             <button
@@ -172,11 +211,11 @@ const ProductBundleBlock = ({ productId, productImage }) => {
                 handleQuantityChange(selectedBundleId, 1);
               }}
             >
-              ＋
+              +
             </button>
           </div>
           <div className="bundle-actions">
-            <button className="small-book-now-button" onClick={handleBookNow}>
+            <button className="small-book-now-button" onClick={addBookingNow}>
               立即預訂
             </button>
             <button className="small-add-to-cart-button" onClick={addToCart}>
