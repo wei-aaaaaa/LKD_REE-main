@@ -8,18 +8,19 @@ import AULoader from "../componentsJSX/AUloader";
 const AuPage = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const nameParam = searchParams.get('name');
+    const nameParam = searchParams.get("name");
     const navigate = useNavigate();
-    const getname = (name) =>{
-        console.log(name);
-    }
 
-    useEffect(()=>{
-        axios.get('https://localhost:7148/api/UserVerify/GetVerify?username='+nameParam);
-        setTimeout(()=>{
-            navigate('/')
-        },2000)
-    },[])
+    useEffect(() => {
+        axios.get(
+            "https://localhost:7148/api/UserVerify/GetVerify?username=" +
+                nameParam
+        );
+        setTimeout(() => {
+            navigate("/");
+        }, 20000);
+    }, []);
+    console.log(nameParam);
     return (
         <div className="au-page">
             <h1>驗證成功！</h1>

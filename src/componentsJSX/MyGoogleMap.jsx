@@ -155,7 +155,7 @@ const MyGoogleMap = () => {
                   {hoveredActivity === activity && (
                     <InfoWindow onCloseClick={handleActivityHoverLeave}>
                       <div>
-                        <h6>{activity.name}</h6>
+                        <h2>{activity.name}</h2>
                         <p>{activity.description}</p>
                       </div>
                     </InfoWindow>

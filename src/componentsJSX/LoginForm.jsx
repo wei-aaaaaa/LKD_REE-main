@@ -28,7 +28,7 @@ const LoginForm = ({ show, onClose }) => {
       Password: "",
     },
     sign: {
-      Email: "",
+      Username: "",
       Password: "",
     },
   });
@@ -83,7 +83,28 @@ const LoginForm = ({ show, onClose }) => {
     validateInput(name, value);
     ///////////////////////////////
   };
+  const setDemoClick = () => {
+    setForm({
+      ...form,
+      reg: {
+        Name: "張多雅asdfadsf",
+        Email: "lookday336@gmail.com",
+        Password: "Aa111111",
+      },
+    });
+  };
 
+  const setDemoClick2 = () => {
+    setForm({
+      ...form,
+      sign: {
+        Username: "張多雅asdfadsf", // 改成 Username 而不是 Email
+        Password: "Aa111111",
+      },
+    });
+  };
+
+  console.log("form", form);
   const containerRef = useRef(null);
 
   const handleRegisterClick = () => {
@@ -139,7 +160,6 @@ const LoginForm = ({ show, onClose }) => {
       })
       .finally(() => {
         _ReCAPTCHA.current.reset();
-        // setRecapcha("");
       });
   };
 
@@ -172,7 +192,6 @@ const LoginForm = ({ show, onClose }) => {
       })
       .finally(() => {
         _ReCAPTCHA.current.reset();
-        // setRecapcha("");
       });
   };
 
@@ -212,10 +231,12 @@ const LoginForm = ({ show, onClose }) => {
   const onChange_recapcha = (value) => {
     setRecapcha(value);
   };
+
   console.log(
     "_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA_ReCAPTCHA",
     _ReCAPTCHA
   );
+
   return (
     <div className="login-form">
       <div className="modal-overlay" onClick={onClose}></div>
@@ -270,9 +291,6 @@ const LoginForm = ({ show, onClose }) => {
               required
               onChange={(e) => handleChangeForm(e, "reg")}
             />
-            {/* {error2.username && (
-              <span style={{ color: "red" }}>{error2.username}</span>
-            )} */}
             <input
               type="email"
               placeholder="電子郵件"
@@ -281,9 +299,6 @@ const LoginForm = ({ show, onClose }) => {
               required
               onChange={(e) => handleChangeForm(e, "reg")}
             />
-            {/* {error2.email && (
-              <span style={{ color: "red" }}>{error2.email}</span>
-            )} */}
             <input
               type={passwordType}
               placeholder="密碼"
@@ -295,9 +310,6 @@ const LoginForm = ({ show, onClose }) => {
               onChange={(e) => handleChangeForm(e, "reg")}
               style={{ position: "relative" }}
             />
-            {/* {error2.password && (
-              <span style={{ color: "red" }}>{error2.password}</span>
-            )} */}
             <img
               src={eye}
               style={{
@@ -316,17 +328,21 @@ const LoginForm = ({ show, onClose }) => {
                 <span style={{ color: "red" }}>
                   {Object.values(error2)?.find((i) => i)}
                 </span>
-                {/* <span style={{ color: "red" }}>{error2.email}</span>
-                <span style={{ color: "red" }}>{error2.password}</span> */}
               </>
             )}
             <p style={{ color: "red" }}>{errorMsg}</p>
             <ReCAPTCHA
               ref={_ReCAPTCHA}
-              sitekey="6LccXv4pAAAAAL4FitpaQadeDDOWQF5IHxpr-MjP"
+              sitekey="6LdhegIqAAAAAFQdkthkCangCblxg5YBYQzibNhe"
               onChange={onChange_recapcha}
             />
             <button>註冊</button>
+            <p
+              style={{ position: "absolute", top: "460px", left: "290px" }}
+              onClick={setDemoClick}
+            >
+              demo
+            </p>
           </form>
         </div>
         <div className="form-container sign-in">
@@ -368,17 +384,10 @@ const LoginForm = ({ show, onClose }) => {
             </div>
 
             <span>或使用其他方式登入</span>
-            {/* <input
-              type="email"
-              placeholder="使用者名稱"
-              value={form.sign.Email}
-              name="Email"
-              onChange={(e) => handleChangeForm(e, "sign")}
-            /> */}
             <input
               type="text"
               placeholder="使用者名稱"
-              value={form.sign.username}
+              value={form.sign.Username} // 確保這裡是 Username
               name="Username"
               onChange={(e) => handleChangeForm(e, "sign")}
             />
@@ -413,14 +422,17 @@ const LoginForm = ({ show, onClose }) => {
             <a href="#">忘記密碼?</a>
             <ReCAPTCHA
               ref={_ReCAPTCHA}
-              sitekey="6LccXv4pAAAAAL4FitpaQadeDDOWQF5IHxpr-MjP"
+              sitekey="6LdhegIqAAAAAFQdkthkCangCblxg5YBYQzibNhe"
               onChange={onChange_recapcha}
             />
-            <button onClick={(e) => handleLogin(e)}>
-              {/* {loading ? "登入中" : "登入"} */}
-              登入
-            </button>
+            <button onClick={(e) => handleLogin(e)}>登入</button>
           </form>
+          <p
+            style={{ position: "absolute", top: "450px", left: "290px" }}
+            onClick={setDemoClick2}
+          >
+            demo
+          </p>
         </div>
         <div className="toggle-container">
           <div className="toggle">
